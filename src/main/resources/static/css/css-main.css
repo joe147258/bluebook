@@ -1,0 +1,109 @@
+html,
+body {
+  font-family: Arial, sans-serif !important;
+  height: 100%;
+}
+
+.main-content {
+  border: #BDBDBD 1px solid;
+  border-top: none;
+  padding: 1%;
+  width: 70%;
+  margin: auto;
+  min-height: calc(100% - 150px);
+}
+.login-container {
+  background: #f7f7f7;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  margin: 10% auto; 
+  width: 20%; 
+  text-align: center;
+}
+.nav-centered {
+  width: 70%;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+footer {
+  text-align: center;
+}
+.nav-item {
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px;
+}
+.nav-item.first-item {
+  margin-left: 0px !important;
+}
+
+.nav-link {
+  color: white !important;
+}
+.align-header {
+  width: 70%;
+  margin: auto;
+}
+.navbar-nav {
+  display: inline-block !important;
+}
+.nav-right-side{
+  float: right;
+}
+
+.classroom-card {
+  display: inline-block;
+  width: 18rem;
+  height: 12rem;
+  margin: 0.3rem;
+}
+.small-form-container {
+  margin: auto;
+  width: 60%;
+}
+.class-card-text {
+  height: 48px !important;
+  overflow-y: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.navbar{
+  padding: 0px !important;
+}
+.selected-nav {
+  background-color: #0062cc;
+}
+.ignore-main-padding {
+  margin-left:-1.5%;
+  margin-right:-1.5%;
+}
+.tab:hover{
+  cursor: pointer;
+}
+#selected-student {
+  text-align: center;
+  margin: auto;
+  float: right;
+  width: 38%;
+  border-left: solid #BDBDBD 1px;
+  border-bottom: solid #BDBDBD 1px;
+  border-right: solid #BDBDBD 1px;
+}
+.button-holder{
+  width: 50%;
+  margin: auto;
+}
+.right-hand-icon {
+  vertical-align: middle;
+  float: right;
+}
+.student-list-item:hover {
+  cursor: pointer;
+}
+#student-list {
+  width: 60%;
+  height: 450px;
+  overflow-y: scroll;
+}
+.settings-widget:hover{
+  cursor: pointer;
+}
