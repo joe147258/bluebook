@@ -1,7 +1,10 @@
 package uol.bluebook.controllers;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,5 +64,19 @@ public class TeacherRestController {
         classroomRepo.save(classroom);
 
         return true;
+    }
+    @GetMapping("/get-student-info/{studentId}")
+    public Object getStudentInfo(@PathVariable int studentId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        //authentication
+        if(!user.getRole().equals("TEACHER")) return false;
+
+        HashMap<String, Object> returnMap = new HashMap<String, Object>();
+        CustomUser student = userRepo.findById(studentId);
+        returnMap.put("username", student.getUsername());
+        returnMap.put("fullName", student.getFirstName() + " " + student.getLastName());
+        returnMap.put("id", student.getId());
+        return returnMap;
     }
 }

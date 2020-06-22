@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("#add-student").click(function () {
         addStudent($("#add-student-username").val());
     });
@@ -39,6 +40,7 @@ $(document).ready(function () {
             $("#submit").removeAttr('disabled');
         }
     })
+
 });
 
 /*
@@ -85,8 +87,34 @@ function updateTitle(title, desc){
         }
     })
 }
+//thes functions is called by an onclick
+function selectStudent(id) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/get-student-info/" + id,
+        success: function (data) {
+            $("#selected-username").html(data.username);
+            $("#selected-name").html(data.fullName);
+            $("#selected-remove").prop("onclick", null).off("click");
+            $("#selected-remove").attr('onClick','removeStudent(' + data.id +')');
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
 
-//these functions is used throughout the other functions
+function removeStudent(id) {
+    alert("rip" + id + $("#ban-user").prop("checked"));
+    
+    if($("#ban-user").prop("checked") == true) {
+        alert("ultra rip")
+    } else {
+        alert("meh");
+    }
+}
+
+//these functions are used throughout the other functions
 function clearInput(id) {
     $(id).val("");
 }

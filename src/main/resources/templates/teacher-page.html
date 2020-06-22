@@ -71,26 +71,30 @@
                 </div>
                 <h5>Filter student by username or name</h5>
                 <div class="input-group mb-2">
-                    <input id="filterStudents" type="text" class="form-control" placeholder="Student's Username or name">
+                    <input id="filterStudents" type="text" class="form-control"
+                        placeholder="Student's Username or name">
                 </div>
             </div>
-            <div id="selected-student" >
-                <h5 class="mt-4">VergeOfEden</h5>
-                <p class="mb-0">Seb Adamo</p>
-                <img class="mb-2" src="/images/defuser.png" width="200px" height="200px"/>
+            <div id="selected-student">
+                <h5 class="mt-4" id="selected-username">No one selected</h5>
+                <p class="mb-0" id="selected-name">-</p>
+                <img class="mb-2" src="/images/defuser.png" width="200px" height="200px" />
                 <div class="button-holder">
                     <button class="btn btn-primary btn-block">Message student</button>
-                    <button class="btn btn-primary btn-block">See progress</button> <!--thinking about making this a seperate page-->
+                    <button class="btn btn-primary btn-block">See progress</button>
+                    <!--thinking about making this a seperate page-->
                 </div>
                 <hr>
-                <button class="btn btn-danger mb-2">Remove from classroom</button>
-                
+                <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Remove from
+                    classroom</button>
+
             </div>
             <h5>List of Students</h5>
             <ul id="student-list" class="list-group">
-                <li th:each="student: ${classroom.getStudents()}" class="list-group-item student-list-item">
-                    <span th:text="${student.getUsername()}"></span>, 
-                    <span th:text="${student.getFirstName()}"></span> 
+                <li th:each="student: ${classroom.getStudents()}" class="list-group-item student-list-item"
+                    th:onclick="'selectStudent(' + ${student.getId()} + ')'">
+                    <span th:text="${student.getUsername()}"></span>,
+                    <span th:text="${student.getFirstName()}"></span>
                     <i class="material-icons right-hand-icon">account_box</i>
                 </li>
             </ul>
@@ -108,8 +112,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Maybe you got their username wrong? Remember you can't add teachers to this class, or
-                        yourself! Perhaps they're already in the this classroom?</p>
+                    <p>There are a number of reasons why this could've be unsuccessful:</p>
+                    <ul>
+                        <li>
+                            Wrong Username
+                        </li>
+                        <li>
+                            They're not a student
+                        </li>
+                        <li>
+                            You tried adding yourself
+                        </li>
+                        <li>
+                            They're already a member of this class
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </div>
@@ -125,7 +143,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>They are now in the classroom and can access all resources here. You can remove students are anytime.</p>
+                    <p>They are now in the classroom and can access all resources here. You can click on users in the
+                        list below to see more information about them
+                        You can remove students are anytime.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="remove-student-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to remove this student?</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="ban-user">
+                        <label class="form-check-label" for="ban-user">
+                            Ban Student?
+                        </label>
+                    </div>
+                    <small>Banning a student prevents them from rejoining with a join code. Bans are managed in
+                        classroom settings.</small>
+                    <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-danger" style="width: 50%;" id="selected-remove">Kick
+                            Student</button>
+                        <button type="button" class="btn btn-success" style="width: 50%;"
+                            data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,14 +194,18 @@
                         <div class="form-group">
                             <p class="mb-0">Classroom Name</p>
                             <input class="form-control" id="class-name" type="text" name="className"
-                                placeholder="Enter the classroom's name e.g. History AP 1" th:value="${classroom.getName()}" required />
+                                placeholder="Enter the classroom's name e.g. History AP 1"
+                                th:value="${classroom.getName()}" required />
                             <p class="mb-0">Classroom Description</p>
                             <textarea class="form-control" id="class-desc" name="classDesc" rows="3"
-                                placeholder="A short description of your classroom" th:text="${classroom.getDescription()}" required></textarea>
-        
+                                placeholder="A short description of your classroom"
+                                th:text="${classroom.getDescription()}" required></textarea>
+
                             <button id="submit" class="btn btn-primary btn-block mt-3">Save Changes</button>
-                            <p id='live-error1' style='color: red; display: none;'> The title is too long. Max character length is 60. </p>
-                            <p id='live-error2' style='color: red; display: none;'> The description is too long. Max character length is 500.  </p>
+                            <p id='live-error1' style='color: red; display: none;'> The title is too long. Max character
+                                length is 60. </p>
+                            <p id='live-error2' style='color: red; display: none;'> The description is too long. Max
+                                character length is 500. </p>
                         </div>
                     </form>
                 </div>
