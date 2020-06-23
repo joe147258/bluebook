@@ -1,6 +1,7 @@
 package uol.bluebook.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,6 +23,8 @@ public class Classroom {
     private String joinCode;
     @Lob
     private String description;
+    @Lob
+    private HashMap<Integer, String> bannedUsers = new HashMap<Integer, String>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="classOwner")
@@ -42,7 +45,7 @@ public class Classroom {
         this.classOwner = classOwner;
         this.name = name;
         this.description = description;
-        this.joinCode = id + name.substring(0, 3) + classOwner.getId();
+        this.joinCode = id + name.substring(0, 3).toUpperCase() + classOwner.getId();
     }
 
     public int getId() {
@@ -104,6 +107,23 @@ public class Classroom {
             if (u.getUsername().equalsIgnoreCase(username)) return true;
         }
         return false;
+    }
+
+    public void removeUser(int userId) {
+        for(int i = 0; i < students.size(); ++i) {
+            if (students.get(i).getId() == userId){
+                students.remove(i);
+                break;
+            } 
+        }
+    }
+
+    public HashMap<Integer, String> getBannedUsers() {
+        return bannedUsers;
+    }
+
+    public void setBannedUsers(HashMap<Integer, String> bannedUsers) {
+        this.bannedUsers = bannedUsers;
     }
 
     

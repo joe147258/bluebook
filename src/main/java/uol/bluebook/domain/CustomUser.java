@@ -107,5 +107,14 @@ public class CustomUser {
     public void setStudentClassrooms(List<Classroom> studentClassrooms) {
         this.studentClassrooms = studentClassrooms;
     }
+
+    public void removeClassroom(int classId) {
+        for(int i = 0; i < studentClassrooms.size(); ++i) {
+            if(studentClassrooms.get(i).getId() == classId) {
+                studentClassrooms.remove(i);
+                break;
+            }
+        }
+    } 
     
 }

@@ -114,20 +114,12 @@
                 <div class="modal-body">
                     <p>There are a number of reasons why this could've be unsuccessful:</p>
                     <ul>
-                        <li>
-                            Wrong Username
-                        </li>
-                        <li>
-                            They're not a student
-                        </li>
-                        <li>
-                            You tried adding yourself
-                        </li>
-                        <li>
-                            They're already a member of this class
-                        </li>
+                        <li>Wrong Username</li>
+                        <li>They're not a student</li>
+                        <li>You tried adding yourself</li>
+                        <li>They're already a member of this class</li>
+                        <li>They're banned <small>(go to settings to pardon a user)</small></li>
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -167,10 +159,9 @@
                             Ban Student?
                         </label>
                     </div>
-                    <small>Banning a student prevents them from rejoining with a join code. Bans are managed in
-                        classroom settings.</small>
+                    <small>Banning a student prevents them from rejoining the class at all until pardoned in settings.</small>
                     <div class="btn-group btn-block" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-danger" style="width: 50%;" id="selected-remove">Kick
+                        <button type="button" class="btn btn-danger" style="width: 50%;" id="selected-remove" disabled>Kick
                             Student</button>
                         <button type="button" class="btn btn-success" style="width: 50%;"
                             data-dismiss="modal">Cancel</button>
@@ -180,14 +171,77 @@
         </div>
     </div>
 
+    <div id="successful-kick-student" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">This user has been removed from the class.</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        They can no longer access resources in the classroom. If you decided to ban them, they cannot rejoin
+                        with the join code unless you pardon them in settings.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="unsuccessful-kick-student" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">This user <b>cannot</b> be removed from the class.</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Some possible reasons why they cannot be removed:</p>
+                    <ul>
+                        <li>You don't have permission</li>
+                        <li>They aren't in the class</li>
+                        <li>You've entered the wrong username</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successful-pardon-student" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">This user has been pardoned.</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>They may join via the join code again.</li>
+                        <li>You can add them again.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="settings-modal" class="modal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Classroom Settings</h5>
+                    <h5 class="modal-title">Join Code: <span th:text="${classroom.getJoinCode()}"></span></h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
+                </div>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Name and Description</h5>
                 </div>
                 <div class="modal-body">
                     <form id="settings-form">
@@ -209,9 +263,28 @@
                         </div>
                     </form>
                 </div>
+                
+                <div class="modal-header pt-0">
+                    <h5 class="modal-title">Banned Students</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-1">Filter banned users by username </p>
+                    <div class="input-group mb-2">
+                        <input id="filterStudentsBanned" type="text" class="form-control"
+                            placeholder="Student's username">
+                    </div>
+                    <ul id="banned-list" class="list-group">
+                        <li th:each="student: ${classroom.getBannedUsers()}" class="list-group-item student-list-item">
+                            <span th:text="${student.value}"></span>
+                            <button class="btn btn-success right-hand-icon"  th:onclick="'pardonStudent(' + ${student.key} + ')'">Pardon</button>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
+
 </body>
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>

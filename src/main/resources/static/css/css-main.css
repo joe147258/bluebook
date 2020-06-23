@@ -107,3 +107,10 @@ footer {
 .settings-widget:hover{
   cursor: pointer;
 }
+.card-title {
+  height: 48px !important;
+  overflow: hidden;
+}
+#join-classroom {
+  margin-bottom: 1rem;
+}

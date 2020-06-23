@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import uol.bluebook.domain.Classroom;
@@ -36,6 +37,7 @@ public class TeacherRestController {
         if(classroom.getClassOwner().getId() != user.getId()) return false;
         if(student.getRole().equals("TEACHER")) return false;
         if(classroom.containsUser(username)) return false;
+        if(classroom.getBannedUsers().get(student.getId()) != null) return false;
         //adding student to class
         classroom.getStudents().add(student);
         student.getStudentClassrooms().add(classroom);
@@ -78,5 +80,49 @@ public class TeacherRestController {
         returnMap.put("fullName", student.getFirstName() + " " + student.getLastName());
         returnMap.put("id", student.getId());
         return returnMap;
+    }
+
+    @PostMapping("/kick-student/{studentId}/{classId}")
+    public Boolean kickStudent(@PathVariable int studentId, @PathVariable int classId, @RequestParam Boolean ban) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(classId);
+
+        //authentication
+        if(!user.getRole().equals("TEACHER")) return false;
+        if(classroom.getClassOwner().getId() != user.getId()) return false;
+        
+        if(classroom.containsUser(studentId)) {
+            CustomUser student = userRepo.findById(studentId);
+            
+            classroom.removeUser(studentId);
+            student.removeClassroom(classId);
+
+            if(ban == true) {
+                classroom.getBannedUsers().put(studentId, student.getUsername());
+            }
+            classroomRepo.save(classroom);
+            userRepo.save(student);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    @PostMapping("/pardon-student/{studentId}/{classId}")
+    public Boolean pardonStudent(@PathVariable int studentId, @PathVariable int classId){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(classId);
+
+        if(!user.getRole().equals("TEACHER")) return false;
+        if(classroom.getClassOwner().getId() != user.getId()) return false;
+
+        if(classroom.getBannedUsers().get(studentId) == null) return false;
+        else {
+            classroom.getBannedUsers().remove(studentId);
+        }
+        classroomRepo.save(classroom);
+        return true;
     }
 }

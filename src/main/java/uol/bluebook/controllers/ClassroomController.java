@@ -69,4 +69,23 @@ public class ClassroomController {
         model.addAttribute("classroom", classroom);
         return "teacher-page";
     }
+
+    @PostMapping("/join-class")
+    public String joinClass(Model model, @RequestParam String joinCode){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findByJoinCode(joinCode);
+
+        if(classroom == null) return "redirect:/permission-denied";
+        if(!user.getRole().equals("STUDENT")) return "redirect:/permission-denied";
+        if(classroom.containsUser(user.getId())) return "redirect:/permission-denied";
+        if(classroom.getBannedUsers().get(user.getId()) != null) return "redirect:/permission-denied";
+
+        classroom.getStudents().add(user);
+        user.getStudentClassrooms().add(classroom);
+        userRepo.save(user);
+        classroomRepo.save(classroom);
+        
+        return "redirect:/";
+    }
 }

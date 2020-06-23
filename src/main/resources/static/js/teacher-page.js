@@ -11,6 +11,13 @@ $(document).ready(function () {
         });
     });
 
+    $("#filterStudentsBanned").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#banned-list li").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
     $(".settings-widget").click(function () {
         $("#settings-modal").modal("toggle");
     });
@@ -93,8 +100,13 @@ function selectStudent(id) {
         type: "GET",
         url: "/teacher/get-student-info/" + id,
         success: function (data) {
+            if(data == false){
+                alert("An error has occured :-(");
+                return false;
+            }
             $("#selected-username").html(data.username);
             $("#selected-name").html(data.fullName);
+            $("#selected-remove").removeAttr("disabled");
             $("#selected-remove").prop("onclick", null).off("click");
             $("#selected-remove").attr('onClick','removeStudent(' + data.id +')');
         },
@@ -105,13 +117,52 @@ function selectStudent(id) {
 }
 
 function removeStudent(id) {
-    alert("rip" + id + $("#ban-user").prop("checked"));
-    
+    var url = "/teacher/kick-student/" + id + "/" + classId + "?ban=";
     if($("#ban-user").prop("checked") == true) {
-        alert("ultra rip")
+        url += true;
     } else {
-        alert("meh");
+        url += false;
     }
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (data) {
+            $("#remove-student-modal").modal('toggle');
+            if(data == true) {
+                $("#successful-kick-student").modal('toggle');
+                $("#selected-username").html("No one selected");
+                $("#selected-name").html("-");
+                $("#selected-remove").prop("onclick", null).off("click");
+                $("#selected-remove").attr("disabled", "disabled");
+            } else if (data == false) {
+                $("#unsuccessful-kick-student").modal('toggle');
+            }
+            $("#student-list").load(" #student-list > *");
+            $("#banned-list").load(" #banned-list > * ")
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
+function pardonStudent(id) {
+    $.ajax({
+        type: "POST",
+        url: "/teacher/pardon-student/" + id + "/" + classId,
+        success: function (data) {
+            if(data == true) {
+                $("#settings-modal").modal("toggle");
+                $("#successful-pardon-student").modal("toggle");
+            } else if (data == false){
+                alert("An error has occured :-(");
+            }
+            $("#banned-list").load(" #banned-list > *");
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
 }
 
 //these functions are used throughout the other functions
