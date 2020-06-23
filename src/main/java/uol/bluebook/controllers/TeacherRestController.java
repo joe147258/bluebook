@@ -91,21 +91,18 @@ public class TeacherRestController {
         //authentication
         if(!user.getRole().equals("TEACHER")) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
-        
-        if(classroom.containsUser(studentId)) {
-            CustomUser student = userRepo.findById(studentId);
-            
-            classroom.removeUser(studentId);
-            student.removeClassroom(classId);
+        if(!classroom.containsUser(studentId)) return false;
 
-            if(ban == true) {
-                classroom.getBannedUsers().put(studentId, student.getUsername());
-            }
-            classroomRepo.save(classroom);
-            userRepo.save(student);
-        } else {
-            return false;
-        }
+        CustomUser student = userRepo.findById(studentId);
+            
+        classroom.removeUser(studentId);
+        student.removeClassroom(classId);
+        if(ban == true) 
+            classroom.getBannedUsers().put(studentId, student.getUsername());
+    
+        classroomRepo.save(classroom);
+        userRepo.save(student);
+
         return true;
     }
 
@@ -119,9 +116,8 @@ public class TeacherRestController {
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
         if(classroom.getBannedUsers().get(studentId) == null) return false;
-        else {
-            classroom.getBannedUsers().remove(studentId);
-        }
+        else classroom.getBannedUsers().remove(studentId);
+        
         classroomRepo.save(classroom);
         return true;
     }

@@ -11,7 +11,7 @@ $(document).ready(function(){
                 switch(data.response){
                     case "SUCCESS":
                         $("#join-classroom-button").removeAttr("disabled");
-                        $("#join-classroom-button").html("Join Classroom");
+                        $("#join-classroom-button").html("Join classroom");
                         break;
                     case "IN_CLASS":
                         $("#join-classroom-buttont").attr('disabled', 'disabled');
@@ -25,7 +25,7 @@ $(document).ready(function(){
                         break;
                     case "NO_CLASS":
                         $("#join-classroom-buttont").attr('disabled', 'disabled');
-                        $("#join-classroom-button").html("No Class Found");
+                        $("#join-classroom-button").html("No classroom found");
                         break;
                 }
             },

@@ -86,6 +86,19 @@ public class ClassroomController {
         userRepo.save(user);
         classroomRepo.save(classroom);
         
-        return "redirect:/";
+        return "redirect:/classrooms/student/" + classroom.getId(); 
+    }
+
+    @GetMapping("/student/{classId}")
+    public String viewClassStudent(Model model, @PathVariable int classId){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(classId);
+        
+        if(!classroom.containsUser(user.getId())) return "redirect:/permission-denied";
+
+        model.addAttribute("user", user);
+        model.addAttribute("classroom", classroom);
+        return "student-page";
     }
 }
