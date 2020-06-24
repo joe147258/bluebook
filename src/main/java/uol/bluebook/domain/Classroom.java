@@ -13,10 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Classroom {
-    @Column(name = "class_id")
+    @Column(name = "classroom_id")
     @Id
     private int id;
     private String name;
@@ -28,10 +29,13 @@ public class Classroom {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="classOwner")
-    CustomUser classOwner = new CustomUser();
+    CustomUser classOwner;
 
     @ManyToMany(mappedBy = "studentClassrooms", fetch = FetchType.EAGER)
     List<CustomUser> students = new ArrayList<CustomUser>();
+
+    @OneToMany(mappedBy = "classroom")
+    private List<Test> tests = new ArrayList<Test>();
 
     public Classroom() {
 
@@ -45,7 +49,12 @@ public class Classroom {
         this.classOwner = classOwner;
         this.name = name;
         this.description = description;
-        this.joinCode = id + name.substring(0, 3).toUpperCase() + classOwner.getId();
+        if(name.length()>=3){
+            this.joinCode = id + name.substring(0, 3).toUpperCase() + classOwner.getId();
+        } else {
+            this.joinCode = id + name.toUpperCase() + classOwner.getId();
+        }
+        
     }
 
     public int getId() {

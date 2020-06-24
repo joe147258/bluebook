@@ -79,7 +79,7 @@ footer {
 .tab:hover{
   cursor: pointer;
 }
-#selected-student {
+.large-selected-box {
   text-align: center;
   margin: auto;
   float: right;
@@ -113,4 +113,10 @@ footer {
 }
 #join-classroom {
   margin-bottom: 1rem;
+}
+.tab {
+  background: none;
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

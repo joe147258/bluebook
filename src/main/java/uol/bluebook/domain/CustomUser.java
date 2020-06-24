@@ -28,11 +28,14 @@ public class CustomUser {
     @OneToMany(mappedBy="classOwner", cascade = CascadeType.ALL)
     private List<Classroom> ownedClassrooms = new ArrayList<Classroom>();
 
+    @OneToMany(mappedBy="testOwner", cascade = CascadeType.ALL)
+    private List<Test> ownedTests = new ArrayList<Test>();
+    
     @ManyToMany
     @JoinTable(
         name = "student_in_classes",
         joinColumns = @JoinColumn(name="user_id"),
-        inverseJoinColumns = @JoinColumn(name="class_id")
+        inverseJoinColumns = @JoinColumn(name="classroom_id")
     )
     private List<Classroom> studentClassrooms = new ArrayList<Classroom>();
 

@@ -47,6 +47,29 @@ $(document).ready(function () {
             $("#submit").removeAttr('disabled');
         }
     })
+    
+    $(".tab").click(function() {
+        $(this).blur(); 
+        hideAllTabs();//this function hides every tab and gets rid of selected nav
+        $(this).parent().addClass("selected-nav"); // adds the selected tab to the parent
+        var tab = $(this).val();
+
+        switch(tab) {
+            case "TEST_TAB":
+                $("#test-tab").show();
+                break;
+            case "STUDENTS_TAB":
+                $("#students-tab").show();
+                break;
+            case "ANNOUNCEMENT_TAB":
+                $("#announcement-tab").show();
+                break;
+            case "FORUM_TAB":
+                $("#forum-tab").show();
+                break;
+        }
+
+    })
 
 });
 
@@ -169,7 +192,13 @@ function pardonStudent(id) {
 function clearInput(id) {
     $(id).val("");
 }
-
+function hideAllTabs(){
+    $("#students-tab").hide();
+    $("#test-tab").hide();
+    $("#announcement-tab").hide();
+    $("#forum-tab").hide();
+    $(".nav-item").removeClass("selected-nav");
+}
 function showError(code) {
     switch (code) {
         case 1:

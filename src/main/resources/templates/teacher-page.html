@@ -46,16 +46,16 @@
         <nav class="navbar navbar-dark bg-primary ignore-main-padding">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item first-item selected-nav">
-                    <a class="nav-link tab" value="STUDENT_TAB">Students</a>
+                    <button class="nav-link tab" value="STUDENTS_TAB">Students</button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link tab" value="TEST_TAB">Tests</a>
+                    <button class="nav-link tab" value="TEST_TAB">Tests</button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link tab" value="ANNOUNCEMENT_TAB">Announcements</a>
+                    <button class="nav-link tab" value="ANNOUNCEMENT_TAB">Announcements</button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link tab" value="FORUM_TAB">Forum</a>
+                    <button class="nav-link tab" value="FORUM_TAB">Forum</button>
                 </li>
             </ul>
         </nav>
@@ -75,7 +75,7 @@
                         placeholder="Student's Username or name">
                 </div>
             </div>
-            <div id="selected-student">
+            <div class="large-selected-box" id="selected-student">
                 <h5 class="mt-4" id="selected-username">No one selected</h5>
                 <p class="mb-0" id="selected-name">-</p>
                 <img class="mb-2" src="/images/defuser.png" width="200px" height="200px" />
@@ -99,6 +99,41 @@
                 </li>
             </ul>
 
+        </div>
+        <!--Test tab-->
+        <div id="test-tab" style="display: none;">
+            <div style="width: 60%; display: inline-block;" class="mt-2">
+                <h5>Create a new test</h5>
+                <div class="form-group">
+                    <form>
+                        <input class="form-control" type="input" placeholder="Test Name...">
+                        <button class="btn btn-primary btn-block mt-2">Create</button>
+                    </form>
+                </div>
+            </div>
+            <div id="selected-test" class="large-selected-box">
+                <h5 class="mt-4" id="selected-test-name">No test selected</h5>
+                <p>Scheduled for... </p>
+                <p>Due... </p>
+                <p>User's compeleted it:</p>
+                <p>Type: </p>
+                <div class="button-holder">
+                    <button class="btn btn-primary btn-block">See results</button>
+                    <button class="btn btn-primary btn-block">See class performance</button>
+                    <button class="btn btn-warning btn-block">Edit Quiz</button>
+                    <!--thinking about making this a seperate page-->
+                </div>
+                <hr>
+                <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Delete Test</button>
+            </div>
+            <h5>List of Tests</h5>
+            <h5>List of Previous Tests</h5>
+        </div>
+        <div id="announcement-tab" style="display: none;">
+            sdf1
+        </div>
+        <div id="forum-tab" style="display: none;">
+            sdf2
         </div>
     </div>
     <!--Here are modals that are showned throughout this page-->
