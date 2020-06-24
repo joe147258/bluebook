@@ -105,8 +105,15 @@
             <div style="width: 60%; display: inline-block;" class="mt-2">
                 <h5>Create a new test</h5>
                 <div class="form-group">
-                    <form>
-                        <input class="form-control" type="input" placeholder="Test Name...">
+                    <form action="../../tests/new" method="POST">
+                        <input class="form-control" type="input" placeholder="Test Name..."  name="name" required>
+                        <select class="custom-select mt-2" required name="type">
+                            <option selected>Feedback Type</option>
+                            <option value="END_FEEDBACK">Feedback after the student has finished.</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <input name="classId" th:value="${classroom.getId()}" style="display: none;" />
                         <button class="btn btn-primary btn-block mt-2">Create</button>
                     </form>
                 </div>
@@ -124,7 +131,8 @@
                     <!--thinking about making this a seperate page-->
                 </div>
                 <hr>
-                <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Delete Test</button>
+                <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Delete
+                    Test</button>
             </div>
             <h5>List of Tests</h5>
             <h5>List of Previous Tests</h5>
@@ -194,9 +202,11 @@
                             Ban Student?
                         </label>
                     </div>
-                    <small>Banning a student prevents them from rejoining the class at all until pardoned in settings.</small>
+                    <small>Banning a student prevents them from rejoining the class at all until pardoned in
+                        settings.</small>
                     <div class="btn-group btn-block" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-danger" style="width: 50%;" id="selected-remove" disabled>Kick
+                        <button type="button" class="btn btn-danger" style="width: 50%;" id="selected-remove"
+                            disabled>Kick
                             Student</button>
                         <button type="button" class="btn btn-success" style="width: 50%;"
                             data-dismiss="modal">Cancel</button>
@@ -217,7 +227,8 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        They can no longer access resources in the classroom. If you decided to ban them, they cannot rejoin
+                        They can no longer access resources in the classroom. If you decided to ban them, they cannot
+                        rejoin
                         with the join code unless you pardon them in settings.
                     </p>
                 </div>
@@ -298,7 +309,7 @@
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="modal-header pt-0">
                     <h5 class="modal-title">Banned Students</h5>
                 </div>
@@ -311,7 +322,8 @@
                     <ul id="banned-list" class="list-group">
                         <li th:each="student: ${classroom.getBannedUsers()}" class="list-group-item student-list-item">
                             <span th:text="${student.value}"></span>
-                            <button class="btn btn-success right-hand-icon"  th:onclick="'pardonStudent(' + ${student.key} + ')'">Pardon</button>
+                            <button class="btn btn-success right-hand-icon"
+                                th:onclick="'pardonStudent(' + ${student.key} + ')'">Pardon</button>
                         </li>
                     </ul>
                 </div>
