@@ -1,4 +1,4 @@
-package uol.bluebook.config;
+package com.bluebook.config;
 
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

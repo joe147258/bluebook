@@ -1,4 +1,4 @@
-package uol.bluebook.domain;
+package com.bluebook.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class Test {
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<TestQuestion> questions = new ArrayList<TestQuestion>();
 
+    private Boolean published;
     
     public Test() {
 
@@ -41,6 +42,7 @@ public class Test {
         this.type = type;
         this.testOwner = testOwner;
         this.classroom = classroom;
+        this.published = false;
     }
 
     public int getId() {
@@ -59,13 +61,6 @@ public class Test {
         this.name = name;
     }
 
-    public CustomUser getOwner() {
-        return testOwner;
-    }
-
-    public void setOwner(CustomUser testOwner) {
-        this.testOwner = testOwner;
-    }
 
     public Classroom getClassroom() {
         return classroom;
@@ -81,6 +76,30 @@ public class Test {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public CustomUser getTestOwner() {
+        return testOwner;
+    }
+
+    public void setTestOwner(CustomUser testOwner) {
+        this.testOwner = testOwner;
+    }
+
+    public List<TestQuestion> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<TestQuestion> questions) {
+        this.questions = questions;
+    }
+
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
     }
 
 

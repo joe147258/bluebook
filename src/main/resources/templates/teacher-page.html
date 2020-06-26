@@ -63,12 +63,15 @@
         <div id="students-tab">
             <div style="width: 60%; display: inline-block;" class="mt-2">
                 <h5>Add a Student by username</h5>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" placeholder="Student's Username" id="add-student-username">
-                    <div class="input-group-append">
-                        <button id="add-student" class="btn btn-primary" style="width: 75px;">Add</button>
+                <form id="add-studdent-form">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" placeholder="Student's Username"
+                            id="add-student-username">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" style="width: 75px;">Add</button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <h5>Filter student by username or name</h5>
                 <div class="input-group mb-2">
                     <input id="filterStudents" type="text" class="form-control"
@@ -106,10 +109,11 @@
                 <h5>Create a new test</h5>
                 <div class="form-group">
                     <form action="../../tests/new" method="POST">
-                        <input class="form-control" type="input" placeholder="Test Name..."  name="name" required>
+                        <p class="mb-0">Test Name:</p>
+                        <input class="form-control" type="input" placeholder="Test Name..." name="name" required>
+                        <p class="mb-0">Feedback Type:</p>
                         <select class="custom-select mt-2" required name="type">
-                            <option selected>Feedback Type</option>
-                            <option value="END_FEEDBACK">Feedback after the student has finished.</option>
+                            <option value="END_FEEDBACK" selected>Feedback immediately after test has finished.</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select>

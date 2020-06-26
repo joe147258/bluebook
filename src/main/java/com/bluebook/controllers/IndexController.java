@@ -1,4 +1,8 @@
-package uol.bluebook.controllers;
+package com.bluebook.controllers;
+
+import com.bluebook.config.CustomUserDetails;
+import com.bluebook.domain.CustomUser;
+import com.bluebook.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -6,10 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import uol.bluebook.domain.CustomUser;
-import uol.bluebook.repositories.UserRepository;
-import uol.bluebook.config.CustomUserDetails;
 
 
 

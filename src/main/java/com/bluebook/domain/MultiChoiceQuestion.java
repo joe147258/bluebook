@@ -1,22 +1,22 @@
-package uol.bluebook.domain;
+package com.bluebook.domain;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
+
 @Entity
-public class MultipleChoiceQuestion extends TestQuestion {
+public class MultiChoiceQuestion extends TestQuestion {
 
     @Lob
-    List<String> answerList = new ArrayList<String>();
-
-    public MultipleChoiceQuestion(){
+    ArrayList<String> answerList = new ArrayList<String>();
+    
+    public MultiChoiceQuestion(){
         //FOR JPA
     }
-    public MultipleChoiceQuestion(int id, Test test, String question, String correctAnswer){
+    public MultiChoiceQuestion(int id, Test test, String question, String correctAnswer){
         this.id = id;
         this.test = test;
         this.question = question;
@@ -29,7 +29,7 @@ public class MultipleChoiceQuestion extends TestQuestion {
     }
 
     public void shuffleAnswers() {
-		Collections.shuffle(answerList);
+		  Collections.shuffle(answerList);
     }
 
     public String getAnswer(int i) {

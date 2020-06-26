@@ -1,9 +1,11 @@
 $(document).ready(function () {
 
-    $("#add-student").click(function () {
+
+    $("#add-student-form").submit(function (e) {
+        e.preventDefault();
         addStudent($("#add-student-username").val());
     });
-
+    
     $("#filterStudents").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#student-list li").filter(function () {

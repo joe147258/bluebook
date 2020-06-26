@@ -1,10 +1,9 @@
-package uol.bluebook.repositories;
+package com.bluebook.repositories;
 
+
+import com.bluebook.domain.Classroom;
 
 import org.springframework.data.repository.CrudRepository;
-
-
-import uol.bluebook.domain.Classroom;
 
 public interface ClassroomRepository extends CrudRepository<Classroom, Integer> {
 

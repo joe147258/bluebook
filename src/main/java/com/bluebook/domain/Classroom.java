@@ -1,4 +1,4 @@
-package uol.bluebook.domain;
+package com.bluebook.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;

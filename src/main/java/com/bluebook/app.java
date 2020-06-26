@@ -1,13 +1,13 @@
-package uol.bluebook;
+package com.bluebook;
+
+import com.bluebook.domain.CustomUser;
+import com.bluebook.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import uol.bluebook.domain.CustomUser;
-import uol.bluebook.repositories.UserRepository;
 
 @SpringBootApplication
 public class app implements CommandLineRunner {

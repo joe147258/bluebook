@@ -1,8 +1,8 @@
-package uol.bluebook.repositories;
+package com.bluebook.repositories;
+
+import com.bluebook.domain.CustomUser;
 
 import org.springframework.data.repository.CrudRepository;
-
-import uol.bluebook.domain.CustomUser;
 
 public interface UserRepository extends CrudRepository<CustomUser, Integer> {
 

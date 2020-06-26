@@ -1,11 +1,11 @@
-package uol.bluebook.config;
+package com.bluebook.config;
 
 import java.util.Collection;
 
+import com.bluebook.domain.CustomUser;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import uol.bluebook.domain.CustomUser;
 
 
 public class CustomUserDetails implements UserDetails {

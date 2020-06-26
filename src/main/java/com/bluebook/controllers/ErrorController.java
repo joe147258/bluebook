@@ -1,4 +1,4 @@
-package uol.bluebook.controllers;
+package com.bluebook.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

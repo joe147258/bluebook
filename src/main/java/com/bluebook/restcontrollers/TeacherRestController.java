@@ -1,6 +1,12 @@
-package uol.bluebook.controllers;
+package com.bluebook.restcontrollers;
 
 import java.util.HashMap;
+
+import com.bluebook.config.CustomUserDetails;
+import com.bluebook.domain.Classroom;
+import com.bluebook.domain.CustomUser;
+import com.bluebook.repositories.ClassroomRepository;
+import com.bluebook.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,12 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import uol.bluebook.domain.Classroom;
-import uol.bluebook.domain.CustomUser;
-import uol.bluebook.repositories.ClassroomRepository;
-import uol.bluebook.repositories.UserRepository;
-import uol.bluebook.config.CustomUserDetails;
 @RestController
 @RequestMapping("/teacher")
 public class TeacherRestController {
