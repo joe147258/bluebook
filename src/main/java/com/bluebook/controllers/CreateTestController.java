@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/tests/")
-public class NewTestsController {
+public class CreateTestController {
     /**
      * There are three types of tests that are planned to be implenented the purpose
      * of the array is to ensure the user doesn't bug the server. The three types
@@ -32,7 +32,7 @@ public class NewTestsController {
      * -MARKED (questions are marked by the teacher and feedback is given then)
      * TODO: as of 24/06/20 only END_FEEDBACK is valid
      */
-    private static final String[] validTypes = { "END_FEEDBACK" };
+    private static final String[] validTypes = { "END_FEEDBACK", "INSTANT_FEEDBACK", "MARKED_FEEDBACK" };
     @Autowired
     ClassroomRepository classroomRepo;
     @Autowired

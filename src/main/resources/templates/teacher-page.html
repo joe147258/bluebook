@@ -44,7 +44,7 @@
             <h1 class="mb-4" th:text="${classroom.getName()}"></h1>
         </div>
         <nav class="navbar navbar-dark bg-primary ignore-main-padding">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" id="inner-nav-ul">
                 <li class="nav-item first-item selected-nav">
                     <button class="nav-link tab" value="STUDENTS_TAB">Students</button>
                 </li>
@@ -63,7 +63,7 @@
         <div id="students-tab">
             <div style="width: 60%; display: inline-block;" class="mt-2">
                 <h5>Add a Student by username</h5>
-                <form id="add-studdent-form">
+                <form id="add-student-form">
                     <div class="input-group mb-2">
                         <input type="text" class="form-control" placeholder="Student's Username"
                             id="add-student-username">
@@ -114,8 +114,8 @@
                         <p class="mb-0">Feedback Type:</p>
                         <select class="custom-select mt-2" required name="type">
                             <option value="END_FEEDBACK" selected>Feedback immediately after test has finished.</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="MARKED_FEEDBACK">You mark the work.</option>
+                            <option value="INSTANT_FEEDBACK">Feedback after each question (Quiz).</option>
                         </select>
                         <input name="classId" th:value="${classroom.getId()}" style="display: none;" />
                         <button class="btn btn-primary btn-block mt-2">Create</button>
@@ -131,7 +131,7 @@
                 <div class="button-holder">
                     <button class="btn btn-primary btn-block">See results</button>
                     <button class="btn btn-primary btn-block">See class performance</button>
-                    <button class="btn btn-warning btn-block">Edit Quiz</button>
+                    <button class="btn btn-warning btn-block">Edit Test</button>
                     <!--thinking about making this a seperate page-->
                 </div>
                 <hr>
@@ -139,7 +139,7 @@
                     Test</button>
             </div>
             <h5>List of Tests</h5>
-            <h5>List of Previous Tests</h5>
+            <h5>List of Tests After Deadline</h5>
         </div>
         <div id="announcement-tab" style="display: none;">
             sdf1

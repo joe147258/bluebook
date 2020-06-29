@@ -8,6 +8,11 @@
     <link th:href="@{/css/css-main.css}" rel="stylesheet" />
     <!--icons-->
     <link th:href="@{/css/material-icons.css}" rel="stylesheet" />
+    <style>
+        td {
+            width: 585px;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,33 +43,79 @@
     </header>
     <div class="main-content">
         <h2 th:text="${workingTest.getName()}"></h2>
-        <p class="mb-0">Test Type: <span th:text="${workingTest.getType()}"></span> <a href="#">Change?</a></p>
+        <p class="mb-0">Feedback Type: <span th:text="${workingTest.getFeedbackType()}"></span></p>
+        <a href="#">Change feedback type?</a>
         <hr>
         <h3>Add a Question</h3>
         <div class="form-group">
-            <form id="add-question-form">
+            <p class="mb-0">Question Type:</p>
+            <select class="custom-select mt-2" id="question-type" required>
+                <option value="MULTI_CHOICE" selected>Multiple Choice</option>
+                <option value="TRUE_FALSE">True / False</option>
+                <option value="INPUT">Input Based Question</option>
+            </select>
+            <!--MULTI-CHOICE-->
+            <form id="mc-question-form">
                 <p class="mb-1">Question:</p>
-                <input class="form-control" type="input" placeholder="Question..." id="question-string" required>
-                <p class="mb-0">Question Type:</p>
-                <select class="custom-select mt-2" id="question-type" required >
-                    <option value="MULTI_CHOICE" selected>Multiple Choice</option>
-                    <option value="2">True / False</option>
-                    <option value="3">Input Based Question</option>
+                <input class="form-control" type="input" placeholder="Question..." id="mc-question-string" required>
+                <p class="mb-1">Correct Answer:</p>
+                <input class="form-control" type="input" placeholder="Correct answer" id="mc-correct-answer" required />
+                <p id="incorrect-title" class="mb-1">Incorrect Answers:</p>
+                <input class="form-control mb-2" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer1"
+                    required />
+                <input class="form-control mb-2" type="input" placeholder="Incorrect answer"
+                    id="mc-incorrect-answer2" />
+                <input class="form-control" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer3" />
+                <button class="btn btn-primary btn-block mt-2">Add Question</button>
+            </form>
+            <!--TRUE/FALSE-->
+            <form id="tf-question-form" style="display: none;">
+                <p class="mb-1">Question:</p>
+                <input class="form-control" type="input" placeholder="Question..." id="tf-question-string" required>
+                <p class="mb-1">Correct Answer:</p>
+                <select class="custom-select mt-2" id="tf-correct-answer" required>
+                    <option value="true" selected>True</option>
+                    <option value="false">False</option>
                 </select>
-                <div id="multi-choice-div">
-                    <p class="mb-1">Correct Answer:</p>
-                    <input class="form-control" type="input" placeholder="Correct answer" id="mc-correct-answer" required />
-                    <p class="mb-1">Incorrect Answers:</p>
-                    <input class="form-control mb-2" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer1" required />
-                    <input class="form-control mb-2" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer2" />
-                    <input class="form-control" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer3"/>
-                </div>
+
+                <button class="btn btn-primary btn-block mt-2">Add Question</button>
+            </form>
+
+            <form id="input-question-form" style="display: none;">
+                <p class="mb-1">Question:</p>
+                <input class="form-control" type="input" placeholder="Question..." id="input-question-string" required>
+                <p class="mb-1">Correct Answer:</p>
+                <input class="form-control" type="input" placeholder="Correct Answer..." id="input-correct-answer" required/>
                 <button class="btn btn-primary btn-block mt-2">Add Question</button>
             </form>
         </div>
+
         <hr>
         <h3>Questions:</h3>
-        <p>need an option to edit or remove questions</p>
+        <ul class="list-group" id="question-list">
+            <li th:each="question: ${workingTest.getQuestions()}" class="list-group-item">
+                <div class="right-hand-icon">
+                    <a th:href="'/edit/' + ${question.getId()}"><i class="material-icons text-muted">edit</i></a>
+                    <a th:href="'/delete/' + ${question.getId()}"><i class="material-icons text-muted">delete</i></a>
+                </div>
+                <table class="table mb-0" style="width: 80%;">
+                    <tbody>
+                        <tr>
+                            <td>Question Type:</td>
+                            <td th:text="${question.getFormattedQuestionType()}"></td>
+                        </tr>
+                        <tr>
+                            <td>Question:</td>
+                            <td th:text="${question.getQuestion()}"></td>
+                        </tr>
+                        <tr>
+                            <td>Correct Answer:</td>
+                            <td th:text="${question.getCorrectAnswer()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
     </div>
 
 </body>

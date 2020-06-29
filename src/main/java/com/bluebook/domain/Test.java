@@ -18,7 +18,7 @@ public class Test {
     @Column(name="test_id")
     private int id;
     private String name;
-    private String type;
+    private String feedbackType;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -36,10 +36,10 @@ public class Test {
     public Test() {
 
     }
-    public Test(int id, String name, String type, CustomUser testOwner, Classroom classroom) {
+    public Test(int id, String name, String feedbackType, CustomUser testOwner, Classroom classroom) {
         this.id = id;
         this.name = name;
-        this.type = type;
+        this.feedbackType = feedbackType;
         this.testOwner = testOwner;
         this.classroom = classroom;
         this.published = false;
@@ -70,12 +70,12 @@ public class Test {
         this.classroom = classroom;
     }
 
-    public String getType() {
-        return type;
+    public String getFeedbackType() {
+        return feedbackType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setFeedbackType(String feedbackType) {
+        this.feedbackType = feedbackType;
     }
 
     public CustomUser getTestOwner() {
@@ -91,6 +91,7 @@ public class Test {
     }
 
     public void setQuestions(List<TestQuestion> questions) {
+        
         this.questions = questions;
     }
 

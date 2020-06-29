@@ -199,7 +199,7 @@ function hideAllTabs(){
     $("#test-tab").hide();
     $("#announcement-tab").hide();
     $("#forum-tab").hide();
-    $(".nav-item").removeClass("selected-nav");
+    $("#inner-nav-ul li").removeClass("selected-nav");
 }
 function showError(code) {
     switch (code) {

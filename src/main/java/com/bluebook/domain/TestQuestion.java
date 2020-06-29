@@ -53,4 +53,25 @@ public abstract class TestQuestion {
         this.test = test;
     }
 
+    public String getQuestionType() {
+        return this.getClass().getName();
+    }
+    public String getFormattedQuestionType() {
+        switch(this.getClass().getName()){
+            case "com.bluebook.domain.MultiChoiceQuestion":
+                return "Multiple Choice Question";
+            case "com.bluebook.domain.InputQuestion":    
+                return "Input Question";
+            case "com.bluebook.domain.TrueFalseQuestion":
+                return "True / false";
+            default:
+                return "Unknown...";
+        }
+    }
+
+    public int getQuestionNumber() {
+
+        return 1;
+    }
+
 }
