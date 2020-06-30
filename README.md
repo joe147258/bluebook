@@ -11,7 +11,8 @@ The primary aim of this project is to simplify and digitise tracking performance
 During my final year of university, I worked on Bluebook as my dissertation project. While I was fairly happy with the final result of the project, I had learnt a lot during my final year. This repository is a refurbishment of my final year project where I have approached it with a wider scope in mind and with superior coding practices. I decided to recreate my project from scratch as I wanted to tackle some of the early design decisions differently.  
 
 ## Building
-First, make sure you have JDK 14 installed. Open a terminal in the root directory, cd to the Bluebook folder and run the following command:
+First, make sure you have JDK 14 installed. In the application.properties (located at bluebook\src\main\resources) you must connect it to a MySQL database.
+Open a terminal in the root directory, cd to the Bluebook folder and run the following command:
 ### Windows
 gradlew bootrun
 ### Linux
