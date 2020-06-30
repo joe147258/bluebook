@@ -41,7 +41,7 @@ public class QuestionService {
      * Otherwise, it returns true
      */
     public final Boolean createMultiChoiceQuestion(final Test workingTest, final String questionString, 
-    final String correctAnswer, final String[] incorrectAnswers) {
+        final String correctAnswer, final String[] incorrectAnswers) {
 
         //These are essential for a multiple choice.
         if(questionString == null || questionString.length() == 0) return false;
@@ -75,7 +75,7 @@ public class QuestionService {
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
     public final Boolean createTrueFalseQuestion(final Test workingTest, final String questionString, 
-    final String correctAnswer) {
+        final String correctAnswer) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
@@ -100,8 +100,8 @@ public class QuestionService {
      * uses levenshteins algorithm. TODO: Implement this.
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
-    public final Boolean createInputQuestion(Test workingTest, String questionString, 
-        String correctAnswer, int distance) {
+    public final Boolean createInputQuestion(final Test workingTest, final String questionString, 
+        final String correctAnswer, final int distance) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
