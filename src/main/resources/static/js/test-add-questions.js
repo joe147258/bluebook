@@ -29,6 +29,13 @@ $(document).ready(function() {
                 break;
         }
     })
+    
+    $(".fb-btn").click(function(){
+        let newFbtype = $(this).val();
+        if(newFbtype == currentFbType) return false;
+        changeFeedbackType(newFbtype);
+
+    })
 })
 
 //functions to be used in document.ready
@@ -111,6 +118,24 @@ function addInputQuestion() {
         complete: function () {
             clearInput("#input-question-string");
             clearInput("#input-correct-answer");
+        }
+    })
+}
+
+function changeFeedbackType(fbType) {
+    $.ajax({
+        type: "POST",
+        url: testId + "/change-fbtype/" + fbType,
+        success: function (data) {
+            if(data == true) {
+                currentFbType = fbType;
+                $("#fb-type").html(fbType);
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
         }
     })
 }

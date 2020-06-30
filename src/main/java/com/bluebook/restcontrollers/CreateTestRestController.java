@@ -11,6 +11,7 @@ import com.bluebook.repositories.QuestionRepository;
 import com.bluebook.repositories.TestRepository;
 import com.bluebook.repositories.UserRepository;
 import com.bluebook.service.QuestionService;
+import com.bluebook.service.TestService;
 import com.bluebook.config.CustomUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class CreateTestRestController {
     @Autowired
     QuestionRepository quesRepo;
     @Autowired
-    QuestionService testService;
+    QuestionService questionService;
+    @Autowired
+    TestService testService;
     
     
 
@@ -50,7 +53,7 @@ public class CreateTestRestController {
             params.get("incorrectAnswer2")
         };
         //service method is called to create the question. Returns false if it fails.
-        return testService.createMultiChoiceQuestion(workingTest, params.get("questionString"),
+        return questionService.createMultiChoiceQuestion(workingTest, params.get("questionString"),
             params.get("correctAnswer"), incorrectAnsers);
     }
 
@@ -63,7 +66,7 @@ public class CreateTestRestController {
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
         //service method is called to create the question. Returns false if it fails.
-        return testService.createTrueFalseQuestion(workingTest,  
+        return questionService.createTrueFalseQuestion(workingTest,  
             params.get("questionString"), params.get("correctAnswer").toLowerCase());
     }
 
@@ -77,7 +80,20 @@ public class CreateTestRestController {
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
 
-        return testService.createInputQuestion(workingTest,  
+        return questionService.createInputQuestion(workingTest,  
             params.get("questionString"), params.get("correctAnswer"), 0);
+    }
+
+    @PostMapping("/new/questions/{testId}/change-fbtype/{newFbType}")
+    public final Boolean changeFeedbackType(@PathVariable final int testId, @PathVariable final String newFbType) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
+
+        if(workingTest == null) return false;
+        if(workingTest.getTestOwner().getId() != user.getId()) return false;
+        if(newFbType.equals(workingTest.getFeedbackType())) return false;
+
+        return testService.changeFeedbackType(workingTest, newFbType);
     }
 }

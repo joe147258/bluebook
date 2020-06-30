@@ -38,7 +38,8 @@ public class CreateTestController {
     UserRepository userRepo;
     @Autowired
     TestRepository testRepo;
-
+    //TODO: move business logic into the TestService class
+    //this includes valid types!
     @PostMapping(value="/new")
     public final String newTest(@RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

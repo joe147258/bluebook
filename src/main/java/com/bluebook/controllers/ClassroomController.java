@@ -35,7 +35,7 @@ public class ClassroomController {
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         return "new-classroom-form";
     }
-
+    //TODO: move business logic into the new classroom service class
     @PostMapping("/create-classroom")
     public final String createClassroom(Model model, @RequestParam final Map<String, String> params){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -71,7 +71,7 @@ public class ClassroomController {
         model.addAttribute("classroom", classroom);
         return "teacher-page";
     }
-
+    //TODO: move business logic into the new classroom service class
     @PostMapping("/join-class")
     public final String joinClass(Model model, @RequestParam final String joinCode){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
