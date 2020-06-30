@@ -40,8 +40,8 @@ public class QuestionService {
      * This method returns false if it fails to create and save the question
      * Otherwise, it returns true
      */
-    public final Boolean createMultiChoiceQuestion(Test workingTest, String questionString, 
-        String correctAnswer, String[] incorrectAnswers) {
+    public final Boolean createMultiChoiceQuestion(final Test workingTest, final String questionString, 
+    final String correctAnswer, final String[] incorrectAnswers) {
 
         //These are essential for a multiple choice.
         if(questionString == null || questionString.length() == 0) return false;
@@ -74,8 +74,8 @@ public class QuestionService {
      * else it'll return false
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
-    public final Boolean createTrueFalseQuestion(Test workingTest, String questionString, 
-        String correctAnswer) {
+    public final Boolean createTrueFalseQuestion(final Test workingTest, final String questionString, 
+    final String correctAnswer) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;

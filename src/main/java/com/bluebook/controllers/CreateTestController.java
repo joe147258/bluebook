@@ -47,11 +47,12 @@ public class CreateTestController {
         if(classroom == null) return "redirect:/server-problem"; 
         if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
-        //this checks type of quizzes
+        //this checks type of tests
         if(!Arrays.stream(validTypes).parallel().anyMatch(params.get("type")::contains)) 
             return "redirect:/server-problem"; 
-        String name = params.get("name");
-        String type = params.get("type");
+
+        final String name = params.get("name");
+        final String type = params.get("type");
 
         int id = 0;
         while(testRepo.existsById(id)) id++;

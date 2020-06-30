@@ -59,7 +59,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/teacher/{classId}")
-    public final String viewClassTeacher(Model model, @PathVariable int classId){
+    public final String viewClassTeacher(Model model, @PathVariable final int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Classroom classroom = classroomRepo.findById(classId);

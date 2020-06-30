@@ -25,7 +25,7 @@ public class IndexController {
     @GetMapping({"/", "/index"})
     public final String index(Model model){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         model.addAttribute("user", user);
         
         return "index";

@@ -64,7 +64,7 @@ public class CreateTestRestController {
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
         //service method is called to create the question. Returns false if it fails.
         return testService.createTrueFalseQuestion(workingTest,  
-            params.get("questionString"), params.get("correctAnswer"));
+            params.get("questionString"), params.get("correctAnswer").toLowerCase());
     }
 
     //in the future you can add character different, this is whyu its a seperate method
