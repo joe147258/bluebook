@@ -18,9 +18,10 @@ public class TestService {
     private static final String[] validTypes = { "END_FEEDBACK", "INSTANT_FEEDBACK", "MARKED_FEEDBACK" };
 
     public final Boolean changeFeedbackType(final Test workingTest, final String newFbType) {
+        //TODO: check if quiz is published before doing this (after publishing implemented)
         if(!Arrays.stream(validTypes).parallel().anyMatch(newFbType::contains)) 
             return false; 
-            
+
         workingTest.setFeedbackType(newFbType);
         testRepo.save(workingTest);
         return true;
