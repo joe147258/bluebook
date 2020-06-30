@@ -12,7 +12,7 @@ During my final year of university, I worked on Bluebook as my dissertation proj
 
 ## Building
 First, make sure you have JDK 14 installed. In the application.properties (located at bluebook\src\main\resources) you must connect it to a MySQL database.
-Open a terminal in the root directory, cd to the Bluebook folder and run the following command:
+Once this is set up, open a terminal in the root directory, cd to the Bluebook folder and run the following command:
 ### Windows
 gradlew bootrun
 ### Linux
@@ -21,3 +21,6 @@ gradlew bootrun
 ## Contact Me
 Email: JLDPhillips@gmail.com   
 LinkedIn: https://www.linkedin.com/in/joseph-phillips-75060b198/
+
+### Programming Practices
+My programming practices has been influenced by [this article](https://dzone.com/articles/top-10-useful-yet-paranoid-java-programmer-techniq).
