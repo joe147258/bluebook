@@ -11,8 +11,8 @@ public class ErrorController {
         return "permission-denied";
     }
 
-    @GetMapping("/permission-denied")
+    @GetMapping("/server-problem")
     public String serverProblem() {
-        return "permission-denied";
+        return "server-problem";
     }
 }

@@ -44,11 +44,12 @@ public class CreateTestController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Classroom classroom = classroomRepo.findById(Integer.parseInt(params.get("classId")));
-        if(classroom == null) return "redirect:/permission denied"; //TODO: make a server problem page
+        if(classroom == null) return "redirect:/server-problem"; 
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
         //this checks type of quizzes
-        if(!Arrays.stream(validTypes).parallel().anyMatch(params.get("type")::contains)) return "redirect:/permission-denied"; //TODO: make a server problem page
+        if(!Arrays.stream(validTypes).parallel().anyMatch(params.get("type")::contains)) 
+            return "redirect:/server-problem"; 
         String name = params.get("name");
         String type = params.get("type");
 
@@ -66,7 +67,7 @@ public class CreateTestController {
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
 
         Test workingTest = testRepo.findById(testId);
-        if(workingTest == null) return "redirect:/permission-denied"; //TODO: make a server problem page
+        if(workingTest == null) return "redirect:/server-problem";
         if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
 
         model.addAttribute("user", user);

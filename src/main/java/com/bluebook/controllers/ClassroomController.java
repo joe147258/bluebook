@@ -64,7 +64,7 @@ public class ClassroomController {
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Classroom classroom = classroomRepo.findById(classId);
         
-        if(classroom == null) return "redirect:/server-problem"; //TODO: Server Problem
+        if(classroom == null) return "redirect:/server-problem"; 
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
 
         model.addAttribute("user", user);
@@ -78,7 +78,7 @@ public class ClassroomController {
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Classroom classroom = classroomRepo.findByJoinCode(joinCode);
 
-        if(classroom == null) return "redirect:/server-problem"; //TODO: Server Problem
+        if(classroom == null) return "redirect:/server-problem"; 
         if(!user.getRole().equals("STUDENT")) return "redirect:/permission-denied";
         if(classroom.containsUser(user.getId())) return "redirect:/permission-denied";
         if(classroom.getBannedUsers().get(user.getId()) != null) return "redirect:/permission-denied";
@@ -96,8 +96,8 @@ public class ClassroomController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Classroom classroom = classroomRepo.findById(classId);
-        
-        if(classroom == null) return "redirect:/server-problem"; //TODO: Server Problem
+
+        if(classroom == null) return "redirect:/server-problem"; 
         if(!classroom.containsUser(user.getId())) return "redirect:/permission-denied";
 
         model.addAttribute("user", user);
