@@ -19,5 +19,5 @@ gradlew bootrun
 ./gradlew bootrun   
     
 ## Contact Me
-Email me at: JLDPhillips@gmail.com   
+Email: JLDPhillips@gmail.com   
 LinkedIn: https://www.linkedin.com/in/joseph-phillips-75060b198/
