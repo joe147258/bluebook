@@ -36,10 +36,10 @@ public class CreateTestRestController {
     
 
     @PostMapping("/new/questions/{testId}/add-multi-choice")
-    public Boolean addMultiChoiceQuestion(@PathVariable int testId, @RequestParam Map<String,String> params) {
+    public final Boolean addMultiChoiceQuestion(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Test workingTest = testRepo.findById(testId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -55,10 +55,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/add-true-false")
-    public Object addTrueFalse(@PathVariable int testId, @RequestParam Map<String,String> params) {
+    public final Object addTrueFalse(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Test workingTest = testRepo.findById(testId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -69,10 +69,10 @@ public class CreateTestRestController {
 
     //in the future you can add character different, this is whyu its a seperate method
     @PostMapping("/new/questions/{testId}/add-input")
-    public Object addInput(@PathVariable int testId, @RequestParam Map<String,String> params) {
+    public final Object addInput(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Test workingTest = testRepo.findById(testId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;

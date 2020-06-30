@@ -28,16 +28,16 @@ public class TeacherRestController {
 
 
     @PostMapping("/add-student/{username}/{classId}")
-    public Boolean addStudent(@PathVariable String username, @PathVariable int classId) {
+    public final Boolean addStudent(@PathVariable final String username, @PathVariable final int classId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
-        CustomUser student = userRepo.findByUsername(username);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser student = userRepo.findByUsername(username);
         //authentication
         if(student == null) return false;
-        if(!user.getRole().equals("TEACHER")) return false;
+        if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
-        if(student.getRole().equals("TEACHER")) return false;
+        if("TEACHER".equals(student.getRole())) return false;
         if(classroom.containsUser(username)) return false;
         if(classroom.getBannedUsers().get(student.getId()) != null) return false;
         //adding student to class
@@ -50,13 +50,14 @@ public class TeacherRestController {
     }
 
     @PostMapping("/update-title/{className}/{classDesc}/{classId}")
-    public Boolean updateTitle(@PathVariable String className, @PathVariable String classDesc, @PathVariable int classId) {
+    public final Boolean updateTitle(@PathVariable final String className, 
+        @PathVariable final String classDesc, @PathVariable final int classId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
 
         //authentication
-        if(!user.getRole().equals("TEACHER")) return false;
+        if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
         if(className.length() == 0 || classDesc.length() == 0) return false;  
@@ -70,14 +71,14 @@ public class TeacherRestController {
         return true;
     }
     @GetMapping("/get-student-info/{studentId}")
-    public Object getStudentInfo(@PathVariable int studentId) {
+    public final Object getStudentInfo(@PathVariable final int studentId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         //authentication
-        if(!user.getRole().equals("TEACHER")) return false;
+        if("STUDENT".equals(user.getRole())) return false;
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
-        CustomUser student = userRepo.findById(studentId);
+        final CustomUser student = userRepo.findById(studentId);
         returnMap.put("username", student.getUsername());
         returnMap.put("fullName", student.getFirstName() + " " + student.getLastName());
         returnMap.put("id", student.getId());
@@ -85,13 +86,14 @@ public class TeacherRestController {
     }
 
     @PostMapping("/kick-student/{studentId}/{classId}")
-    public Boolean kickStudent(@PathVariable int studentId, @PathVariable int classId, @RequestParam Boolean ban) {
+    public final Boolean kickStudent(@PathVariable final int studentId, @PathVariable final int classId, 
+        @RequestParam final Boolean ban) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
 
         //authentication
-        if(!user.getRole().equals("TEACHER")) return false;
+        if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
         if(!classroom.containsUser(studentId)) return false;
 
@@ -109,12 +111,12 @@ public class TeacherRestController {
     }
 
     @PostMapping("/pardon-student/{studentId}/{classId}")
-    public Boolean pardonStudent(@PathVariable int studentId, @PathVariable int classId){
+    public final Boolean pardonStudent(@PathVariable final int studentId, @PathVariable final int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
 
-        if(!user.getRole().equals("TEACHER")) return false;
+        if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
         if(classroom.getBannedUsers().get(studentId) == null) return false;

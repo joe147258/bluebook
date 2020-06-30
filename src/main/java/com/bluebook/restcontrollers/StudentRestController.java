@@ -25,10 +25,10 @@ public class StudentRestController {
     UserRepository userRepo;
 
     @GetMapping("/check-class/{joinCode}")
-    public HashMap<String, Object> classExists(@PathVariable String joinCode) {
+    public final HashMap<String, Object> classExists(@PathVariable final String joinCode) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findByJoinCode(joinCode);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findByJoinCode(joinCode);
 
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
         if(classroom == null) {

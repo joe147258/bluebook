@@ -28,18 +28,18 @@ public class ClassroomController {
     ClassroomRepository classroomRepo;
     
     @GetMapping("/new")
-    public String newClassroom(Model model){
+    public final String newClassroom(Model model){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         model.addAttribute("user", user);
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         return "new-classroom-form";
     }
 
     @PostMapping("/create-classroom")
-    public String createClassroom(Model model, @RequestParam Map<String, String> params){
+    public final String createClassroom(Model model, @RequestParam final Map<String, String> params){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         String className = params.get("className");
         String classDesc = params.get("classDesc");
@@ -59,10 +59,10 @@ public class ClassroomController {
     }
 
     @GetMapping("/teacher/{classId}")
-    public String viewClassTeacher(Model model, @PathVariable int classId){
+    public final String viewClassTeacher(Model model, @PathVariable int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
         
         if(classroom == null) return "redirect:/server-problem"; 
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
@@ -73,13 +73,13 @@ public class ClassroomController {
     }
 
     @PostMapping("/join-class")
-    public String joinClass(Model model, @RequestParam String joinCode){
+    public final String joinClass(Model model, @RequestParam final String joinCode){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findByJoinCode(joinCode);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findByJoinCode(joinCode);
 
         if(classroom == null) return "redirect:/server-problem"; 
-        if(!user.getRole().equals("STUDENT")) return "redirect:/permission-denied";
+        if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
         if(classroom.containsUser(user.getId())) return "redirect:/permission-denied";
         if(classroom.getBannedUsers().get(user.getId()) != null) return "redirect:/permission-denied";
 
@@ -92,10 +92,10 @@ public class ClassroomController {
     }
 
     @GetMapping("/student/{classId}")
-    public String viewClassStudent(Model model, @PathVariable int classId){
+    public final String viewClassStudent(Model model, @PathVariable final int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(classId);
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(classId);
 
         if(classroom == null) return "redirect:/server-problem"; 
         if(!classroom.containsUser(user.getId())) return "redirect:/permission-denied";

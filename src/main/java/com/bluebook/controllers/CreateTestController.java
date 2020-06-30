@@ -40,12 +40,12 @@ public class CreateTestController {
     TestRepository testRepo;
 
     @PostMapping(value="/new")
-    public String newTest(@RequestParam Map<String,String> params) {
+    public final String newTest(@RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        Classroom classroom = classroomRepo.findById(Integer.parseInt(params.get("classId")));
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Classroom classroom = classroomRepo.findById(Integer.parseInt(params.get("classId")));
         if(classroom == null) return "redirect:/server-problem"; 
-        if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
+        if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
         //this checks type of quizzes
         if(!Arrays.stream(validTypes).parallel().anyMatch(params.get("type")::contains)) 
@@ -62,9 +62,9 @@ public class CreateTestController {
     }
 
     @GetMapping(value="/new/questions/{testId}")
-    public String newTestQuestions(Model model, @PathVariable int testId) {
+    public final String newTestQuestions(Model model, @PathVariable final int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
 
         Test workingTest = testRepo.findById(testId);
         if(workingTest == null) return "redirect:/server-problem";
