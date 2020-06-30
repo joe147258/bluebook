@@ -5,8 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ErrorController {
+
     @GetMapping("/permission-denied")
     public String permissionDenied() {
+        return "permission-denied";
+    }
+
+    @GetMapping("/permission-denied")
+    public String serverProblem() {
         return "permission-denied";
     }
 }

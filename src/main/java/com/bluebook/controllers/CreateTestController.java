@@ -30,7 +30,6 @@ public class CreateTestController {
      * are: -END_FEEDBACK (feedback is given after the user has completed the quiz)
      * -INSTANT_FEEDBACK (feedback is given as soon as the question is answered)
      * -MARKED (questions are marked by the teacher and feedback is given then)
-     * TODO: as of 24/06/20 only END_FEEDBACK is valid
      */
     private static final String[] validTypes = { "END_FEEDBACK", "INSTANT_FEEDBACK", "MARKED_FEEDBACK" };
     @Autowired
