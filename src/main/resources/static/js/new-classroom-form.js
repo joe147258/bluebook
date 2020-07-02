@@ -43,10 +43,10 @@ function getUrlParameter(sParam) {
 function showError(code) {
     switch (code) {
         case 1:
-            $(".small-form-container").append("<p style='color: red;'> You must fill in both fields. </p>");
+            $(".small-form-container").append("<p style='color: red;'> Class name did not meet requirements. It must be less than 60 characters. </p>");
             break;
         case 2:
-            $(".small-form-container").append("<p style='color: red;'> The title or the description were too long. </p>");
+            $(".small-form-container").append("<p style='color: red;'> Class descprtion did not meet requirements. It must be less than 500 characters. </p>");
             break;
         case 3:
             $("#live-error1").show();

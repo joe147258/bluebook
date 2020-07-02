@@ -7,7 +7,7 @@ import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
 import com.bluebook.repositories.ClassroomRepository;
 import com.bluebook.repositories.UserRepository;
-
+import com.bluebook.service.TeacherService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping("/teacher")
 public class TeacherRestController {
@@ -25,6 +26,8 @@ public class TeacherRestController {
     UserRepository userRepo;
     @Autowired
     ClassroomRepository classroomRepo;
+    @Autowired
+    TeacherService teacherService;
 
 
     @PostMapping("/add-student/{username}/{classId}")
@@ -32,21 +35,11 @@ public class TeacherRestController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Classroom classroom = classroomRepo.findById(classId);
-        final CustomUser student = userRepo.findByUsername(username);
         //authentication
-        if(student == null) return false;
         if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
-        if("TEACHER".equals(student.getRole())) return false;
-        if(classroom.containsUser(username)) return false;
-        if(classroom.getBannedUsers().get(student.getId()) != null) return false;
-        //adding student to class
-        classroom.getStudents().add(student);
-        student.getStudentClassrooms().add(classroom);
-        classroomRepo.save(classroom);
-        userRepo.save(student);
-
-        return true;
+        
+        return teacherService.addStudent(username, classroom);
     }
 
     @PostMapping("/update-title/{className}/{classDesc}/{classId}")
@@ -55,20 +48,13 @@ public class TeacherRestController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Classroom classroom = classroomRepo.findById(classId);
-
         //authentication
         if("STUDENT".equals(user.getRole())) return false;
+        if(classroom == null) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
-        if(className.length() == 0 || classDesc.length() == 0) return false;  
-        if(className.length() > 60 || classDesc.length() > 500) return false; 
-        
-        classroom.setName(className);
-        classroom.setDescription(classDesc);
 
-        classroomRepo.save(classroom);
-
-        return true;
+        return teacherService.updateClassDetails(classroom, className, classDesc);
     }
     @GetMapping("/get-student-info/{studentId}")
     public final Object getStudentInfo(@PathVariable final int studentId) {
@@ -91,23 +77,12 @@ public class TeacherRestController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Classroom classroom = classroomRepo.findById(classId);
-
         //authentication
         if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
-        if(!classroom.containsUser(studentId)) return false;
 
-        CustomUser student = userRepo.findById(studentId);
-            
-        classroom.removeUser(studentId);
-        student.removeClassroom(classId);
-        if(ban == true) 
-            classroom.getBannedUsers().put(studentId, student.getUsername());
-    
-        classroomRepo.save(classroom);
-        userRepo.save(student);
 
-        return true;
+        return teacherService.kickStudent(classroom, studentId, ban);
     }
 
     @PostMapping("/pardon-student/{studentId}/{classId}")
@@ -115,14 +90,10 @@ public class TeacherRestController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Classroom classroom = classroomRepo.findById(classId);
-
+        if(classroom == null) return false;
         if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
-        if(classroom.getBannedUsers().get(studentId) == null) return false;
-        else classroom.getBannedUsers().remove(studentId);
-        
-        classroomRepo.save(classroom);
-        return true;
+        return teacherService.PardonStudent(classroom, studentId);
     }
 }

@@ -47,8 +47,9 @@ public class ClassroomController {
          * There is front end validation on this as well and only resorts to this if a user
          * messes with the front end or have JavaScript disabled, etc
          */
-        if(className.length() == 0 || classDesc.length() == 0) return "redirect:/classrooms/new?error=1"; //No length error 
-        if(className.length() > 60 || classDesc.length() > 500) return "redirect:/classrooms/new?error=2"; //too long error
+        if(className == null || classDesc == null) return "redirect:/classrooms/new?error=1";
+        if(className.length() <= 0 || className.length() > 60) return "redirect:/classrooms/new?error=1"; // classname requirements error
+        if(classDesc.length() <= 0|| classDesc.length() > 500) return "redirect:/classrooms/new?error=2"; // classDesc requirements error
 
         int id = 0;
         while(classroomRepo.existsById(id)) id++;
