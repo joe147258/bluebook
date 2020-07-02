@@ -8,9 +8,17 @@ $(document).ready(function () {
         if($("#class-name").val().length > 60) {
             showError(3);
             $("#submit").attr('disabled', 'disabled');
+        } else if($("#class-name").val().includes(";")){
+            $("#submit").attr('disabled', 'disabled');
+            showError(5);
         } else {
             $("#live-error1").hide();
-            $("#submit").removeAttr('disabled');
+            //checks if there is any semi colons
+            if(!$("#class-name").val().includes(";") && !$("#class-desc").val().includes(";")){
+                $("#live-error3").hide();
+                $("#submit").removeAttr('disabled');
+            }
+            
         }
     })
     
@@ -18,9 +26,16 @@ $(document).ready(function () {
         if($("#class-desc").val().length > 500) {
             showError(4);
             $("#submit").attr('disabled', 'disabled');
+        } else if($("#class-desc").val().includes(";")) {
+            $("#submit").attr('disabled', 'disabled');
+            showError(5);
         } else {
             $("#live-error2").hide();
-            $("#submit").removeAttr('disabled');
+            //checks if there is any semi colons
+            if(!$("#class-name").val().includes(";") && !$("#class-desc").val().includes(";")){
+                $("#live-error3").hide();
+                $("#submit").removeAttr('disabled');
+            }
         }
     })
 })
@@ -54,7 +69,9 @@ function showError(code) {
         case 4:
             $("#live-error2").show();
             break;
-
+        case 5:
+            $("#live-error3").show();
+            break;
     }
 
 }

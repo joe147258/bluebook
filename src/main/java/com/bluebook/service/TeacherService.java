@@ -79,6 +79,12 @@ public class TeacherService {
 
         return true;
     }
+    /**
+     * 
+     * @param classroom The classroom where to pardon a student
+     * @param studentId the student ID of who should be pardonned
+     * @return true if successful and false if not
+     */
     public final Boolean PardonStudent(final Classroom classroom, final int studentId) {
 
         if(classroom.getBannedUsers().get(studentId) == null) return false;

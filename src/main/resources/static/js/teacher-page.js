@@ -5,7 +5,7 @@ $(document).ready(function () {
         e.preventDefault();
         addStudent($("#add-student-username").val());
     });
-    
+
     $("#filterStudents").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#student-list li").filter(function () {
@@ -30,33 +30,47 @@ $(document).ready(function () {
 
     });
 
-    $("#class-name").keyup(function() {
-        if($("#class-name").val().length > 60) {
+    $("#class-name").keyup(function () {
+        if ($("#class-name").val().length > 60) {
             showError(1);
             $("#submit").attr('disabled', 'disabled');
+        } else if ($("#class-name").val().includes(";")) {
+            $("#submit").attr('disabled', 'disabled');
+            $("#live-error3").show();
         } else {
             $("#live-error1").hide();
-            $("#submit").removeAttr('disabled');
+            //checks if there is any semi colons
+            if (!$("#class-name").val().includes(";") && !$("#class-desc").val().includes(";")) {
+                $("#live-error3").hide();
+                $("#submit").removeAttr('disabled');
+            }
         }
     })
-    
-    $("#class-desc").keyup(function() {
-        if($("#class-desc").val().length > 500) {
+
+    $("#class-desc").keyup(function () {
+        if ($("#class-desc").val().length > 500) {
             showError(2);
             $("#submit").attr('disabled', 'disabled');
+        } else if ($("#class-name").val().includes(";")) {
+            $("#submit").attr('disabled', 'disabled');
+            $("#live-error3").show();
         } else {
             $("#live-error2").hide();
-            $("#submit").removeAttr('disabled');
+            //checks if there is any semi colons
+            if (!$("#class-name").val().includes(";") && !$("#class-desc").val().includes(";")) {
+                $("#live-error3").hide();
+                $("#submit").removeAttr('disabled');
+            }
         }
     })
-    
-    $(".tab").click(function() {
-        $(this).blur(); 
-        hideAllTabs();//this function hides every tab and gets rid of selected nav
+
+    $(".tab").click(function () {
+        $(this).blur();
+        hideAllTabs(); //this function hides every tab and gets rid of selected nav
         $(this).parent().addClass("selected-nav"); // adds the selected tab to the parent
         var tab = $(this).val();
 
-        switch(tab) {
+        switch (tab) {
             case "TEST_TAB":
                 $("#test-tab").show();
                 break;
@@ -101,7 +115,7 @@ function addStudent(username) {
     })
 }
 
-function updateTitle(title, desc){
+function updateTitle(title, desc) {
     $.ajax({
         type: "POST",
         url: "/teacher/update-title/" + encodeURIComponent(title) + "/" + encodeURIComponent(desc) + "/" + classId,
@@ -109,7 +123,7 @@ function updateTitle(title, desc){
             if (data == true) {
                 $("#settings-modal").modal("toggle");
                 $("#title").load(" #title > *");
-                
+
             } else {
                 alert("An error has occured. The title / desc is either too long or you do not have permission.")
             }
@@ -125,7 +139,7 @@ function selectStudent(id) {
         type: "GET",
         url: "/teacher/get-student-info/" + id,
         success: function (data) {
-            if(data == false){
+            if (data == false) {
                 alert("An error has occured :-(");
                 return false;
             }
@@ -133,7 +147,7 @@ function selectStudent(id) {
             $("#selected-name").html(data.fullName);
             $("#selected-remove").removeAttr("disabled");
             $("#selected-remove").prop("onclick", null).off("click");
-            $("#selected-remove").attr('onClick','removeStudent(' + data.id +')');
+            $("#selected-remove").attr('onClick', 'removeStudent(' + data.id + ')');
         },
         error: function () {
             alert("An error has occured :-(");
@@ -143,7 +157,7 @@ function selectStudent(id) {
 
 function removeStudent(id) {
     var url = "/teacher/kick-student/" + id + "/" + classId + "?ban=";
-    if($("#ban-user").prop("checked") == true) {
+    if ($("#ban-user").prop("checked") == true) {
         url += true;
     } else {
         url += false;
@@ -153,7 +167,7 @@ function removeStudent(id) {
         url: url,
         success: function (data) {
             $("#remove-student-modal").modal('toggle');
-            if(data == true) {
+            if (data == true) {
                 $("#successful-kick-student").modal('toggle');
                 $("#selected-username").html("No one selected");
                 $("#selected-name").html("-");
@@ -176,10 +190,10 @@ function pardonStudent(id) {
         type: "POST",
         url: "/teacher/pardon-student/" + id + "/" + classId,
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 $("#settings-modal").modal("toggle");
                 $("#successful-pardon-student").modal("toggle");
-            } else if (data == false){
+            } else if (data == false) {
                 alert("An error has occured :-(");
             }
             $("#banned-list").load(" #banned-list > *");
@@ -194,13 +208,15 @@ function pardonStudent(id) {
 function clearInput(id) {
     $(id).val("");
 }
-function hideAllTabs(){
+
+function hideAllTabs() {
     $("#students-tab").hide();
     $("#test-tab").hide();
     $("#announcement-tab").hide();
     $("#forum-tab").hide();
     $("#inner-nav-ul li").removeClass("selected-nav");
 }
+
 function showError(code) {
     switch (code) {
         case 1:
@@ -209,7 +225,8 @@ function showError(code) {
         case 2:
             $("#live-error2").show();
             break;
-
+        case 3:
+            $("#live-error3").show();
+            break;
     }
-
 }

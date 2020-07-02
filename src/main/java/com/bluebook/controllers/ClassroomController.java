@@ -50,6 +50,7 @@ public class ClassroomController {
         if(className == null || classDesc == null) return "redirect:/classrooms/new?error=1";
         if(className.length() <= 0 || className.length() > 60) return "redirect:/classrooms/new?error=1"; // classname requirements error
         if(classDesc.length() <= 0|| classDesc.length() > 500) return "redirect:/classrooms/new?error=2"; // classDesc requirements error
+        if(className.contains(";") || classDesc.contains(";")) return "redirect:/classrooms/new?error=5";
 
         int id = 0;
         while(classroomRepo.existsById(id)) id++;
