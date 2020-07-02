@@ -2,7 +2,10 @@ $(document).ready(function () {
 
     $("#test-name").on("keyup", function(){
         if($("#test-name").val().includes(";")) {
-            $("#semi-colon").modal('toggle');
+            $("#semicolon-modal").modal('toggle');
+            $("#newTestBtn").attr("disabled", "disabled");
+        } else {
+            $("#newTestBtn").removeAttr("disabled");
         }
     })
 

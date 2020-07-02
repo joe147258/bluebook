@@ -96,4 +96,16 @@ public class CreateTestRestController {
 
         return testService.changeFeedbackType(workingTest, newFbType);
     }
+
+    @PostMapping("/new/questions/{testId}/change-title")
+    public final Boolean changeTitle(@PathVariable int testId, @RequestParam String newTitle) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test test = testRepo.findById(testId);
+
+        if(test == null) return false;
+        if(user.getId() != test.getTestOwner().getId()) return false;
+
+        return testService.updateTestTitle(test, newTitle);
+    }
 }

@@ -43,7 +43,7 @@ public class TestService {
      * @param owner the owner of the test
      * @return returns the class id if it is successfully create, otherwise it returns -1
      */
-    public final int createNewTest(final Classroom classroom, final String name, final String type, CustomUser owner) {
+    public final int createNewTest(final Classroom classroom, final String name, final String type, final CustomUser owner) {
 
         if(!Arrays.stream(validTypes).parallel().anyMatch(type::contains)) 
             return -1; 
@@ -57,4 +57,18 @@ public class TestService {
 
         return id;
     }
+    /**
+     * 
+     * @param test the test to be changed
+     * @param newTitle the new title
+     * @return true if successful, else false
+     */
+    public final Boolean updateTestTitle(final Test test, final String newTitle) {
+        if(newTitle.contains(";")) return false;
+        test.setName(newTitle);
+        testRepo.save(test);
+        return true;
+    }
+
+
 }

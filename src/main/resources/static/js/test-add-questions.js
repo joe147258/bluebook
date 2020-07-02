@@ -139,6 +139,30 @@ function changeFeedbackType(fbType) {
         }
     })
 }
+
+function updateTestTitle() {
+    let newTitle = $("#change-title-input").val();
+    if(newTitle.includes(";")) {
+        $("#change-title").modal('toggle');
+        $("#semicolon-modal").modal('toggle');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: testId + "/change-title?newTitle=" + newTitle,
+        success: function (data) {
+            if(data == true) {
+                $("#title-container").load(" #title-container > * ")
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
 //these functions are used throughout the other functions
 function clearInput(id) {
     $(id).val("");
