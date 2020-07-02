@@ -1,5 +1,10 @@
 $(document).ready(function () {
 
+    $("#test-name").on("keyup", function(){
+        if($("#test-name").val().includes(";")) {
+            $("#semi-colon").modal('toggle');
+        }
+    })
 
     $("#add-student-form").submit(function (e) {
         e.preventDefault();
@@ -95,6 +100,10 @@ $(document).ready(function () {
 */
 function addStudent(username) {
     if (username.length == 0) return false;
+    if(username.includes(";")) {
+        $("#semicolon-modal").modal('toggle');
+        return false;
+    }
     $.ajax({
         type: "POST",
         url: "/teacher/add-student/" + encodeURIComponent(username) + "/" + classId,
