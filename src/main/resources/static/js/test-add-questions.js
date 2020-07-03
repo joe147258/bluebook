@@ -1,4 +1,15 @@
 $(document).ready(function() {
+
+    $("#change-title-input").on("keyup", function(){
+        if( $("#change-title-input").val().includes(";") ) {
+            $("#semicolon-error").show();
+            $("#change-title-btn").attr("disabled", "disabled");
+        } else {
+            $("#semicolon-error").hide();
+            $("#change-title-btn").removeAttr("disabled");
+        }
+    })
+
     $("#mc-question-form").submit(function (e) {
         e.preventDefault();
         addMultiChoiceQuestion();
@@ -142,17 +153,13 @@ function changeFeedbackType(fbType) {
 
 function updateTestTitle() {
     let newTitle = $("#change-title-input").val();
-    if(newTitle.includes(";")) {
-        $("#change-title").modal('toggle');
-        $("#semicolon-modal").modal('toggle');
-        return false;
-    }
     $.ajax({
         type: "POST",
         url: testId + "/change-title?newTitle=" + newTitle,
         success: function (data) {
             if(data == true) {
                 $("#title-container").load(" #title-container > * ")
+                $("#change-title").modal('toggle');
             } else if (data == false) {
                 alert("An error has occured :-(");
             }
