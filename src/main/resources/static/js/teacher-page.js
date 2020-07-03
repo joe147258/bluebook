@@ -1,11 +1,21 @@
 $(document).ready(function () {
+    $("#add-student-username").on("keyup", function(){
+        if( $("#add-student-username").val().includes(";") ){
+            $("#semicolon-error1").show();
+            $("#add-student-btn").attr("disabled", "disabled");
+        } else {
+            $("#semicolon-error1").hide();
+            $("#add-student-btn").removeAttr("disabled");
+        }
+    })
 
     $("#test-name").on("keyup", function(){
-        if($("#test-name").val().includes(";")) {
-            $("#semicolon-modal").modal('toggle');
+        if( $("#test-name").val().includes(";") ) {
+            $("#semicolon-error").show();
             $("#newTestBtn").attr("disabled", "disabled");
         } else {
             $("#newTestBtn").removeAttr("disabled");
+            $("#semicolon-error").hide();
         }
     })
 
@@ -104,7 +114,6 @@ $(document).ready(function () {
 function addStudent(username) {
     if (username.length == 0) return false;
     if(username.includes(";")) {
-        $("#semicolon-modal").modal('toggle');
         return false;
     }
     $.ajax({

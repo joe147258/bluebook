@@ -101,7 +101,7 @@ footer {
 }
 #student-list {
   width: 60%;
-  height: 450px;
+  max-height: 400px;
   overflow-y: scroll;
 }
 .settings-widget:hover{
