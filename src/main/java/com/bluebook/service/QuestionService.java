@@ -113,20 +113,30 @@ public class QuestionService {
      * @param questionString The question the user will see
      * @param correctAnswer The correct answer
      * @param distance This is how different the user's answer can be from correct answer. It
-     * uses levenshteins algorithm. TODO: Implement this.
+     * uses levenshteins algorithm. 
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
     public final Boolean createInputQuestion(final Test workingTest, final String questionString, 
-        final String correctAnswer, final int distance) {
+        final String correctAnswer, final String distance) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(correctAnswer.contains(";") || questionString.contains(";")) 
             return false;
 
+        int distanceInt;
+        try{
+            distanceInt = Integer.parseInt(distance);
+        }catch(Exception e) {
+            distanceInt = -1;
+            return false;
+        }
+
+        if(distanceInt < 0 || distanceInt > 5) return false;
+
         int id = 0;
         while(quesRepo.existsById(id)) id++;
-        InputQuestion question = new InputQuestion(id, workingTest, questionString, correctAnswer);
+        InputQuestion question = new InputQuestion(id, workingTest, questionString, correctAnswer, distanceInt);
 
         workingTest.getQuestions().add(question);
         quesRepo.save(question);

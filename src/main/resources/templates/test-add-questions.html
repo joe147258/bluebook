@@ -101,14 +101,24 @@
 
                 <button class="btn btn-primary btn-block mt-2">Add Question</button>
             </form>
-
+            <!--Input-->
             <form id="input-question-form" style="display: none;">
                 <p class="mb-1">Question:</p>
                 <input class="form-control question-input" type="input" placeholder="Question..."
-                    id="input-question-string" required>
+                    id="input-question-string" required >
                 <p class="mb-1">Correct Answer:</p>
                 <input class="form-control question-input" type="input" placeholder="Correct Answer..."
                     id="input-correct-answer" required />
+                <p class="mb-1">Answer Distance:</p> 
+                <div class="input-group mb-3">
+                    <input class="form-control question-input" type="number" 
+                    id="input-distance" min="0" max="5" value="3" required />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary btn-sm" style="display: inline-block;" data-toggle="modal" data-target="#distance-info">
+                            More Info
+                        </button>
+                    </div>
+                  </div>
                 <button class="btn btn-primary btn-block mt-2">Add Question</button>
             </form>
             <p id="ques-semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.</p>
@@ -188,6 +198,26 @@
                     </div>
                     <p id="semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.
                     </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="distance-info" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Input Distance</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This how different a students's answer can be to the correct answer.
+                    This is to prevent it being a spelling challenge. E.g. if the distance is set to 3, 
+                    and the correct answer is 'Switzerland' a user can type 'Switerzland' and still get the answer correct. 
+                    Setting the distance to 0 requires the student to type it out perfectly.
+                    The max distance is 5.
                 </div>
             </div>
         </div>

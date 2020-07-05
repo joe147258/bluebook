@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $("#change-title-input").on("keyup", function(){
-        if( $("#change-title-input").val().includes(";") ) {
+    $("#change-title-input").on("keyup", function () {
+        if ($("#change-title-input").val().includes(";")) {
             $("#semicolon-error").show();
             $("#change-title-btn").attr("disabled", "disabled");
         } else {
@@ -26,10 +26,10 @@ $(document).ready(function() {
         addInputQuestion();
     });
 
-    $("#question-type").change(function(){
+    $("#question-type").change(function () {
         let type = $(this).val();
         hideAllQuestionTabs();
-        switch(type) {
+        switch (type) {
             case "MULTI_CHOICE":
                 $("#mc-question-form").show();
                 break;
@@ -41,10 +41,10 @@ $(document).ready(function() {
                 break;
         }
     })
-    
-    $(".fb-btn").click(function(){
+
+    $(".fb-btn").click(function () {
         let newFbtype = $(this).val();
-        if(newFbtype == currentFbType) return false;
+        if (newFbtype == currentFbType) return false;
         changeFeedbackType(newFbtype);
 
     })
@@ -53,20 +53,20 @@ $(document).ready(function() {
 //functions to be used in document.ready
 function addMultiChoiceQuestion() {
     let incorrectAnswers = [
-        $("#mc-incorrect-answer1").val(), 
-        $("#mc-incorrect-answer2").val(), 
+        $("#mc-incorrect-answer1").val(),
+        $("#mc-incorrect-answer2").val(),
         $("#mc-incorrect-answer3").val()
-    ]; 
+    ];
 
     let questionString = $("#mc-question-string").val();
     let correctAnswer = $("#mc-correct-answer").val();
 
     $.ajax({
         type: "POST",
-        url: testId + "/add-multi-choice/"  + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer + 
+        url: testId + "/add-multi-choice/" + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer +
             "&incorrectAnswer1=" + incorrectAnswers[0] + "&incorrectAnswer2=" + incorrectAnswers[1] + "&incorrectAnswer3=" + incorrectAnswers[2],
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
                 $("#semicolon-warning").show();
@@ -92,9 +92,9 @@ function addTrueFalseQuestion() {
 
     $.ajax({
         type: "POST",
-        url: testId + "/add-true-false/"  + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer,
+        url: testId + "/add-true-false/" + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer,
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
                 $("#semicolon-warning").show();
@@ -113,12 +113,13 @@ function addInputQuestion() {
 
     let questionString = $("#input-question-string").val();
     let correctAnswer = $("#input-correct-answer").val();
+    let distance = $("#input-distance").val();
 
     $.ajax({
         type: "POST",
-        url: testId + "/add-input/"  + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer,
+        url: testId + "/add-input/" + "?questionString=" + questionString + "&correctAnswer=" + correctAnswer + "&distance=" + distance,
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
                 $("#semicolon-warning").show();
@@ -139,7 +140,7 @@ function changeFeedbackType(fbType) {
         type: "POST",
         url: testId + "/change-fbtype/" + fbType,
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 currentFbType = fbType;
                 $("#fb-type").html(fbType);
             } else if (data == false) {
@@ -158,7 +159,7 @@ function updateTestTitle() {
         type: "POST",
         url: testId + "/change-title?newTitle=" + newTitle,
         success: function (data) {
-            if(data == true) {
+            if (data == true) {
                 $("#title-container").load(" #title-container > * ")
                 $("#change-title").modal('toggle');
             } else if (data == false) {
@@ -171,7 +172,7 @@ function updateTestTitle() {
     })
 }
 
-function hideSemicolonWarning(){
+function hideSemicolonWarning() {
     $("#semicolon-warning").hide();
 }
 
@@ -179,7 +180,8 @@ function hideSemicolonWarning(){
 function clearInput(id) {
     $(id).val("");
 }
-function hideAllTabs(){
+
+function hideAllTabs() {
     $("#students-tab").hide();
     $("#test-tab").hide();
     $("#announcement-tab").hide();

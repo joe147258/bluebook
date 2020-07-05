@@ -81,7 +81,7 @@ public class CreateTestRestController {
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
 
         return questionService.createInputQuestion(workingTest,  
-            params.get("questionString"), params.get("correctAnswer"), 0);
+            params.get("questionString"), params.get("correctAnswer"), params.get("distance"));
     }
 
     @PostMapping("/new/questions/{testId}/change-fbtype/{newFbType}")
