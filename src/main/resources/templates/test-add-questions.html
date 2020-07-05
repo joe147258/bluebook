@@ -48,16 +48,22 @@
 
         <p class="mb-0">Feedback Type: <span id="fb-type" th:text="${workingTest.getFeedbackType()}"></span></p>
 
-        <div class="btn-group" role="group">
+        <div class="btn-group btn-block" role="group">
             <button class="btn btn-primary" data-toggle="modal" data-target="#change-title">
                 Change Title
             </button>
             <button class="btn btn-primary" data-toggle="modal" data-target="#feedback-type">
                 Change Feedback Type
             </button>
-          </div>
+        </div>
         <hr>
         <h3>Add a Question</h3>
+        <div id="semicolon-warning" class="alert alert-warning" style="display: none;">
+            Adding question failed. Please note: no fields can contain a semicolon.
+            <button type="button" class="close" onclick="hideSemicolonWarning()">
+                <span>&times;</span>
+            </button>
+        </div>
         <div class="form-group">
             <p class="mb-0">Question Type:</p>
             <select class="custom-select mt-2" id="question-type" required>
@@ -68,21 +74,25 @@
             <!--MULTI-CHOICE-->
             <form id="mc-question-form">
                 <p class="mb-1">Question:</p>
-                <input class="form-control" type="input" placeholder="Question..." id="mc-question-string" required>
+                <input class="form-control question-input" type="input" placeholder="Question..."
+                    id="mc-question-string" required>
                 <p class="mb-1">Correct Answer:</p>
-                <input class="form-control" type="input" placeholder="Correct answer" id="mc-correct-answer" required />
+                <input class="form-control question-input" type="input" placeholder="Correct answer"
+                    id="mc-correct-answer" required />
                 <p id="incorrect-title" class="mb-1">Incorrect Answers:</p>
                 <input class="form-control mb-2" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer1"
                     required />
-                <input class="form-control mb-2" type="input" placeholder="Incorrect answer"
+                <input class="form-control mb-2 question-input" type="input" placeholder="Incorrect answer"
                     id="mc-incorrect-answer2" />
-                <input class="form-control" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer3" />
+                <input class="form-control question-input" type="input" placeholder="Incorrect answer"
+                    id="mc-incorrect-answer3" />
                 <button class="btn btn-primary btn-block mt-2">Add Question</button>
             </form>
             <!--TRUE/FALSE-->
             <form id="tf-question-form" style="display: none;">
                 <p class="mb-1">Question:</p>
-                <input class="form-control" type="input" placeholder="Question..." id="tf-question-string" required>
+                <input class="form-control question-input" type="input" placeholder="Question..."
+                    id="tf-question-string" required>
                 <p class="mb-1">Correct Answer:</p>
                 <select class="custom-select mt-2" id="tf-correct-answer" required>
                     <option value="true" selected>True</option>
@@ -94,12 +104,14 @@
 
             <form id="input-question-form" style="display: none;">
                 <p class="mb-1">Question:</p>
-                <input class="form-control" type="input" placeholder="Question..." id="input-question-string" required>
+                <input class="form-control question-input" type="input" placeholder="Question..."
+                    id="input-question-string" required>
                 <p class="mb-1">Correct Answer:</p>
-                <input class="form-control" type="input" placeholder="Correct Answer..." id="input-correct-answer"
-                    required />
+                <input class="form-control question-input" type="input" placeholder="Correct Answer..."
+                    id="input-correct-answer" required />
                 <button class="btn btn-primary btn-block mt-2">Add Question</button>
             </form>
+            <p id="ques-semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.</p>
         </div>
 
         <hr>
@@ -144,7 +156,8 @@
                                 value="END_FEEDBACK">END_FEEDBACK</button> Student gets feedback immediately after the
                             test has finished. </li>
                         <li class="list-group-item"><button type="button" class="btn btn-primary fb-btn"
-                                value="MARKED_FEEDBACK">MARKED_FEEDBACK</button> You have to manually mark each test after
+                                value="MARKED_FEEDBACK">MARKED_FEEDBACK</button> You have to manually mark each test
+                            after
                             the student has finished.</li>
                         <li class="list-group-item"> <button type="button" class="btn btn-primary fb-btn"
                                 value="INSTANT_FEEDBACK">INSTANT_FEEDBACK</button> After each question the student is
@@ -166,12 +179,15 @@
                 </div>
                 <div class="modal-body modal-lg">
                     <div class="input-group mb-3">
-                        <input id="change-title-input" type="text" class="form-control" th:value="${workingTest.getName()}" placeholder="New Title" >
+                        <input id="change-title-input" type="text" class="form-control"
+                            th:value="${workingTest.getName()}" placeholder="New Title">
                         <div class="input-group-append">
-                          <button id="change-title-btn" class="btn btn-primary" type="button" onclick="updateTestTitle()">Change</button>
+                            <button id="change-title-btn" class="btn btn-primary" type="button"
+                                onclick="updateTestTitle()">Change</button>
                         </div>
-                      </div>
-                    <p id="semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon</p>
+                    </div>
+                    <p id="semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.
+                    </p>
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ $(document).ready(function() {
         }
     })
 
+
     $("#mc-question-form").submit(function (e) {
         e.preventDefault();
         addMultiChoiceQuestion();
@@ -68,7 +69,7 @@ function addMultiChoiceQuestion() {
             if(data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
-                alert("An error has occured :-(");
+                $("#semicolon-warning").show();
             }
         },
         error: function () {
@@ -96,7 +97,7 @@ function addTrueFalseQuestion() {
             if(data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
-                alert("An error has occured :-(");
+                $("#semicolon-warning").show();
             }
         },
         error: function () {
@@ -120,7 +121,7 @@ function addInputQuestion() {
             if(data == true) {
                 $("#question-list").load(" #question-list > *");
             } else if (data == false) {
-                alert("An error has occured :-(");
+                $("#semicolon-warning").show();
             }
         },
         error: function () {
@@ -168,6 +169,10 @@ function updateTestTitle() {
             alert("An error has occured :-(");
         }
     })
+}
+
+function hideSemicolonWarning(){
+    $("#semicolon-warning").hide();
 }
 
 //these functions are used throughout the other functions

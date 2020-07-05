@@ -49,6 +49,12 @@ public class QuestionService {
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(incorrectAnswers[0] == null || incorrectAnswers[0].length() == 0) return false;
 
+        if(correctAnswer.contains(";") 
+            || questionString.contains(";") 
+            || incorrectAnswers[0].contains(";")) {
+            return false;
+        } 
+
         int id = 0;
         while(quesRepo.existsById(id)) id++;
         MultiChoiceQuestion question = new MultiChoiceQuestion(id, workingTest, 
@@ -56,11 +62,17 @@ public class QuestionService {
 
         question.addAnswer(incorrectAnswers[0]);
         //these are only added if there is actual data contained in the array.
-        if(incorrectAnswers[1] != null || incorrectAnswers[1].length() != 0)
+        if(incorrectAnswers[1] != null || incorrectAnswers[1].length() != 0) {
+            if(incorrectAnswers[1].contains(";")) return false;
             question.addAnswer(incorrectAnswers[1]);
+        }
+            
 
-        if(incorrectAnswers[2] != null || incorrectAnswers[2].length() != 0)
+        if(incorrectAnswers[2] != null || incorrectAnswers[2].length() != 0) {
+            if(incorrectAnswers[2].contains(";")) return false;
             question.addAnswer(incorrectAnswers[2]);
+        }
+            
 
         workingTest.getQuestions().add(question);
         quesRepo.save(question);
@@ -81,6 +93,9 @@ public class QuestionService {
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(!Arrays.stream(bools).parallel().anyMatch(correctAnswer::contains)) return false;
+        if(correctAnswer.contains(";") || questionString.contains(";")) 
+            return false;
+        
 
         int id = 0;
         while(quesRepo.existsById(id)) id++;
@@ -106,7 +121,8 @@ public class QuestionService {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
-
+        if(correctAnswer.contains(";") || questionString.contains(";")) 
+            return false;
 
         int id = 0;
         while(quesRepo.existsById(id)) id++;
