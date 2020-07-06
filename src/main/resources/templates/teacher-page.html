@@ -153,7 +153,7 @@
                 <div class="button-holder">
                     <button class="btn btn-primary btn-block">See results</button>
                     <button class="btn btn-primary btn-block">See class performance</button>
-                    <button class="btn btn-primary btn-block">Reschdule publish date</button>
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#reschedule-test">Reschdule publish date</button>
                     <button class="btn btn-primary btn-block">Change Due Date</button>
                     <button class="btn btn-warning btn-block">Edit Test</button>
                     <!--thinking about making this a seperate page-->
@@ -308,6 +308,30 @@
                         <li>They may join via the join code again.</li>
                         <li>You can add them again.</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reschedule-test" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rescheduing a quiz.</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reschedule-form">
+                        <h5>Publication date:</h5>
+                        <input class="form-control mb-2" id="scheduledDate" type="date" required/>
+                        <h5>Publication time:</h5>
+                        <input class="form-control" id="scheduledTime" type="time" required />
+                        <button class="btn btn-primary btn-block mt-2" style="display: block;">
+                            Schedule Publication
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ import com.bluebook.repositories.ClassroomRepository;
 import com.bluebook.repositories.TestRepository;
 import com.bluebook.repositories.UserRepository;
 import com.bluebook.service.TeacherService;
+import com.bluebook.service.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,8 @@ public class TeacherRestController {
     ClassroomRepository classroomRepo;
     @Autowired
     TeacherService teacherService;
+    @Autowired
+    TestService testService;
 
 
     @PostMapping("/add-student/{username}/{classId}")
@@ -122,6 +125,19 @@ public class TeacherRestController {
         if("STUDENT".equals(user.getRole())) return false;
         if(classroom.getClassOwner().getId() != user.getId()) return false;
 
-        return teacherService.PardonStudent(classroom, studentId);
+        return teacherService.pardonStudent(classroom, studentId);
+    }
+
+    @PostMapping("/reschedule-test/{testId}")
+    public final Boolean rescheduleTest(@PathVariable final int testId, @RequestParam String date, 
+        @RequestParam String time) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test test = testRepo.findById(testId);
+        if(test == null) return false;
+        if("STUDENT".equals(user.getRole())) return false;
+        if(test.getTestOwner().getId() != user.getId()) return false;
+
+        return testService.scheduleTest(testId, date, time);
     }
 }

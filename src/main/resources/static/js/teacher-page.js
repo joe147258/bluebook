@@ -1,4 +1,6 @@
+var workingTestId = -1; //TODO: think of another way
 $(document).ready(function () {
+
     $("#add-student-username").on("keyup", function(){
         if( $("#add-student-username").val().includes(";") ){
             $("#semicolon-error1").show();
@@ -21,7 +23,16 @@ $(document).ready(function () {
 
     $("#add-student-form").submit(function (e) {
         e.preventDefault();
-        addStudent($("#add-student-username").val());
+        addStudent($("#add-student-username").val()); 
+    });
+
+    $("#reschedule-form").submit(function (e) {
+        e.preventDefault();
+        let date = $("#scheduledDate").val();
+        let time = $("#scheduledTime").val();
+        let testId = workingTestId;
+        rescheduleTest(testId, date, time);
+
     });
 
     $("#filterStudents").on("keyup", function () {
@@ -111,6 +122,27 @@ $(document).ready(function () {
     Below are functions, these are called through the document.ready scope
     above.
 */
+function rescheduleTest(testId, date, time) {
+    alert("here");
+    $.ajax({
+        type: "POST",
+        url: "/teacher/reschedule-test/" + testId + "?time=" + time + "&date=" + date,
+        success: function (data) {
+            if (data == true) {
+
+            } else {
+                
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        },
+        complete: function () {
+            clearInput("#add-student-username");
+        }
+    })
+}
+
 function addStudent(username) {
     if (username.length == 0) return false;
     if(username.includes(";")) {
@@ -177,6 +209,7 @@ function selectStudent(id) {
 }
 
 function selectTest(id) {
+    workingTestId = id;
     $.ajax({
         type: "GET",
         url: "/teacher/get-test-info/" + id,
