@@ -2,6 +2,7 @@ package com.bluebook.service;
 
 import java.util.Arrays;
 
+
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
 import com.bluebook.domain.Test;
@@ -9,6 +10,7 @@ import com.bluebook.repositories.TestRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -70,5 +72,10 @@ public class TestService {
         return true;
     }
 
+    public final Boolean publishTest(final Test test) {
+        test.setPublished(true);
+        testRepo.save(test);
+        return true;
+    }
 
 }

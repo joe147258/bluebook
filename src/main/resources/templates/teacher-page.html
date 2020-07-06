@@ -111,8 +111,10 @@
                 <div class="form-group">
                     <form action="../../tests/new" method="POST">
                         <p class="mb-0">Test Name:</p>
-                        <input id="test-name" class="form-control" type="input" placeholder="Test Name..." name="name" required>
-                        <p id="semicolon-error" style="color: red; display: none;">This field cannot contain a semicolon.</p>
+                        <input id="test-name" class="form-control" type="input" placeholder="Test Name..." name="name"
+                            required>
+                        <p id="semicolon-error" style="color: red; display: none;">This field cannot contain a
+                            semicolon.</p>
                         <p class="mb-0">Feedback Type:</p>
                         <select class="custom-select mt-2" required name="type">
                             <option value="END_FEEDBACK" selected>Feedback immediately after test has finished.</option>
@@ -140,8 +142,16 @@
                 <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Delete
                     Test</button>
             </div>
-            <h5>List of Tests</h5>
-            <h5>List of Tests After Deadline</h5>
+            <div style="width: 60%;">
+                <h3>Published Tests</h3>
+                <ul class="list-group">
+                    <li th:each="test: ${classroom.getTests()}" class="list-group-item student-list-item">
+                        <span th:text="${test.getName()}"></span> ,
+                        <span th:text="${test.getPublished()}"></span>
+                        <i class="material-icons right-hand-icon">text_snippet</i>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div id="announcement-tab" style="display: none;">
             sdf1
@@ -312,7 +322,8 @@
                                 length is 60. </p>
                             <p id='live-error2' style='color: red; display: none;'> The description is too long. Max
                                 character length is 500. </p>
-                            <p id='live-error3' style='color: red; display: none;'> Class Name or Description cannot contain a semi colon. </p>
+                            <p id='live-error3' style='color: red; display: none;'> Class Name or Description cannot
+                                contain a semi colon. </p>
                         </div>
                     </form>
                 </div>

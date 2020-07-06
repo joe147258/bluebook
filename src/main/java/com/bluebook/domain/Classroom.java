@@ -135,5 +135,13 @@ public class Classroom {
         this.bannedUsers = bannedUsers;
     }
 
+    public List<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
+    }
+
     
 }

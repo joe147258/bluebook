@@ -3,6 +3,7 @@ package com.bluebook.controllers;
 
 import java.util.Map;
 
+
 import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
@@ -34,6 +35,7 @@ public class CreateTestController {
     TestRepository testRepo;
     @Autowired
     TestService testService;
+    
 
     @PostMapping(value="/new")
     public final String newTest(@RequestParam final Map<String,String> params) {
@@ -60,11 +62,41 @@ public class CreateTestController {
         Test workingTest = testRepo.findById(testId);
         if(workingTest == null) return "redirect:/server-problem";
         if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
+        if(workingTest.getPublished()) return "redirect:/permission-denied";
 
         model.addAttribute("user", user);
         model.addAttribute("workingTest", workingTest);
 
         return "test-add-questions"; 
+    }
+
+    @GetMapping(value="/publish-test/{testId}")
+    public final String publishTest(@PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
+
+        if(workingTest == null) return "redirect:/server-problem";
+        if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
+
+        testService.publishTest(workingTest);
+
+        return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
+    }
+
+    @GetMapping(value="/schedule-test/{testId}")
+    public final String scheduleTest(@PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
+
+        if(workingTest == null) return "redirect:/server-problem";
+        if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
+        
+
+
+
+        return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
     }
 
     

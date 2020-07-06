@@ -32,6 +32,9 @@ public class Test {
     private List<TestQuestion> questions = new ArrayList<TestQuestion>();
 
     private Boolean published;
+
+    private Boolean scheduled;
+    
     
     public Test() {
 
@@ -43,6 +46,7 @@ public class Test {
         this.testOwner = testOwner;
         this.classroom = classroom;
         this.published = false;
+        this.scheduled = false;
     }
 
     public int getId() {
@@ -101,6 +105,14 @@ public class Test {
 
     public void setPublished(Boolean published) {
         this.published = published;
+    }
+
+    public Boolean getScheduled() {
+        return scheduled;
+    }
+
+    public void setScheduled(Boolean scheduled) {
+        this.scheduled = scheduled;
     }
 
 
