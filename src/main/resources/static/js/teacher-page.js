@@ -123,15 +123,14 @@ $(document).ready(function () {
     above.
 */
 function rescheduleTest(testId, date, time) {
-    alert("here");
     $.ajax({
         type: "POST",
         url: "/teacher/reschedule-test/" + testId + "?time=" + time + "&date=" + date,
         success: function (data) {
             if (data == true) {
-
+                $("#reschedule-test").modal('toggle');
             } else {
-                
+                $("#error-alert1").show();
             }
         },
         error: function () {
@@ -305,4 +304,7 @@ function showError(code) {
             $("#live-error3").show();
             break;
     }
+}
+function hideErrorAlert() {
+    $("#error-alert1").hide();
 }
