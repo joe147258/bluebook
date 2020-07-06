@@ -13,6 +13,7 @@ import com.bluebook.repositories.TestRepository;
 import com.bluebook.repositories.UserRepository;
 import com.bluebook.service.TestService;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ public class CreateTestController {
     TestRepository testRepo;
     @Autowired
     TestService testService;
+
     
 
     @PostMapping(value="/new")
@@ -84,8 +86,9 @@ public class CreateTestController {
         return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
     }
 
-    @GetMapping(value="/schedule-test/{testId}")
-    public final String scheduleTest(@PathVariable final int testId) {
+    @PostMapping(value="/schedule-test/{testId}")
+    public final String scheduleTest(@PathVariable final int testId, @RequestParam String scheduledDate,
+        @RequestParam String scheduledTime) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Test workingTest = testRepo.findById(testId);
@@ -93,11 +96,13 @@ public class CreateTestController {
         if(workingTest == null) return "redirect:/server-problem";
         if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
         
-
-
-
-        return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
+        if(testService.scheduleTest(testId, scheduledDate, scheduledTime))
+            return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
+        else
+            return "redirect:/tests/new/questions/" + testId + "?error=1";//TODO: IMPLEMENT AN ERROR MESSAGE (be date error) and then implement rescheduling
     }
+
+ 
 
     
     

@@ -92,7 +92,6 @@ public class CreateTestRestController {
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
-        if(workingTest.getPublished()) return false;
         if(newFbType.equals(workingTest.getFeedbackType())) return false;
 
         return testService.changeFeedbackType(workingTest, newFbType);
