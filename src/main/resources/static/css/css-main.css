@@ -123,3 +123,6 @@ footer {
 .fb-btn {
   width: 190px;
 }
+#hide-ques:hover {
+  cursor: pointer;
+}

@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    var error = getUrlParameter('error');
+    if(error != "") showError(parseInt(error));
+
     $("#change-title-input").on("keyup", function () {
         if ($("#change-title-input").val().includes(";")) {
             $("#semicolon-error").show();
@@ -10,6 +13,17 @@ $(document).ready(function () {
         }
     })
 
+    $("#hide-ques").click(function(){
+        let icon = $("#hide-ques").html();
+        if(icon == "keyboard_arrow_up"){
+            $("#question-form-container").hide();
+            $("#hide-ques").html("keyboard_arrow_down");
+        } else {
+            $("#question-form-container").show();
+            $("#hide-ques").html("keyboard_arrow_up");
+        }
+        
+    })
 
     $("#mc-question-form").submit(function (e) {
         e.preventDefault();
@@ -176,6 +190,10 @@ function hideSemicolonWarning() {
     $("#semicolon-warning").hide();
 }
 
+function hideErrorAlert() {
+    $("#error-alert1").hide();
+}
+
 //these functions are used throughout the other functions
 function clearInput(id) {
     $(id).val("");
@@ -193,4 +211,29 @@ function hideAllQuestionTabs() {
     $("#mc-question-form").hide();
     $("#tf-question-form").hide();
     $("#input-question-form").hide();
+}
+
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+}
+
+function showError(code) {
+    switch (code) {
+        case 1:
+            $("#error-alert1").show();
+            break;
+
+    }
+
 }
