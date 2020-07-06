@@ -104,8 +104,6 @@ public class TestService {
                  * This is a short segment of code to ensure
                  * that checks that the scheduled time is still the same time (within a minute).
                  * If it isn't the code won't change the test's published status.
-                 * //TODO: this currently works when rescheduling a quiz earlier than the origin due
-                 * date but not after... look into this logic. do some prints in time task to indentidy
                  */
                 Date now = new Date();
                 long MAX_DURATION = MILLISECONDS.convert(1, MINUTES);
