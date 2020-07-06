@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import static java.util.concurrent.TimeUnit.*;
 
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
@@ -90,15 +91,33 @@ public class TestService {
     }
 
     public final Boolean scheduleTest(final int testId, final String date, final String time) {
-
+        Test workingTest = testRepo.findById(testId);
+        /**
+         * This time task is run from the date that is taken
+         * from user input and it parsed in the try catch below.
+         * therefore, everything inside of the run with run at the given date.
+         */
         TimerTask task = new TimerTask() {
             public void run() {
-                testRepo.updatePublished(true, testId);
+                Test test = testRepo.findById(testId);
+                /**
+                 * This is a short segment of code to ensure
+                 * that checks that the scheduled time is still the same time (within a minute).
+                 * If it isn't the code won't change the test's published status.
+                 */
+                Date now = new Date();
+                long MAX_DURATION = MILLISECONDS.convert(1, MINUTES);
+                long duration = now.getTime() - test.getScheduledFor().getTime();
+                if (duration <= MAX_DURATION) {
+                    testRepo.updatePublished(true, testId);
+                } 
             }
         };
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date scheduledFor = sdf.parse(date + " " + time);
+            workingTest.setScheduledFor(scheduledFor);
+            testRepo.save(workingTest);
             if(scheduledFor.before(new Date())) return false;
             timer.schedule(task, scheduledFor);
             return true;

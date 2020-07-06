@@ -128,13 +128,33 @@
             </div>
             <div id="selected-test" class="large-selected-box">
                 <h5 class="mt-4" id="selected-test-name">No test selected</h5>
-                <p>Scheduled for... </p>
-                <p>Due... </p>
-                <p>User's compeleted it:</p>
-                <p>Type: </p>
+                <table class="table table-bordered" style="width: 100%;">
+                    <tr>
+                        <td>Published:</td>
+                        <td id="td-published">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Scheduled for:</td>
+                        <td id="td-scheduled">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Due date:</td>
+                        <td id="td-duedate">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Users Completed:</td>
+                        <td id="td-completed">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Feedback Type:</td>
+                        <td id="td-feedback">N/A</td>
+                    </tr>
+                </table>
                 <div class="button-holder">
                     <button class="btn btn-primary btn-block">See results</button>
                     <button class="btn btn-primary btn-block">See class performance</button>
+                    <button class="btn btn-primary btn-block">Reschdule publish date</button>
+                    <button class="btn btn-primary btn-block">Change Due Date</button>
                     <button class="btn btn-warning btn-block">Edit Test</button>
                     <!--thinking about making this a seperate page-->
                 </div>
@@ -145,7 +165,8 @@
             <div style="width: 60%;">
                 <h3>Published Tests</h3>
                 <ul class="list-group">
-                    <li th:each="test: ${classroom.getTests()}" class="list-group-item student-list-item">
+                    <li th:each="test: ${classroom.getTests()}" th:onclick="'selectTest(' + ${test.getId()} + ')'"
+                        class="list-group-item student-list-item">
                         <span th:text="${test.getName()}"></span> ,
                         <span th:text="${test.getPublished()}"></span>
                         <i class="material-icons right-hand-icon">text_snippet</i>

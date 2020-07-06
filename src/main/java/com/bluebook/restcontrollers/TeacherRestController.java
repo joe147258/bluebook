@@ -1,11 +1,14 @@
 package com.bluebook.restcontrollers;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
+import com.bluebook.domain.Test;
 import com.bluebook.repositories.ClassroomRepository;
+import com.bluebook.repositories.TestRepository;
 import com.bluebook.repositories.UserRepository;
 import com.bluebook.service.TeacherService;
 
@@ -24,6 +27,8 @@ public class TeacherRestController {
     
     @Autowired
     UserRepository userRepo;
+    @Autowired
+    TestRepository testRepo;
     @Autowired
     ClassroomRepository classroomRepo;
     @Autowired
@@ -56,6 +61,7 @@ public class TeacherRestController {
 
         return teacherService.updateClassDetails(classroom, className, classDesc);
     }
+
     @GetMapping("/get-student-info/{studentId}")
     public final Object getStudentInfo(@PathVariable final int studentId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -68,6 +74,28 @@ public class TeacherRestController {
         returnMap.put("username", student.getUsername());
         returnMap.put("fullName", student.getFirstName() + " " + student.getLastName());
         returnMap.put("id", student.getId());
+        return returnMap;
+    }
+
+    @GetMapping("/get-test-info/{testId}")
+    public final Object getTestInfo(@PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        //authentication
+        final Test workingTest = testRepo.findById(testId);
+        if("STUDENT".equals(user.getRole())) return false;
+        if(workingTest.getTestOwner().getId() != user.getId()) return false;
+
+        HashMap<String, Object> returnMap = new HashMap<String, Object>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy - h:mm a");
+        
+        returnMap.put("id", workingTest.getId());
+        returnMap.put("name", workingTest.getName());
+        returnMap.put("published", workingTest.getPublished().toString());
+        returnMap.put("scheduled", sdf.format(workingTest.getScheduledFor()));
+        returnMap.put("duedate", sdf.format(workingTest.getDueDate()));
+        returnMap.put("completedUsers", 0); //TODO: implement
+        returnMap.put("fbType", workingTest.getFeedbackType());
         return returnMap;
     }
 

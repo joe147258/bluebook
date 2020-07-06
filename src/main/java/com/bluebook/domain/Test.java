@@ -1,6 +1,7 @@
 package com.bluebook.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -34,6 +35,10 @@ public class Test {
     private Boolean published;
 
     private Boolean scheduled;
+
+    private Date scheduledFor;
+
+    private Date dueDate;
     
     
     public Test() {
@@ -47,6 +52,7 @@ public class Test {
         this.classroom = classroom;
         this.published = false;
         this.scheduled = false;
+        this.dueDate = new Date(); //TODO: temp to stop errors.
     }
 
     public int getId() {
@@ -114,6 +120,24 @@ public class Test {
     public void setScheduled(Boolean scheduled) {
         this.scheduled = scheduled;
     }
+
+    public Date getScheduledFor() {
+        return scheduledFor;
+    }
+
+    public void setScheduledFor(Date scheduledFor) {
+        this.scheduledFor = scheduledFor;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+
 
 
 }

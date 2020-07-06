@@ -176,6 +176,28 @@ function selectStudent(id) {
     })
 }
 
+function selectTest(id) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/get-test-info/" + id,
+        success: function (data) {
+            if (data == false) {
+                alert("An error has occured :-(");
+                return false;
+            }
+            $("#selected-test-name").html(data.name);
+            $("#td-published").html(data.published);
+            $("#td-scheduled").html(data.scheduled);
+            $("#td-duedate").html(data.duedate);
+            $("#td-completed").html(data.completedUsers);
+            $("#td-feedback").html(data.fbType);
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
 function removeStudent(id) {
     var url = "/teacher/kick-student/" + id + "/" + classId + "?ban=";
     if ($("#ban-user").prop("checked") == true) {
