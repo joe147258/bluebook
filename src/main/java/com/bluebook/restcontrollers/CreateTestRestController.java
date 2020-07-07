@@ -108,4 +108,16 @@ public class CreateTestRestController {
 
         return testService.updateTestTitle(test, newTitle);
     }
+
+    @PostMapping("/new/questions/{testId}/set-due")
+    public final Boolean setDuedate(@PathVariable int testId, @RequestParam String date, @RequestParam String time) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test test = testRepo.findById(testId);
+
+        if(test == null) return false;
+        if(user.getId() != test.getTestOwner().getId()) return false;
+
+        return testService.setDueDate(test, date, time);
+    }
 }

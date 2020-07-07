@@ -95,8 +95,16 @@ public class TeacherRestController {
         returnMap.put("id", workingTest.getId());
         returnMap.put("name", workingTest.getName());
         returnMap.put("published", workingTest.getPublished().toString());
-        returnMap.put("scheduled", sdf.format(workingTest.getScheduledFor()));
-        returnMap.put("duedate", sdf.format(workingTest.getDueDate()));
+        if(workingTest.getScheduledFor() != null){
+            returnMap.put("scheduled", sdf.format(workingTest.getScheduledFor()));
+        } else {
+            returnMap.put("scheduled", "N/A");
+        }
+        if(workingTest.getDueDate() != null){
+            returnMap.put("duedate", sdf.format(workingTest.getDueDate()));
+        } else {
+            returnMap.put("duedate", "N/A");
+        }
         returnMap.put("completedUsers", 0); //TODO: implement
         returnMap.put("fbType", workingTest.getFeedbackType());
         return returnMap;
@@ -139,5 +147,29 @@ public class TeacherRestController {
         if(test.getTestOwner().getId() != user.getId()) return false;
 
         return testService.scheduleTest(testId, date, time);
+    }
+
+    @PostMapping("/hide-test/{testId}")
+    public final Boolean hideTest(@PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test test = testRepo.findById(testId);
+        if(test == null) return false;
+        if("STUDENT".equals(user.getRole())) return false;
+        if(test.getTestOwner().getId() != user.getId()) return false;
+
+        return testService.hideTest(test);
+    }
+
+    @PostMapping("/show-test/{testId}")
+    public final Boolean showTest(@PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test test = testRepo.findById(testId);
+        if(test == null) return false;
+        if("STUDENT".equals(user.getRole())) return false;
+        if(test.getTestOwner().getId() != user.getId()) return false;
+
+        return testService.publishTest(test);
     }
 }

@@ -1,5 +1,11 @@
 var workingTestId = -1; //TODO: think of another way
 $(document).ready(function () {
+    $("#hide-test-confirm").click(function(){
+        hideTest(workingTestId);
+    })
+    $("#show-test-confirm").click(function(){
+        showTest(workingTestId);
+    })
 
     $("#add-student-username").on("keyup", function(){
         if( $("#add-student-username").val().includes(";") ){
@@ -25,6 +31,7 @@ $(document).ready(function () {
         e.preventDefault();
         addStudent($("#add-student-username").val()); 
     });
+
 
     $("#reschedule-form").submit(function (e) {
         e.preventDefault();
@@ -185,7 +192,42 @@ function updateTitle(title, desc) {
         }
     })
 }
-//thes functions is called by an onclick
+
+function hideTest(testId) {
+    $.ajax({
+        type: "POST",
+        url: "/teacher/hide-test/" + testId,
+        success: function (data) {
+            if (data == true) {
+                $("#hide-test").modal('toggle');
+
+            } else {
+                alert("An error has occured :-(")
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+function showTest(testId) {
+    $.ajax({
+        type: "POST",
+        url: "/teacher/show-test/" + testId,
+        success: function (data) {
+            if (data == true) {
+                $("#show-test").modal('toggle');
+
+            } else {
+                alert("An error has occured :-(")
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+//thes functions are called by an onclick
 function selectStudent(id) {
     $.ajax({
         type: "GET",
@@ -208,7 +250,6 @@ function selectStudent(id) {
 }
 
 function selectTest(id) {
-    workingTestId = id;
     $.ajax({
         type: "GET",
         url: "/teacher/get-test-info/" + id,
@@ -217,6 +258,7 @@ function selectTest(id) {
                 alert("An error has occured :-(");
                 return false;
             }
+            workingTestId = id;
             $("#selected-test-name").html(data.name);
             $("#td-published").html(data.published);
             $("#td-scheduled").html(data.scheduled);

@@ -154,21 +154,24 @@
                     <button class="btn btn-primary btn-block">See results</button>
                     <button class="btn btn-primary btn-block">See class performance</button>
                     <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#reschedule-test">Reschdule publish date</button>
-                    <button class="btn btn-primary btn-block">Change Due Date</button>
-                    <button class="btn btn-warning btn-block">Edit Test</button>
-                    <!--thinking about making this a seperate page-->
+                    <button class="btn btn-primary btn-block">Change due date</button>
+                    <button class="btn btn-warning btn-block">Edit test</button>
+                    <div class="btn-group btn-block">
+                        <button style="width: 50%;" class="btn btn-primary" data-toggle="modal" data-target="#show-test">Publish</button>
+                        <button style="width: 50%;" class="btn btn-warning" data-toggle="modal" data-target="#hide-test">Hide</button>
+                    </div>
+                    
+                    <button class="btn btn-danger btn-block mt-2">Delete test</button>
                 </div>
                 <hr>
-                <button class="btn btn-danger mb-2" data-toggle="modal" data-target="#remove-student-modal">Delete
-                    Test</button>
+
             </div>
             <div style="width: 60%;">
                 <h3>Published Tests</h3>
                 <ul class="list-group">
                     <li th:each="test: ${classroom.getTests()}" th:onclick="'selectTest(' + ${test.getId()} + ')'"
                         class="list-group-item student-list-item">
-                        <span th:text="${test.getName()}"></span> ,
-                        <span th:text="${test.getPublished()}"></span>
+                        <span th:text="${test.getName()}"></span>
                         <i class="material-icons right-hand-icon">text_snippet</i>
                     </li>
                 </ul>
@@ -332,11 +335,55 @@
                             Schedule Publication
                         </button>
                     </form>
-                    <div id="error-alert1" class="alert alert-warning mt-1" style="display: none;">
+                    <div id="error-alert1" class="alert alert-warning mt-2" style="display: none;">
                         Ensure the date and time you selected is in the <b>future</b>.
                         <button type="button" class="close" onclick="hideErrorAlert()">
                             <span>&times;</span>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hide-test" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to hide this test?</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Hiding this test means student's will no longer be able to see it. 
+                    This is not reccomended if student's have already completed this test as
+                    a test can only have its score recorded once.
+                    <div class="btn-group btn-block mt-2" >
+                        <button type="button" class="btn btn-danger" id="hide-test-confirm" style="width: 50%;">Hide Test</button>
+                        <button type="button" class="btn btn-warning" style="width: 50%;"
+                            data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="show-test" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to show this test?</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This test will now become visible to all students in the class.
+                    <div class="btn-group btn-block mt-2">
+                        <button type="button" class="btn btn-success" id="show-test-confirm" style="width: 50%;">Publish Test</button>
+                        <button type="button" class="btn btn-warning" style="width: 50%;"
+                            data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>

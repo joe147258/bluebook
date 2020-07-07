@@ -13,6 +13,13 @@ $(document).ready(function () {
         }
     })
 
+    $("#dueform").submit(function (e) {
+        e.preventDefault();
+        let duedate = $("#dueDate").val();
+        let duetime = $("#dueTime").val();
+        setDueDate(duedate, duetime);
+    });
+
     $("#hide-ques").click(function(){
         let icon = $("#hide-ques").html();
         if(icon == "keyboard_arrow_up"){
@@ -176,6 +183,24 @@ function updateTestTitle() {
             if (data == true) {
                 $("#title-container").load(" #title-container > * ")
                 $("#change-title").modal('toggle');
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
+function setDueDate(duedate, duetime) {
+    $.ajax({
+        type: "POST",
+        url: testId + "/set-due?date=" + duedate + "&time=" + duetime, 
+        success: function (data) {
+            if (data == true) {
+                $("#saved-due").show();
+                $("#save-due").fadeOut();
             } else if (data == false) {
                 alert("An error has occured :-(");
             }

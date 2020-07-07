@@ -66,8 +66,18 @@
             </button>
         </div>
         <hr>
+        <h4>Due Date:</h4>
+        <form id="dueform" style="width: 60%;" th:action="'/tests/set-duedate/' + ${workingTest.getId()}" method="POST">
+            <input class="form-control mb-2" id="dueDate" type="date" required/>
+            <h5>Due time:</h5>
+            <input class="form-control" id="dueTime" type="time" required />
+            <button class="btn btn-primary btn-block mt-2" style="display: block;">
+                Save due date.
+            </button>
+            <p id="saved-due" style="display: none; color: green;">Successfully updated.</p>
+        </form>
         <i class="material-icons right-hand-icon" id="hide-ques">keyboard_arrow_up</i>
-        <h3 style="width: 80%;">Add a Question</h3> 
+        <h4 style="width: 80%;">Add a Question</h4> 
         <div id="semicolon-warning" class="alert alert-warning" style="display: none;">
             Adding question failed. Please note: no fields can contain a semicolon.
             <button type="button" class="close" onclick="hideSemicolonWarning()">
@@ -135,7 +145,8 @@
         </div>
 
         <hr>
-        <h3>Questions:</h3>
+
+        <h4>Questions:</h4>
         <ul class="list-group" id="question-list">
             <li th:each="question: ${workingTest.getQuestions()}" class="list-group-item">
                 <div class="right-hand-icon">

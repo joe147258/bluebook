@@ -52,7 +52,6 @@ public class Test {
         this.classroom = classroom;
         this.published = false;
         this.scheduled = false;
-        this.dueDate = new Date(); //TODO: temp to stop errors.
     }
 
     public int getId() {

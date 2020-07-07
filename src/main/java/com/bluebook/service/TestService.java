@@ -90,6 +90,12 @@ public class TestService {
         return true;
     }
 
+    public final Boolean hideTest(final Test test) {
+        test.setPublished(false);
+        testRepo.save(test);
+        return true;
+    }
+
     public final Boolean scheduleTest(final int testId, final String date, final String time) {
         Test workingTest = testRepo.findById(testId);
         /**
@@ -125,4 +131,17 @@ public class TestService {
             return false;
         }
     } 
+
+    public final Boolean setDueDate(final Test workingTest, final String date, final String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date dueDate = sdf.parse(date + " " + time);
+            workingTest.setDueDate(dueDate);
+            testRepo.save(workingTest);
+            if(dueDate.before(new Date())) return false;
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }
