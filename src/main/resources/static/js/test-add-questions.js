@@ -200,7 +200,7 @@ function setDueDate(duedate, duetime) {
         success: function (data) {
             if (data == true) {
                 $("#saved-due").show();
-                $("#save-due").fadeOut();
+                $("#saved-due").delay(3000).fadeOut();
             } else if (data == false) {
                 alert("An error has occured :-(");
             }
@@ -209,6 +209,10 @@ function setDueDate(duedate, duetime) {
             alert("An error has occured :-(");
         }
     })
+}
+
+function editQuestion() {
+    //TODO:
 }
 
 function hideSemicolonWarning() {

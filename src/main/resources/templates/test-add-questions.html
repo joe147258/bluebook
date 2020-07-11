@@ -55,27 +55,21 @@
         <p class="mb-0">Feedback Type: <span id="fb-type" th:text="${workingTest.getFeedbackType()}"></span></p>
 
         <div class="btn-group btn-block" role="group">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#change-title">
-                Change Title
+            <button class="btn btn-primary" data-toggle="modal" data-target="#change-title" style="width: 20%;">
+                Change title
             </button>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#feedback-type">
-                Change Feedback Type
+            <button class="btn btn-primary" data-toggle="modal" data-target="#feedback-type" style="width: 20%;">
+                Change feedback type
             </button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#publish-test">
-                Publish Test
+            <button class="btn btn-primary" data-toggle="modal" data-target="#set-due-modal" style="width: 20%;">
+                Set due date
             </button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#publish-test" style="width: 20%;">
+                Publish test
+            </button>
+            
         </div>
         <hr>
-        <h4>Due Date:</h4>
-        <form id="dueform" style="width: 60%;" th:action="'/tests/set-duedate/' + ${workingTest.getId()}" method="POST">
-            <input class="form-control mb-2" id="dueDate" type="date" required/>
-            <h5>Due time:</h5>
-            <input class="form-control" id="dueTime" type="time" required />
-            <button class="btn btn-primary btn-block mt-2" style="display: block;">
-                Save due date.
-            </button>
-            <p id="saved-due" style="display: none; color: green;">Successfully updated.</p>
-        </form>
         <i class="material-icons right-hand-icon" id="hide-ques">keyboard_arrow_up</i>
         <h4 style="width: 80%;">Add a Question</h4> 
         <div id="semicolon-warning" class="alert alert-warning" style="display: none;">
@@ -150,8 +144,8 @@
         <ul class="list-group" id="question-list">
             <li th:each="question: ${workingTest.getQuestions()}" class="list-group-item">
                 <div class="right-hand-icon">
-                    <a th:href="'/edit/' + ${question.getId()}"><i class="material-icons text-muted">edit</i></a>
-                    <a th:href="'/delete/' + ${question.getId()}"><i class="material-icons text-muted">delete</i></a>
+                    <a class="cus-icon" th:onclick="'editQuestion(' + ${question.getId()} + ')'"> <i class="material-icons">edit</i></a>
+                    <a class="cus-icon"><i class="material-icons">delete</i></a>
                 </div>
                 <table class="table mb-0" style="width: 80%;">
                     <tbody>
@@ -292,6 +286,30 @@
                         <button class="btn btn-primary btn-block mt-2" style="display: block;">
                             Schedule Publication
                         </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="set-due-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Due Date:</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="dueform">
+                        <input class="form-control mb-2" id="dueDate" type="date" required/>
+                        <h5>Due time:</h5>
+                        <input class="form-control" id="dueTime" type="time" required />
+                        <button class="btn btn-primary btn-block mt-2" style="display: block;">
+                            Save due date.
+                        </button>
+                        <p class="mb-0" id="saved-due" style="display: none; color: green;">Successfully set.</p>
                     </form>
                 </div>
             </div>

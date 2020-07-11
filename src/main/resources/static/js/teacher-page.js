@@ -17,6 +17,13 @@ $(document).ready(function () {
         }
     })
 
+    $("#dueform").submit(function (e) {
+        e.preventDefault();
+        let duedate = $("#dueDate").val();
+        let duetime = $("#dueTime").val();
+        setDueDate(duedate, duetime);
+    });
+
     $("#test-name").on("keyup", function(){
         if( $("#test-name").val().includes(";") ) {
             $("#semicolon-error").show();
@@ -314,6 +321,24 @@ function pardonStudent(id) {
                 alert("An error has occured :-(");
             }
             $("#banned-list").load(" #banned-list > *");
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
+function setDueDate(duedate, duetime) {
+    $.ajax({
+        type: "POST",
+        url: "../../tests/new/questions/" + workingTestId + "/set-due?date=" + duedate + "&time=" + duetime, 
+        success: function (data) {
+            if (data == true) {
+                $("#saved-due").show();
+                $("#saved-due").delay(3000).fadeOut();
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
         },
         error: function () {
             alert("An error has occured :-(");

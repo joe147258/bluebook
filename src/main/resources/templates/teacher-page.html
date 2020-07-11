@@ -154,7 +154,7 @@
                     <button class="btn btn-primary btn-block">See results</button>
                     <button class="btn btn-primary btn-block">See class performance</button>
                     <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#reschedule-test">Reschdule publish date</button>
-                    <button class="btn btn-primary btn-block">Change due date</button>
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#change-due-modal">Change due date</button>
                     <button class="btn btn-warning btn-block">Edit test</button>
                     <div class="btn-group btn-block">
                         <button style="width: 50%;" class="btn btn-primary" data-toggle="modal" data-target="#show-test">Publish</button>
@@ -336,10 +336,11 @@
                         </button>
                     </form>
                     <div id="error-alert1" class="alert alert-warning mt-2" style="display: none;">
-                        Ensure the date and time you selected is in the <b>future</b>.
                         <button type="button" class="close" onclick="hideErrorAlert()">
                             <span>&times;</span>
                         </button>
+                        Ensure the date and time you selected is in the <b>future</b> 
+                        or check the quiz isn't already published.
                     </div>
                 </div>
             </div>
@@ -385,6 +386,30 @@
                         <button type="button" class="btn btn-warning" style="width: 50%;"
                             data-dismiss="modal">Cancel</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="change-due-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to change the due date?</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="dueform">
+                        <input class="form-control mb-2" id="dueDate" type="date" required/>
+                        <h5>Due time:</h5>
+                        <input class="form-control" id="dueTime" type="time" required />
+                        <button class="btn btn-primary btn-block mt-2" style="display: block;">
+                            Save due date.
+                        </button>
+                        <p class="mb-0" id="saved-due" style="display: none; color: green;">Successfully set.</p>
+                    </form>
                 </div>
             </div>
         </div>

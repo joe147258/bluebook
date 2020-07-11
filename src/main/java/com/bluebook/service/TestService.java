@@ -98,6 +98,8 @@ public class TestService {
 
     public final Boolean scheduleTest(final int testId, final String date, final String time) {
         Test workingTest = testRepo.findById(testId);
+        if(workingTest == null) return false;
+        if(workingTest.getPublished()) return false; 
         /**
          * This time task is run from the date that is taken
          * from user input and it parsed in the try catch below.
