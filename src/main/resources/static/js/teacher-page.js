@@ -24,15 +24,6 @@ $(document).ready(function () {
         setDueDate(duedate, duetime);
     });
 
-    $("#test-name").on("keyup", function(){
-        if( $("#test-name").val().includes(";") ) {
-            $("#semicolon-error").show();
-            $("#newTestBtn").attr("disabled", "disabled");
-        } else {
-            $("#newTestBtn").removeAttr("disabled");
-            $("#semicolon-error").hide();
-        }
-    })
 
     $("#add-student-form").submit(function (e) {
         e.preventDefault();
@@ -73,11 +64,11 @@ $(document).ready(function () {
 
     });
 
-    $("#class-name").keyup(function () {
+    $(".ammend-form").keyup(function () {
         if ($("#class-name").val().length > 60) {
             showError(1);
             $("#submit").attr('disabled', 'disabled');
-        } else if ($("#class-name").val().includes(";")) {
+        } else if ($(this).val().includes(";")) {
             $("#submit").attr('disabled', 'disabled');
             $("#live-error3").show();
         } else {

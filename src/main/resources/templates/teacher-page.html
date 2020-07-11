@@ -432,11 +432,11 @@
                     <form id="settings-form">
                         <div class="form-group">
                             <p class="mb-0">Classroom Name</p>
-                            <input class="form-control" id="class-name" type="text" name="className"
+                            <input class="form-control ammend-form" id="class-name" type="text" name="className"
                                 placeholder="Enter the classroom's name e.g. History AP 1"
                                 th:value="${classroom.getName()}" required />
                             <p class="mb-0">Classroom Description</p>
-                            <textarea class="form-control" id="class-desc" name="classDesc" rows="3"
+                            <textarea class="form-control ammend-form" id="class-desc" name="classDesc" rows="3"
                                 placeholder="A short description of your classroom"
                                 th:text="${classroom.getDescription()}" required></textarea>
 
