@@ -211,8 +211,23 @@ function setDueDate(duedate, duetime) {
     })
 }
 
-function editQuestion() {
-    //TODO:
+function editQuestion(qNo) {
+    $("#edit-ques-modal").modal('toggle');
+    $.ajax({
+        type: "GET",
+        url: testId + "/get-ques-info?quesNo=" + qId, 
+        success: function (data) {
+            if (data == true) {
+                $("#saved-due").show();
+                $("#saved-due").delay(3000).fadeOut();
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
 }
 
 function hideSemicolonWarning() {

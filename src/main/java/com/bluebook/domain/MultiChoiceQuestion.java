@@ -36,4 +36,13 @@ public class MultiChoiceQuestion extends TestQuestion {
         if(i < 0 || i > answerList.size()) return "OUT_OF_BOUNDS";
         else return answerList.get(i);
     }
+    public String[] getIncorrectAnswers() {
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        for(String s : answerList) {
+            if(!s.equals("correctAnswer")) {
+                incorrectAnswers.add(s);
+            }
+        }
+        return (String[]) incorrectAnswers.toArray();
+    }
 }

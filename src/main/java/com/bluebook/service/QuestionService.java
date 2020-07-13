@@ -1,10 +1,12 @@
 package com.bluebook.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.bluebook.domain.InputQuestion;
 import com.bluebook.domain.MultiChoiceQuestion;
 import com.bluebook.domain.Test;
+import com.bluebook.domain.TestQuestion;
 import com.bluebook.domain.TrueFalseQuestion;
 import com.bluebook.repositories.ClassroomRepository;
 import com.bluebook.repositories.QuestionRepository;
@@ -143,5 +145,36 @@ public class QuestionService {
         testRepo.save(workingTest);
         
         return true;
+    }
+
+    public HashMap<String, Object> getQuesInfo(final Test test, final int qId) {
+        
+        HashMap<String, Object> returnMap = new HashMap<String, Object>();
+
+        TestQuestion workingQuestion = test.getQuestion(qId);
+        if(workingQuestion == null) returnMap.put("res", "error");
+        else {
+            returnMap.put("questionString", workingQuestion.getQuestion());
+            returnMap.put("correctAnswer", workingQuestion.getCorrectAnswer());
+            switch(workingQuestion.getQuestionType()) {
+                case "com.bluebook.domain.MultiChoiceQuestion":
+                    MultiChoiceQuestion mcq = (MultiChoiceQuestion) workingQuestion;
+                    String[] incorrectAnswers = mcq.getIncorrectAnswers();
+                    returnMap.put("incorrectAnswers", incorrectAnswers);
+                    break;
+                case "com.bluebook.domain.TrueFalseQuestion":
+                    
+                    break;
+                case "com.bluebook.domain.InputQuestion":
+                    InputQuestion inputQues = (InputQuestion) workingQuestion;
+                    returnMap.put("distance", inputQues.getDistance());
+                    break;
+                default:
+                    returnMap.put("res", "error");
+                    return returnMap;
+            }
+        }
+
+        return returnMap;
     }
 }
