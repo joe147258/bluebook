@@ -1,7 +1,12 @@
 $(document).ready(function () {
 
     var error = getUrlParameter('error');
-    if(error != "") showError(parseInt(error));
+    if (error != "") showError(parseInt(error));
+
+    $("#edit-mc-question-form").submit(function (e) {
+        e.preventDefault();
+        editMultiChoiceQuestion();
+    })
 
     $("#change-title-input").on("keyup", function () {
         if ($("#change-title-input").val().includes(";")) {
@@ -20,16 +25,16 @@ $(document).ready(function () {
         setDueDate(duedate, duetime);
     });
 
-    $("#hide-ques").click(function(){
+    $("#hide-ques").click(function () {
         let icon = $("#hide-ques").html();
-        if(icon == "keyboard_arrow_up"){
+        if (icon == "keyboard_arrow_up") {
             $("#question-form-container").hide();
             $("#hide-ques").html("keyboard_arrow_down");
         } else {
             $("#question-form-container").show();
             $("#hide-ques").html("keyboard_arrow_up");
         }
-        
+
     })
 
     $("#mc-question-form").submit(function (e) {
@@ -196,7 +201,7 @@ function updateTestTitle() {
 function setDueDate(duedate, duetime) {
     $.ajax({
         type: "POST",
-        url: testId + "/set-due?date=" + duedate + "&time=" + duetime, 
+        url: testId + "/set-due?date=" + duedate + "&time=" + duetime,
         success: function (data) {
             if (data == true) {
                 $("#saved-due").show();
@@ -211,17 +216,61 @@ function setDueDate(duedate, duetime) {
     })
 }
 
-function editQuestion(qNo) {
-    $("#edit-ques-modal").modal('toggle');
+function openEditModal(qId) {
     $.ajax({
         type: "GET",
-        url: testId + "/get-ques-info?quesNo=" + qId, 
+        url: testId + "/get-ques-info?qId=" + qId,
         success: function (data) {
-            if (data == true) {
-                $("#saved-due").show();
-                $("#saved-due").delay(3000).fadeOut();
+            switch (data.type) {
+                case "multiChoice":
+                    $("#edit-ques-modal-multi").modal('toggle');
+                    $("#edit-mc-question-string").val(data.questionString);
+                    $("#edit-mc-correct-answer").val(data.correctAnswer);
+                    $("#edit-mc-incorrect-answer1").val(data.incorrectAnswers[0]);
+                    $("#edit-mc-id").val(data.quesId);
+                    if (data.incorrectAnswers[1] != "") $("#edit-mc-incorrect-answer2").val(data.incorrectAnswers[1]);
+                    if (data.incorrectAnswers[2] != "") $("#edit-mc-incorrect-answer3").val(data.incorrectAnswers[2]);
+                    break;
+                case "trueFalse":
+                    $("#edit-ques-modal-bool").modal('toggle');
+                    break;
+                case "input":
+                    $("#edit-ques-modal-input").modal('toggle');
+                    break;
+                default:
+                    alert("An error occured :-(");
+                    break;
+            }
+
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        }
+    })
+}
+
+function editMultiChoiceQuestion() {
+    let qId = $("#edit-mc-id").val();
+    let incorrectAnswers = [
+        $("#edit-mc-incorrect-answer1").val(),
+        $("#edit-mc-incorrect-answer2").val(),
+        $("#edit-mc-incorrect-answer3").val()
+    ];
+
+    let questionString = $("#edit-mc-question-string").val();
+    let correctAnswer = $("#edit-mc-correct-answer").val();
+
+    $.ajax({
+        type: "POST",
+        url: testId + "/edit-question?qId=" + qId + "&questionString=" + questionString + "&correctAnswer=" 
+        + correctAnswer + "&incorrectAnswer1=" + incorrectAnswers[0] + "&incorrectAnswer2=" + incorrectAnswers[1] 
+        + "&incorrectAnswer3=" + incorrectAnswers[2] + "&type=MultiChoice",
+        success: function (data) {
+            if(data == true) {
+                $("#edit-ques-modal-multi").modal('toggle');
+                $("#question-list").load(" #question-list > *");
             } else if (data == false) {
-                alert("An error has occured :-(");
+                $("#semicolon-warning1").show();
             }
         },
         error: function () {
@@ -232,6 +281,9 @@ function editQuestion(qNo) {
 
 function hideSemicolonWarning() {
     $("#semicolon-warning").hide();
+}
+function hideSemicolonWarning1() {
+    $("#semicolon-warning1").hide();
 }
 
 function hideErrorAlert() {

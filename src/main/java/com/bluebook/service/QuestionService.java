@@ -64,13 +64,13 @@ public class QuestionService {
 
         question.addAnswer(incorrectAnswers[0]);
         //these are only added if there is actual data contained in the array.
-        if(incorrectAnswers[1] != null || incorrectAnswers[1].length() != 0) {
+        if(incorrectAnswers[1] != null && incorrectAnswers[1].length() > 0) {
             if(incorrectAnswers[1].contains(";")) return false;
             question.addAnswer(incorrectAnswers[1]);
         }
             
 
-        if(incorrectAnswers[2] != null || incorrectAnswers[2].length() != 0) {
+        if(incorrectAnswers[2] != null && incorrectAnswers[2].length() > 0) {
             if(incorrectAnswers[2].contains(";")) return false;
             question.addAnswer(incorrectAnswers[2]);
         }
@@ -146,28 +146,38 @@ public class QuestionService {
         
         return true;
     }
-
-    public HashMap<String, Object> getQuesInfo(final Test test, final int qId) {
+    /**
+     * 
+     * @param test The test the question is related to.
+     * @param qId the question id.
+     * @return returns a hashmap with  question information, such as correct answer, etc. 
+     * If the map is "res" "error" than an error has occured.
+     */
+    public final HashMap<String, Object> getQuesInfo(final int testId, final int qId) {
         
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
+        
+        TestQuestion workingQuestion = quesRepo.findById(qId);
 
-        TestQuestion workingQuestion = test.getQuestion(qId);
         if(workingQuestion == null) returnMap.put("res", "error");
+        else if (workingQuestion.getTest().getId() != testId) returnMap.put("res", "error");
         else {
             returnMap.put("questionString", workingQuestion.getQuestion());
             returnMap.put("correctAnswer", workingQuestion.getCorrectAnswer());
+            returnMap.put("quesId", workingQuestion.getId());
             switch(workingQuestion.getQuestionType()) {
                 case "com.bluebook.domain.MultiChoiceQuestion":
                     MultiChoiceQuestion mcq = (MultiChoiceQuestion) workingQuestion;
-                    String[] incorrectAnswers = mcq.getIncorrectAnswers();
-                    returnMap.put("incorrectAnswers", incorrectAnswers);
+                    returnMap.put("incorrectAnswers", mcq.getIncorrectAnswers());
+                    returnMap.put("type", "multiChoice");
                     break;
                 case "com.bluebook.domain.TrueFalseQuestion":
-                    
+                    returnMap.put("type", "trueFalse");
                     break;
                 case "com.bluebook.domain.InputQuestion":
                     InputQuestion inputQues = (InputQuestion) workingQuestion;
                     returnMap.put("distance", inputQues.getDistance());
+                    returnMap.put("type", "input");
                     break;
                 default:
                     returnMap.put("res", "error");
@@ -176,5 +186,46 @@ public class QuestionService {
         }
 
         return returnMap;
+    }
+
+    public final Boolean editMultiChoiceQuestion(final int qId, final Test workingTest, final String questionString, 
+        final String correctAnswer, final String[] incorrectAnswers) {
+
+            MultiChoiceQuestion workingQuestion = (MultiChoiceQuestion) quesRepo.findById(qId);
+
+            if(workingQuestion == null) return false;
+            else if (workingQuestion.getTest().getId() != workingTest.getId()) return false;
+
+            if(qId == -1) return false;
+            if(questionString == null || questionString.length() == 0) return false;
+            if(correctAnswer == null || correctAnswer.length() == 0) return false;
+            if(incorrectAnswers[0] == null || incorrectAnswers[0].length() == 0) return false;
+
+            if(correctAnswer.contains(";") 
+            || questionString.contains(";") 
+            || incorrectAnswers[0].contains(";")) {
+                return false;
+            } 
+            workingQuestion.setQuestion(questionString);
+            workingQuestion.setCorrectAnswer(correctAnswer);
+
+            workingQuestion.clearAnswerList();
+            workingQuestion.addAnswer(correctAnswer);
+            workingQuestion.addAnswer(incorrectAnswers[0]);
+
+            if(incorrectAnswers[1] != null && incorrectAnswers[1].length() > 0) {
+                if(incorrectAnswers[1].contains(";")) return false;
+                workingQuestion.addAnswer(incorrectAnswers[1]);
+            }
+                
+    
+            if(incorrectAnswers[2] != null && incorrectAnswers[2].length() > 0) {
+                if(incorrectAnswers[2].contains(";")) return false;
+                workingQuestion.addAnswer(incorrectAnswers[2]);
+            }
+
+            quesRepo.save(workingQuestion);
+
+            return true;
     }
 }

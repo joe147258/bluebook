@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/tests/new/questions/")
+@RequestMapping("/tests")
 public class CreateTestRestController {
     @Autowired
     UserRepository userRepo;
@@ -38,7 +38,7 @@ public class CreateTestRestController {
     
     
 
-    @PostMapping("{testId}/add-multi-choice")
+    @PostMapping("/new/questions/{testId}/add-multi-choice")
     public final Boolean addMultiChoiceQuestion(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -47,17 +47,17 @@ public class CreateTestRestController {
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
         
-        String[] incorrectAnsers = {
+        String[] incorrectAnswers = {
             params.get("incorrectAnswer1"),
             params.get("incorrectAnswer2"),
-            params.get("incorrectAnswer2")
+            params.get("incorrectAnswer3")
         };
         //service method is called to create the question. Returns false if it fails.
         return questionService.createMultiChoiceQuestion(workingTest, params.get("questionString"),
-            params.get("correctAnswer"), incorrectAnsers);
+            params.get("correctAnswer"), incorrectAnswers);
     }
 
-    @PostMapping("{testId}/add-true-false")
+    @PostMapping("/new/questions/{testId}/add-true-false")
     public final Object addTrueFalse(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -71,7 +71,7 @@ public class CreateTestRestController {
     }
 
     //in the future you can add character different, this is whyu its a seperate method
-    @PostMapping("{testId}/add-input")
+    @PostMapping("/new/questions/{testId}/add-input")
     public final Object addInput(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -84,7 +84,7 @@ public class CreateTestRestController {
             params.get("questionString"), params.get("correctAnswer"), params.get("distance"));
     }
 
-    @PostMapping("{testId}/change-fbtype/{newFbType}")
+    @PostMapping("/new/questions/{testId}/change-fbtype/{newFbType}")
     public final Boolean changeFeedbackType(@PathVariable final int testId, @PathVariable final String newFbType) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -97,7 +97,7 @@ public class CreateTestRestController {
         return testService.changeFeedbackType(workingTest, newFbType);
     }
 
-    @PostMapping("testId}/change-title")
+    @PostMapping("/new/questions/{testId}/change-title")
     public final Boolean changeTitle(@PathVariable int testId, @RequestParam String newTitle) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -109,7 +109,7 @@ public class CreateTestRestController {
         return testService.updateTestTitle(test, newTitle);
     }
 
-    @PostMapping("{testId}/set-due")
+    @PostMapping("/new/questions/{testId}/set-due")
     public final Boolean setDuedate(@PathVariable int testId, @RequestParam String date, @RequestParam String time) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -121,15 +121,44 @@ public class CreateTestRestController {
         return testService.setDueDate(test, date, time);
     }
 
-    @GetMapping("/{testId}/get-ques-info")
-    public final Object getQuesInfo(@PathVariable int testId, @RequestParam int qId) {
+    @GetMapping("/new/questions/{testId}/get-ques-info")
+    public final Object getQuesInfo(@PathVariable final int testId, @RequestParam int qId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         final Test test = testRepo.findById(testId);
 
         if(test == null) return false;
         if(user.getId() != test.getTestOwner().getId()) return false;
-        System.out.println("here!");
-        return questionService.getQuesInfo(test, qId);
+
+        return questionService.getQuesInfo(testId, qId);
+    }
+
+    @PostMapping("/new/questions/{testId}/edit-question")
+    public final Object editQuestion(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
+
+        if(workingTest == null) return false;
+        if(user.getId() != workingTest.getTestOwner().getId()) return false;
+        int id = -1;
+        try{
+            id = Integer.parseInt(params.get("qId"));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        switch(params.get("type")) {
+            case "MultiChoice":
+                String[] incorrectAnswers = {
+                    params.get("incorrectAnswer1"),
+                    params.get("incorrectAnswer2"),
+                    params.get("incorrectAnswer3")
+                };
+                return questionService.editMultiChoiceQuestion(id, workingTest, params.get("questionString"), 
+                    params.get("correctAnswer"), incorrectAnswers);
+            default:
+                return false;
+        }
+        
     }
 }

@@ -2,6 +2,8 @@ package com.bluebook.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -36,13 +38,24 @@ public class MultiChoiceQuestion extends TestQuestion {
         if(i < 0 || i > answerList.size()) return "OUT_OF_BOUNDS";
         else return answerList.get(i);
     }
-    public String[] getIncorrectAnswers() {
-        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+
+    public List<String> getIncorrectAnswers() {
+        List<String> incorrectAnswers = new LinkedList<String>();
         for(String s : answerList) {
-            if(!s.equals("correctAnswer")) {
+            if(!s.equalsIgnoreCase(correctAnswer)) { 
                 incorrectAnswers.add(s);
             }
         }
-        return (String[]) incorrectAnswers.toArray();
+        return incorrectAnswers;
+    }
+    public void clearAnswerList() {
+        answerList.clear();
+    }
+    public ArrayList<String> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(ArrayList<String> answerList) {
+        this.answerList = answerList;
     }
 }

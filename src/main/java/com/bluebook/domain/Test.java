@@ -136,16 +136,4 @@ public class Test {
         this.dueDate = dueDate;
     }
 
-    public TestQuestion getQuestion(int id) {
-        for(TestQuestion ques : questions) {
-            if(ques.getId() == id) {
-                return ques;
-            }
-        }
-        return null;
-    }
-
-
-
-
 }
