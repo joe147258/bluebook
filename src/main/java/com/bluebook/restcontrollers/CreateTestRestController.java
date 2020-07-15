@@ -162,7 +162,14 @@ public class CreateTestRestController {
                     correctAnswer, incorrectAnswers);
             }
             case "INPUT": {
-
+                int distanceInt = -1;
+                try{
+                    distanceInt = Integer.parseInt(params.get("distance"));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return questionService.editInputQuestion(qId, workingTest, question, correctAnswer, distanceInt);
             }
             case "BOOL": {
                 return questionService.editTrueFalseQuestion(qId, workingTest, question, correctAnswer);

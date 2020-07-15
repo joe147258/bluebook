@@ -13,6 +13,11 @@ $(document).ready(function () {
         editTrueFalseQuestion();
     })
 
+    $("#edit-input-question-form").submit(function (e) {
+        e.preventDefault();
+        editInputQuestion();
+    })
+
     $("#change-title-input").on("keyup", function () {
         if ($("#change-title-input").val().includes(";")) {
             $("#semicolon-error").show();
@@ -239,6 +244,8 @@ function openEditModal(qId) {
                 case "trueFalse":
                     $("#edit-ques-modal-tf").modal('toggle');
                     $("#edit-tf-question-string").val(data.questionString);
+                    $("#edit-tf-id").val(data.quesId);
+                    //this shows the selected option
                     if(data.correctAnswer == "true") {
                         $("#tf-opt-f").removeAttr("selected");
                         $("#tf-opt-t").attr('selected', 'selected');
@@ -246,11 +253,13 @@ function openEditModal(qId) {
                         $("#tf-opt-t").removeAttr("selected");
                         $("#tf-opt-f").attr('selected', 'selected');
                     }
-                    $("#edit-tf-id").val(data.quesId);
-                    
                     break;
                 case "input":
                     $("#edit-ques-modal-input").modal('toggle');
+                    $("#edit-input-question-string").val(data.questionString);
+                    $("#edit-input-correct-answer").val(data.correctAnswer);
+                    $("#edit-input-distance").val(data.distance);
+                    $("#edit-input-id").val(data.quesId);
                     break;
                 default:
                     alert("An error occured :-(");
@@ -318,6 +327,31 @@ function editTrueFalseQuestion() {
     })
 }
 
+function editInputQuestion() {
+    let questionString = $("#edit-input-question-string").val();
+    let correctAnswer = $("#edit-input-correct-answer").val();
+    let qId = $("#edit-input-id").val();
+    let distance = $("#edit-input-distance").val();
+    $.ajax({
+        type: "POST",
+        url: testId + "/edit-question/" + "?qId=" + qId + "&questionString=" + questionString + "&correctAnswer=" + correctAnswer + "&distance=" + distance + "&type=INPUT",
+        success: function (data) {
+            if (data == true) {
+                $("#edit-ques-modal-input").modal('toggle');
+                $("#question-list").load(" #question-list > *");
+            } else if (data == false) {
+                $("#semicolon-warning2").show();
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        },
+        complete: function () {
+            clearInput("#tf-question-string");
+        }
+    })
+}
+
 function hideSemicolonWarning() {
     $("#semicolon-warning").hide();
 }
@@ -327,7 +361,9 @@ function hideSemicolonWarning1() {
 function hideSemicolonWarning2() {
     $("#semicolon-warning2").hide();
 }
-
+function hideSemicolonWarning3() {
+    $("#semicolon-warning3").hide();
+}
 function hideErrorAlert() {
     $("#error-alert1").hide();
 }

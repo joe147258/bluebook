@@ -263,4 +263,35 @@ public class QuestionService {
         
         return true;
     }
+    /**
+     * 
+     * @param qId - The question ID that needs to be modified.
+     * @param workingTest - The test that question belongs to. If the question doesn't belong it returns false.
+     * @param questionString - The new question String.
+     * @param correctAnswer - The correct answer.
+     * @param distance - the string distance
+     * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
+     */
+    public final Boolean editInputQuestion(final int qId, final Test workingTest, 
+        final String questionString, final String correctAnswer, final int distance) {
+
+        InputQuestion workingQuestion = (InputQuestion) quesRepo.findById(qId);
+
+        if(workingQuestion == null) return false;   
+        else if (workingQuestion.getTest().getId() != workingTest.getId()) return false;
+
+        if(questionString == null || questionString.length() == 0) return false;
+        if(correctAnswer == null || correctAnswer.length() == 0) return false;
+        if(correctAnswer.contains(";") || questionString.contains(";")) 
+            return false;
+        
+        if(distance < 0 || distance > 5) return false;
+ 
+        workingQuestion.setQuestion(questionString);
+        workingQuestion.setCorrectAnswer(correctAnswer);
+        workingQuestion.setDistance(distance);
+        quesRepo.save(workingQuestion);
+
+        return true;
+    }
 }
