@@ -1,5 +1,5 @@
 # Bluebook - An interactive learning environment
-A refurbished version of my dissertation project.
+A refurbished version of my dissertation project. This project is still incomplete.
 
 ## Project Background and Motivation
 When a student first joins university it feels very different to secondary school or college. Often the lecturers feel quite distant to many students and some may struggle to adjust, feel out of their depth and as a result underachieve in their academic work. The principle behind Bluebook is to help students get used to tracking their own progress as well as encourage lecturers to track & assist students that are lagging. As lecturers have an ever-increasing workload this web application is designed to save time for both students and lecturers.
