@@ -187,7 +187,15 @@ public class QuestionService {
 
         return returnMap;
     }
-
+    /**
+     * 
+     * @param qId - The question ID that needs to be modified.
+     * @param workingTest - The test that question belongs to. If the question doesn't belong it returns false.
+     * @param questionString - The new question String.
+     * @param correctAnswer - The correct answer.
+     * @param incorrectAnswers - An array of the incorrect answers (has to contain atleast one element).
+     * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
+     */
     public final Boolean editMultiChoiceQuestion(final int qId, final Test workingTest, final String questionString, 
         final String correctAnswer, final String[] incorrectAnswers) {
 
@@ -227,5 +235,32 @@ public class QuestionService {
             quesRepo.save(workingQuestion);
 
             return true;
+    }
+    /**
+     * @param qId - The question ID that needs to be modified.
+     * @param workingTest - The test that question belongs to. If the question doesn't belong it returns false.
+     * @param questionString - The new question String.
+     * @param correctAnswer - The correct answer.
+     * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
+     */
+    public final Boolean editTrueFalseQuestion(final int qId, final Test workingTest, 
+        final String questionString, final String correctAnswer) {
+
+        TrueFalseQuestion workingQuestion = (TrueFalseQuestion) quesRepo.findById(qId);
+
+        if(workingQuestion == null) return false;
+        else if (workingQuestion.getTest().getId() != workingTest.getId()) return false;
+
+        if(questionString == null || questionString.length() == 0) return false;
+        if(correctAnswer == null || correctAnswer.length() == 0) return false;
+        if(!Arrays.stream(bools).parallel().anyMatch(correctAnswer::contains)) return false;
+        if(correctAnswer.contains(";") || questionString.contains(";")) 
+            return false;
+
+        workingQuestion.setQuestion(questionString);
+        workingQuestion.setCorrectAnswer(correctAnswer);
+        quesRepo.save(workingQuestion);
+        
+        return true;
     }
 }

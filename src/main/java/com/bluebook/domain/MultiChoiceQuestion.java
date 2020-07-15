@@ -48,6 +48,7 @@ public class MultiChoiceQuestion extends TestQuestion {
         }
         return incorrectAnswers;
     }
+    
     public void clearAnswerList() {
         answerList.clear();
     }

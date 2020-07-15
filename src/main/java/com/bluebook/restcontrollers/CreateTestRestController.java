@@ -141,23 +141,35 @@ public class CreateTestRestController {
 
         if(workingTest == null) return false;
         if(user.getId() != workingTest.getTestOwner().getId()) return false;
-        int id = -1;
+
+        int qId = -1;
         try{
-            id = Integer.parseInt(params.get("qId"));
+            qId = Integer.parseInt(params.get("qId"));
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             return false;
         }
+        String question = params.get("questionString");
+        String correctAnswer = params.get("correctAnswer");
         switch(params.get("type")) {
-            case "MultiChoice":
+            case "MULTI": {
                 String[] incorrectAnswers = {
                     params.get("incorrectAnswer1"),
                     params.get("incorrectAnswer2"),
                     params.get("incorrectAnswer3")
                 };
-                return questionService.editMultiChoiceQuestion(id, workingTest, params.get("questionString"), 
-                    params.get("correctAnswer"), incorrectAnswers);
-            default:
+                return questionService.editMultiChoiceQuestion(qId, workingTest, question, 
+                    correctAnswer, incorrectAnswers);
+            }
+            case "INPUT": {
+
+            }
+            case "BOOL": {
+                return questionService.editTrueFalseQuestion(qId, workingTest, question, correctAnswer);
+            }
+            default: {
                 return false;
+            }
         }
         
     }

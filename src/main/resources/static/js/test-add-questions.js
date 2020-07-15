@@ -8,6 +8,11 @@ $(document).ready(function () {
         editMultiChoiceQuestion();
     })
 
+    $("#edit-tf-question-form").submit(function (e) {
+        e.preventDefault();
+        editTrueFalseQuestion();
+    })
+
     $("#change-title-input").on("keyup", function () {
         if ($("#change-title-input").val().includes(";")) {
             $("#semicolon-error").show();
@@ -232,7 +237,17 @@ function openEditModal(qId) {
                     if (data.incorrectAnswers[2] != "") $("#edit-mc-incorrect-answer3").val(data.incorrectAnswers[2]);
                     break;
                 case "trueFalse":
-                    $("#edit-ques-modal-bool").modal('toggle');
+                    $("#edit-ques-modal-tf").modal('toggle');
+                    $("#edit-tf-question-string").val(data.questionString);
+                    if(data.correctAnswer == "true") {
+                        $("#tf-opt-f").removeAttr("selected");
+                        $("#tf-opt-t").attr('selected', 'selected');
+                    } else {
+                        $("#tf-opt-t").removeAttr("selected");
+                        $("#tf-opt-f").attr('selected', 'selected');
+                    }
+                    $("#edit-tf-id").val(data.quesId);
+                    
                     break;
                 case "input":
                     $("#edit-ques-modal-input").modal('toggle');
@@ -264,7 +279,7 @@ function editMultiChoiceQuestion() {
         type: "POST",
         url: testId + "/edit-question?qId=" + qId + "&questionString=" + questionString + "&correctAnswer=" 
         + correctAnswer + "&incorrectAnswer1=" + incorrectAnswers[0] + "&incorrectAnswer2=" + incorrectAnswers[1] 
-        + "&incorrectAnswer3=" + incorrectAnswers[2] + "&type=MultiChoice",
+        + "&incorrectAnswer3=" + incorrectAnswers[2] + "&type=MULTI",
         success: function (data) {
             if(data == true) {
                 $("#edit-ques-modal-multi").modal('toggle');
@@ -279,11 +294,38 @@ function editMultiChoiceQuestion() {
     })
 }
 
+function editTrueFalseQuestion() {
+    let questionString = $("#edit-tf-question-string").val();
+    let correctAnswer = $("#edit-tf-correct-answer").val();
+    let qId = $("#edit-tf-id").val();
+    $.ajax({
+        type: "POST",
+        url: testId + "/edit-question/" + "?qId=" + qId + "&questionString=" + questionString + "&correctAnswer=" + correctAnswer + "&type=BOOL",
+        success: function (data) {
+            if (data == true) {
+                $("#edit-ques-modal-tf").modal('toggle');
+                $("#question-list").load(" #question-list > *");
+            } else if (data == false) {
+                $("#semicolon-warning2").show();
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        },
+        complete: function () {
+            clearInput("#tf-question-string");
+        }
+    })
+}
+
 function hideSemicolonWarning() {
     $("#semicolon-warning").hide();
 }
 function hideSemicolonWarning1() {
     $("#semicolon-warning1").hide();
+}
+function hideSemicolonWarning2() {
+    $("#semicolon-warning2").hide();
 }
 
 function hideErrorAlert() {
