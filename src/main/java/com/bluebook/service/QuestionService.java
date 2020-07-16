@@ -294,4 +294,16 @@ public class QuestionService {
 
         return true;
     }
+
+    public final Boolean deleteQuestion(final int qId, final int testId) {
+        TestQuestion workingQuestion = quesRepo.findById(qId);
+
+        if(workingQuestion == null) return false;
+        if(workingQuestion.getTest().getId() != testId) return false;
+        workingQuestion.setTest(null);
+        quesRepo.save(workingQuestion);
+        quesRepo.deleteById(qId);
+
+        return true;
+    }
 }

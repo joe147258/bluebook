@@ -351,6 +351,25 @@ function editInputQuestion() {
         }
     })
 }
+function deleteQuestion(qId) {
+    $.ajax({
+        type: "POST",
+        url: testId + "/delete-question/" +  qId,
+        success: function (data) {
+            if (data == true) {
+                $("#question-list").load(" #question-list > *");
+            } else if (data == false) {
+                alert("An error has occured :-(");
+            }
+        },
+        error: function () {
+            alert("An error has occured :-(");
+        },
+        complete: function () {
+            clearInput("#tf-question-string");
+        }
+    })
+}
 
 function hideSemicolonWarning() {
     $("#semicolon-warning").hide();

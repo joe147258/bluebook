@@ -177,7 +177,18 @@ public class CreateTestRestController {
             default: {
                 return false;
             }
-        }
-        
+        } 
+    }
+
+    @PostMapping("/new/questions/{testId}/delete-question/{qId}")
+    public Boolean deleteQuestion(@PathVariable int qId, @PathVariable final int testId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        final Test workingTest = testRepo.findById(testId);
+
+        if(workingTest == null) return false;
+        if(user.getId() != workingTest.getTestOwner().getId()) return false;
+
+        return questionService.deleteQuestion(qId, testId);
     }
 }

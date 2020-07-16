@@ -148,7 +148,9 @@
                     <a class="cus-icon" th:onclick="'openEditModal(' + ${question.getId()} + ')'">
                         <i class="material-icons">edit</i>
                     </a>
-                    <a class="cus-icon"><i class="material-icons">delete</i></a>
+                    <a class="cus-icon" th:onclick="'deleteQuestion(' + ${question.getId()} + ')'">
+                        <i class="material-icons">delete</i>
+                    </a>
                 </div>
                 <table class="table mb-0" style="width: 80%;">
                     <tbody>
