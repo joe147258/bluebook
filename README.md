@@ -1,5 +1,5 @@
 # Bluebook - An interactive learning environment
-A refurbished version of my dissertation project. This version of the project is still incomplete.
+A refurbished version of my dissertation project. It is a Spring Boot based web platform using ThymeLead as a templating engine. This version of the project is still incomplete.
 
 ## Project Background and Motivation
 When a student first joins university it feels very different to secondary school or college. Often the lecturers feel quite distant to many students and some may struggle to adjust, feel out of their depth and as a result underachieve in their academic work. The principle behind Bluebook is to help students get used to tracking their own progress as well as encourage lecturers to track & assist students that are lagging. As lecturers have an ever-increasing workload this web application is designed to save time for both students and lecturers.
@@ -22,5 +22,3 @@ gradlew bootrun
 Email: JLDPhillips@gmail.com   
 LinkedIn: https://www.linkedin.com/in/joseph-phillips-75060b198/
 
-### Programming Practices
-My programming practices has been influenced by [this article](https://dzone.com/articles/top-10-useful-yet-paranoid-java-programmer-techniq).
