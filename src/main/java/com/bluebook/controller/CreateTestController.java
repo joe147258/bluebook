@@ -1,4 +1,4 @@
-package com.bluebook.controllers;
+package com.bluebook.controller;
 
 
 import java.util.Map;
@@ -8,9 +8,9 @@ import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
 import com.bluebook.domain.Test;
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.TestRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.TestRepository;
+import com.bluebook.repository.UserRepository;
 import com.bluebook.service.TestService;
 
 
@@ -40,11 +40,11 @@ public class CreateTestController {
     
 
     @PostMapping(value="/new")
-    public final String newTest(@RequestParam final Map<String,String> params) {
+    public String newTest(@RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Classroom classroom = classroomRepo.findById(Integer.parseInt(params.get("classId")));
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(Integer.parseInt(params.get("classId")));
 
         if(classroom == null) return "redirect:/server-problem"; 
         if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
@@ -57,9 +57,9 @@ public class CreateTestController {
     }
 
     @GetMapping(value="/new/questions/{testId}")
-    public final String newTestQuestions(Model model, @PathVariable final int testId) {
+    public String newTestQuestions(Model model, @PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
 
         Test workingTest = testRepo.findById(testId);
         if(workingTest == null) return "redirect:/server-problem";
@@ -73,9 +73,9 @@ public class CreateTestController {
     }
 
     @GetMapping(value="/publish-test/{testId}")
-    public final String publishTest(@PathVariable final int testId) {
+    public String publishTest(@PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return "redirect:/server-problem";
@@ -87,10 +87,10 @@ public class CreateTestController {
     }
 
     @PostMapping(value="/schedule-test/{testId}")
-    public final String scheduleTest(@PathVariable final int testId, @RequestParam String scheduledDate,
+    public String scheduleTest(@PathVariable int testId, @RequestParam String scheduledDate,
         @RequestParam String scheduledTime) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return "redirect:/server-problem";

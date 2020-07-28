@@ -1,12 +1,13 @@
-package com.bluebook.controllers;
+package com.bluebook.controller;
 
 import java.util.Map;
 
 import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.UserRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,18 +29,18 @@ public class ClassroomController {
     ClassroomRepository classroomRepo;
     
     @GetMapping("/new")
-    public final String newClassroom(Model model){
+    public String newClassroom(Model model){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         model.addAttribute("user", user);
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         return "new-classroom-form";
     }
     //TODO: move business logic into the new classroom service class
     @PostMapping("/create-classroom")
-    public final String createClassroom(Model model, @RequestParam final Map<String, String> params){
+    public String createClassroom(Model model, @RequestParam Map<String, String> params){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         if(!user.getRole().equals("TEACHER")) return "redirect:/permission-denied";
         String className = params.get("className");
         String classDesc = params.get("classDesc");
@@ -61,10 +62,10 @@ public class ClassroomController {
     }
 
     @GetMapping("/teacher/{classId}")
-    public final String viewClassTeacher(Model model, @PathVariable final int classId){
+    public String viewClassTeacher(Model model, @PathVariable int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Classroom classroom = classroomRepo.findById(classId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(classId);
         
         if(classroom == null) return "redirect:/server-problem"; 
         if(user.getId() != classroom.getClassOwner().getId()) return "redirect:/permission-denied";
@@ -75,10 +76,10 @@ public class ClassroomController {
     }
     //TODO: move business logic into the new classroom service class
     @PostMapping("/join-class")
-    public final String joinClass(Model model, @RequestParam final String joinCode){
+    public String joinClass(Model model, @RequestParam String joinCode){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Classroom classroom = classroomRepo.findByJoinCode(joinCode);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findByJoinCode(joinCode);
 
         if(classroom == null) return "redirect:/server-problem"; 
         if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
@@ -94,10 +95,10 @@ public class ClassroomController {
     }
 
     @GetMapping("/student/{classId}")
-    public final String viewClassStudent(Model model, @PathVariable final int classId){
+    public String viewClassStudent(Model model, @PathVariable int classId){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Classroom classroom = classroomRepo.findById(classId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Classroom classroom = classroomRepo.findById(classId);
 
         if(classroom == null) return "redirect:/server-problem"; 
         if(!classroom.containsUser(user.getId())) return "redirect:/permission-denied";

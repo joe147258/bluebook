@@ -1,12 +1,12 @@
-package com.bluebook.restcontrollers;
+package com.bluebook.rest;
 
 import java.util.HashMap;
 
 import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

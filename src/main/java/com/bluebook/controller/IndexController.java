@@ -1,8 +1,8 @@
-package com.bluebook.controllers;
+package com.bluebook.controller;
 
 import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.CustomUser;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,9 +23,9 @@ public class IndexController {
     UserRepository userRepo;
     
     @GetMapping({"/", "/index"})
-    public final String index(Model model){
+    public String index(Model model){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         model.addAttribute("user", user);
         
         return "index";

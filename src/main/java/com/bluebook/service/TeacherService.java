@@ -4,9 +4,8 @@ package com.bluebook.service;
 
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
-
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +26,8 @@ public class TeacherService {
      * @return returns true if the user is added, or false if the student cannot be
      *         added.
      */
-    public final Boolean addStudent(final String studentUsername, final Classroom classroom) {
-        final CustomUser student = userRepo.findByUsername(studentUsername);
+    public Boolean addStudent(String studentUsername, Classroom classroom) {
+        CustomUser student = userRepo.findByUsername(studentUsername);
         // to ensure the student can be added to the classroom
         if (student == null)
             return false;
@@ -54,9 +53,7 @@ public class TeacherService {
      * @param newClassDesc The new descrption
      * @return returns true if successful, else it returns false
      */
-    public final Boolean updateClassDetails(final Classroom classroom, final String newClassName,
-            final String newClassDesc) {
-
+    public Boolean updateClassDetails(Classroom classroom, String newClassName, String newClassDesc) {
         if (newClassName == null || newClassDesc == null)
             return false;
         if (newClassName.length() <= 0 || newClassName.length() > 60)
@@ -78,7 +75,7 @@ public class TeacherService {
      * @param ban       Whether or not they should be banned or not
      * @return
      */
-    public final Boolean kickStudent(final Classroom classroom, final int studentId, final Boolean ban) {
+    public Boolean kickStudent(Classroom classroom, int studentId, Boolean ban) {
 
         CustomUser student = userRepo.findById(studentId);
         if (classroom == null)
@@ -103,7 +100,7 @@ public class TeacherService {
      * @param studentId the student ID of who should be pardonned
      * @return true if successful and false if not
      */
-    public final Boolean pardonStudent(final Classroom classroom, final int studentId) {
+    public Boolean pardonStudent(Classroom classroom, int studentId) {
 
         if (classroom.getBannedUsers().get(studentId) == null)
             return false;

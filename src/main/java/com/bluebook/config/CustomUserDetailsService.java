@@ -1,7 +1,7 @@
 package com.bluebook.config;
 
 import com.bluebook.domain.CustomUser;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

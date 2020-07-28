@@ -1,4 +1,4 @@
-package com.bluebook.restcontrollers;
+package com.bluebook.rest;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -7,9 +7,9 @@ import com.bluebook.config.CustomUserDetails;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
 import com.bluebook.domain.Test;
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.TestRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.TestRepository;
+import com.bluebook.repository.UserRepository;
 import com.bluebook.service.TeacherService;
 import com.bluebook.service.TestService;
 

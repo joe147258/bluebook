@@ -11,7 +11,7 @@ import static java.util.concurrent.TimeUnit.*;
 import com.bluebook.domain.Classroom;
 import com.bluebook.domain.CustomUser;
 import com.bluebook.domain.Test;
-import com.bluebook.repositories.TestRepository;
+import com.bluebook.repository.TestRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +26,14 @@ public class TestService {
     /**
      * There are three types of tests that are planned to be implenented the purpose
      * of the array is to ensure the user doesn't bug the server. The three types
-     * are: -END_FEEDBACK (feedback is given after the user has completed the quiz)
+     * are: 
+     * -END_FEEDBACK (feedback is given after the user has completed the quiz)
      * -INSTANT_FEEDBACK (feedback is given as soon as the question is answered)
      * -MARKED (questions are marked by the teacher and feedback is given then)
      */
     private static final String[] validTypes = { "END_FEEDBACK", "INSTANT_FEEDBACK", "MARKED_FEEDBACK" };
 
-    public final Boolean changeFeedbackType(final Test workingTest, final String newFbType) {
+    public Boolean changeFeedbackType(Test workingTest, String newFbType) {
         if (workingTest.getPublished())
             return false;
         if (!Arrays.stream(validTypes).parallel().anyMatch(newFbType::contains))
@@ -52,9 +53,7 @@ public class TestService {
      * @return returns the class id if it is successfully create, otherwise it
      *         returns -1
      */
-    public final int createNewTest(final Classroom classroom, final String name, final String type,
-            final CustomUser owner) {
-
+    public int createNewTest(Classroom classroom, String name, String type, CustomUser owner) {
         if (!Arrays.stream(validTypes).parallel().anyMatch(type::contains))
             return -1;
 
@@ -64,6 +63,7 @@ public class TestService {
         int id = 0;
         while (testRepo.existsById(id))
             id++;
+        
         Test newTest = new Test(id, name, type, owner, classroom);
         testRepo.save(newTest);
 
@@ -76,7 +76,7 @@ public class TestService {
      * @param newTitle the new title
      * @return true if successful, else false
      */
-    public final Boolean updateTestTitle(final Test test, final String newTitle) {
+    public Boolean updateTestTitle(Test test, String newTitle) {
         if (newTitle.contains(";"))
             return false;
         test.setName(newTitle);
@@ -84,19 +84,19 @@ public class TestService {
         return true;
     }
 
-    public final Boolean publishTest(final Test test) {
+    public Boolean publishTest(Test test) {
         test.setPublished(true);
         testRepo.save(test);
         return true;
     }
 
-    public final Boolean hideTest(final Test test) {
+    public Boolean hideTest(Test test) {
         test.setPublished(false);
         testRepo.save(test);
         return true;
     }
 
-    public final Boolean scheduleTest(final int testId, final String date, final String time) {
+    public Boolean scheduleTest(int testId, String date, String time) {
         Test workingTest = testRepo.findById(testId);
         if(workingTest == null) return false;
         if(workingTest.getPublished()) return false; 
@@ -134,7 +134,7 @@ public class TestService {
         }
     } 
 
-    public final Boolean setDueDate(final Test workingTest, final String date, final String time) {
+    public Boolean setDueDate(Test workingTest, String date, String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dueDate = sdf.parse(date + " " + time);

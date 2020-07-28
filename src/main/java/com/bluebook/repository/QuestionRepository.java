@@ -1,4 +1,4 @@
-package com.bluebook.repositories;
+package com.bluebook.repository;
 
 
 import com.bluebook.domain.TestQuestion;

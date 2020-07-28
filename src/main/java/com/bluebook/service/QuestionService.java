@@ -1,6 +1,6 @@
 package com.bluebook.service;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
 
 import com.bluebook.domain.InputQuestion;
@@ -8,10 +8,10 @@ import com.bluebook.domain.MultiChoiceQuestion;
 import com.bluebook.domain.Test;
 import com.bluebook.domain.TestQuestion;
 import com.bluebook.domain.TrueFalseQuestion;
-import com.bluebook.repositories.ClassroomRepository;
-import com.bluebook.repositories.QuestionRepository;
-import com.bluebook.repositories.TestRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.ClassroomRepository;
+import com.bluebook.repository.QuestionRepository;
+import com.bluebook.repository.TestRepository;
+import com.bluebook.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,7 @@ public class QuestionService {
     @Autowired
     QuestionRepository quesRepo;
 
-    private static final String[] bools = {"true", "false"};
-
+    
     /**
      * 
      * @param workingTest The test the question is going to be added to.
@@ -43,8 +42,8 @@ public class QuestionService {
      * This method returns false if it fails to create and save the question
      * Otherwise, it returns true
      */
-    public final Boolean createMultiChoiceQuestion(final Test workingTest, final String questionString, 
-        final String correctAnswer, final String[] incorrectAnswers) {
+    public Boolean createMultiChoiceQuestion(Test workingTest, String questionString, 
+        String correctAnswer, String[] incorrectAnswers) {
 
         //These are essential for a multiple choice.
         if(questionString == null || questionString.length() == 0) return false;
@@ -89,12 +88,11 @@ public class QuestionService {
      * else it'll return false
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
-    public final Boolean createTrueFalseQuestion(final Test workingTest, final String questionString, 
-        final String correctAnswer) {
+    public Boolean createTrueFalseQuestion(Test workingTest, String questionString, String correctAnswer) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
-        if(!Arrays.stream(bools).parallel().anyMatch(correctAnswer::contains)) return false;
+        if(!correctAnswer.equals("true") || !correctAnswer.equals("false")) return false;
         if(correctAnswer.contains(";") || questionString.contains(";")) 
             return false;
         
@@ -118,8 +116,8 @@ public class QuestionService {
      * uses levenshteins algorithm. 
      * @return  returns true if successfully creates and adds the question. Otherwise returns false.
      */
-    public final Boolean createInputQuestion(final Test workingTest, final String questionString, 
-        final String correctAnswer, final String distance) {
+    public Boolean createInputQuestion(Test workingTest, String questionString, 
+        String correctAnswer, String distance) {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
@@ -153,7 +151,7 @@ public class QuestionService {
      * @return returns a hashmap with  question information, such as correct answer, etc. 
      * If the map is "res" "error" than an error has occured.
      */
-    public final HashMap<String, Object> getQuesInfo(final int testId, final int qId) {
+    public HashMap<String, Object> getQuesInfo(int testId, int qId) {
         
         HashMap<String, Object> returnMap = new HashMap<String, Object>();
         
@@ -196,8 +194,8 @@ public class QuestionService {
      * @param incorrectAnswers - An array of the incorrect answers (has to contain atleast one element).
      * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
      */
-    public final Boolean editMultiChoiceQuestion(final int qId, final Test workingTest, final String questionString, 
-        final String correctAnswer, final String[] incorrectAnswers) {
+    public Boolean editMultiChoiceQuestion(int qId, Test workingTest, String questionString, 
+        String correctAnswer, String[] incorrectAnswers) {
 
             MultiChoiceQuestion workingQuestion = (MultiChoiceQuestion) quesRepo.findById(qId);
 
@@ -243,8 +241,8 @@ public class QuestionService {
      * @param correctAnswer - The correct answer.
      * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
      */
-    public final Boolean editTrueFalseQuestion(final int qId, final Test workingTest, 
-        final String questionString, final String correctAnswer) {
+    public Boolean editTrueFalseQuestion(int qId, Test workingTest, 
+         String questionString, String correctAnswer) {
 
         TrueFalseQuestion workingQuestion = (TrueFalseQuestion) quesRepo.findById(qId);
 
@@ -253,7 +251,7 @@ public class QuestionService {
 
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
-        if(!Arrays.stream(bools).parallel().anyMatch(correctAnswer::contains)) return false;
+        if(!correctAnswer.equals("true") || !correctAnswer.equals("false")) return false;
         if(correctAnswer.contains(";") || questionString.contains(";")) 
             return false;
 
@@ -272,8 +270,8 @@ public class QuestionService {
      * @param distance - the string distance
      * @return - Returns true if all inputs are valid (no semi-colons, relevant fields filled).
      */
-    public final Boolean editInputQuestion(final int qId, final Test workingTest, 
-        final String questionString, final String correctAnswer, final int distance) {
+    public Boolean editInputQuestion(int qId, Test workingTest, 
+        String questionString, String correctAnswer, int distance) {
 
         InputQuestion workingQuestion = (InputQuestion) quesRepo.findById(qId);
 
@@ -295,7 +293,7 @@ public class QuestionService {
         return true;
     }
 
-    public final Boolean deleteQuestion(final int qId, final int testId) {
+    public Boolean deleteQuestion(int qId, int testId) {
         TestQuestion workingQuestion = quesRepo.findById(qId);
 
         if(workingQuestion == null) return false;

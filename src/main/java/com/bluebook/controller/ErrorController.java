@@ -1,4 +1,4 @@
-package com.bluebook.controllers;
+package com.bluebook.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ErrorController {
 
     @GetMapping("/permission-denied")
-    public final String permissionDenied() {
+    public String permissionDenied() {
         return "permission-denied";
     }
 
     @GetMapping("/server-problem")
-    public final String serverProblem() {
+    public String serverProblem() {
         return "server-problem";
     }
 }

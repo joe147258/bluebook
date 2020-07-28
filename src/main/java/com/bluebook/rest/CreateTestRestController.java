@@ -1,14 +1,13 @@
-package com.bluebook.restcontrollers;
+package com.bluebook.rest;
 
 import java.util.Map;
 
 import com.bluebook.domain.CustomUser;
 
 import com.bluebook.domain.Test;
-
-import com.bluebook.repositories.QuestionRepository;
-import com.bluebook.repositories.TestRepository;
-import com.bluebook.repositories.UserRepository;
+import com.bluebook.repository.QuestionRepository;
+import com.bluebook.repository.TestRepository;
+import com.bluebook.repository.UserRepository;
 import com.bluebook.service.QuestionService;
 import com.bluebook.service.TestService;
 import com.bluebook.config.CustomUserDetails;
@@ -39,10 +38,10 @@ public class CreateTestRestController {
     
 
     @PostMapping("/new/questions/{testId}/add-multi-choice")
-    public final Boolean addMultiChoiceQuestion(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
+    public Boolean addMultiChoiceQuestion(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -58,10 +57,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/add-true-false")
-    public final Object addTrueFalse(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
+    public Object addTrueFalse(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -72,10 +71,10 @@ public class CreateTestRestController {
 
     //in the future you can add character different, this is whyu its a seperate method
     @PostMapping("/new/questions/{testId}/add-input")
-    public final Object addInput(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
+    public Object addInput(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -85,10 +84,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/change-fbtype/{newFbType}")
-    public final Boolean changeFeedbackType(@PathVariable final int testId, @PathVariable final String newFbType) {
+    public Boolean changeFeedbackType(@PathVariable int testId, @PathVariable String newFbType) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
@@ -98,10 +97,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/change-title")
-    public final Boolean changeTitle(@PathVariable int testId, @RequestParam String newTitle) {
+    public Boolean changeTitle(@PathVariable int testId, @RequestParam String newTitle) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test test = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test test = testRepo.findById(testId);
 
         if(test == null) return false;
         if(user.getId() != test.getTestOwner().getId()) return false;
@@ -110,10 +109,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/set-due")
-    public final Boolean setDuedate(@PathVariable int testId, @RequestParam String date, @RequestParam String time) {
+    public Boolean setDuedate(@PathVariable int testId, @RequestParam String date, @RequestParam String time) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test test = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test test = testRepo.findById(testId);
 
         if(test == null) return false;
         if(user.getId() != test.getTestOwner().getId()) return false;
@@ -122,10 +121,10 @@ public class CreateTestRestController {
     }
 
     @GetMapping("/new/questions/{testId}/get-ques-info")
-    public final Object getQuesInfo(@PathVariable final int testId, @RequestParam int qId) {
+    public Object getQuesInfo(@PathVariable int testId, @RequestParam int qId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test test = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test test = testRepo.findById(testId);
 
         if(test == null) return false;
         if(user.getId() != test.getTestOwner().getId()) return false;
@@ -134,10 +133,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/edit-question")
-    public final Object editQuestion(@PathVariable final int testId, @RequestParam final Map<String,String> params) {
+    public Object editQuestion(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(user.getId() != workingTest.getTestOwner().getId()) return false;
@@ -181,10 +180,10 @@ public class CreateTestRestController {
     }
 
     @PostMapping("/new/questions/{testId}/delete-question/{qId}")
-    public Boolean deleteQuestion(@PathVariable int qId, @PathVariable final int testId) {
+    public Boolean deleteQuestion(@PathVariable int qId, @PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
-        final Test workingTest = testRepo.findById(testId);
+        CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
+        Test workingTest = testRepo.findById(testId);
 
         if(workingTest == null) return false;
         if(user.getId() != workingTest.getTestOwner().getId()) return false;
