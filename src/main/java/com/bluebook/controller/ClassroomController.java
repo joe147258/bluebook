@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/classrooms")
+@RequestMapping("/classroom")
 public class ClassroomController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class ClassroomController {
         return "new-classroom-form";
     }
     //TODO: move business logic into the new classroom service class
-    @PostMapping("/create-classroom")
+    @PostMapping("/create")
     public String createClassroom(Model model, @RequestParam Map<String, String> params){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -57,7 +57,7 @@ public class ClassroomController {
         while(classroomRepo.existsById(id)) id++;
         Classroom classroom = new Classroom(id, user, className, classDesc);
         classroomRepo.save(classroom);
-        return "redirect:/classrooms/teacher/" + id; 
+        return "redirect:/classroom/teacher/" + id; 
         
     }
 
@@ -75,14 +75,14 @@ public class ClassroomController {
         return "teacher-page";
     }
     //TODO: move business logic into the new classroom service class
-    @PostMapping("/join-class")
+    @PostMapping("/join")
     public String joinClass(Model model, @RequestParam String joinCode){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
         Classroom classroom = classroomRepo.findByJoinCode(joinCode);
 
         if(classroom == null) return "redirect:/server-problem"; 
-        if("STUDENT".equals(user.getRole())) return "redirect:/permission-denied";
+        if("TEACHER".equals(user.getRole())) return "redirect:/permission-denied";
         if(classroom.containsUser(user.getId())) return "redirect:/permission-denied";
         if(classroom.getBannedUsers().get(user.getId()) != null) return "redirect:/permission-denied";
 
@@ -91,7 +91,7 @@ public class ClassroomController {
         userRepo.save(user);
         classroomRepo.save(classroom);
         
-        return "redirect:/classrooms/student/" + classroom.getId(); 
+        return "redirect:/classroom/student/" + classroom.getId(); 
     }
 
     @GetMapping("/student/{classId}")

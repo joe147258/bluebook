@@ -20,7 +20,7 @@
         </div>
         <nav class="navbar navbar-dark bg-primary">
             <ul class="navbar-nav mr-auto align-header">
-                <li class="nav-item first-item selected-nav">
+                <li class="nav-item first-item selected-nav ">
                     <a class="nav-link" href="/">Classrooms</a>
                 </li>
                 <li th:if="${user.getRole().equals('TEACHER')}" class="nav-item">
@@ -28,6 +28,9 @@
                 </li>
                 <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
                     <a class="nav-link" href="#">Homework</a>
+                </li>
+                <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
+                    <a class="nav-link" href="#">Your Progress</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Social</a>
@@ -109,7 +112,7 @@
             <div style="width: 60%; display: inline-block;" class="mt-2">
                 <h5>Create a new test</h5>
                 <div class="form-group">
-                    <form action="../../tests/new" method="POST">
+                    <form action="../../test/new" method="POST">
                         <p class="mb-0">Test Name:</p>
                         <input id="test-name" class="form-control" type="input" placeholder="Test Name..." name="name"
                             required>
@@ -408,7 +411,7 @@
                         <button class="btn btn-primary btn-block mt-2" style="display: block;">
                             Save due date.
                         </button>
-                        <p class="mb-0" id="saved-due" style="display: none; color: green;">Successfully set.</p>
+                        <p class="mb-0 mt-2" id="saved-due" style="display: none; color: green;">Successfully set.</p>
                     </form>
                 </div>
             </div>

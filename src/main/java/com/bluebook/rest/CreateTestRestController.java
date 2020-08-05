@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/tests")
+@RequestMapping("/test/question")
 public class CreateTestRestController {
     @Autowired
     UserRepository userRepo;
@@ -37,7 +37,7 @@ public class CreateTestRestController {
     
     
 
-    @PostMapping("/new/questions/{testId}/add-multi-choice")
+    @PostMapping("/{testId}/add-multi-choice")
     public Boolean addMultiChoiceQuestion(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -56,7 +56,7 @@ public class CreateTestRestController {
             params.get("correctAnswer"), incorrectAnswers);
     }
 
-    @PostMapping("/new/questions/{testId}/add-true-false")
+    @PostMapping("/{testId}/add-true-false")
     public Object addTrueFalse(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -66,11 +66,11 @@ public class CreateTestRestController {
         if(workingTest.getTestOwner().getId() != user.getId()) return false;
         //service method is called to create the question. Returns false if it fails.
         return questionService.createTrueFalseQuestion(workingTest,  
-            params.get("questionString"), params.get("correctAnswer").toLowerCase());
+            params.get("questionString"), params.get("correctAnswer").toUpperCase());
     }
 
     //in the future you can add character different, this is whyu its a seperate method
-    @PostMapping("/new/questions/{testId}/add-input")
+    @PostMapping("/{testId}/add-input")
     public Object addInput(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -83,7 +83,7 @@ public class CreateTestRestController {
             params.get("questionString"), params.get("correctAnswer"), params.get("distance"));
     }
 
-    @PostMapping("/new/questions/{testId}/change-fbtype/{newFbType}")
+    @PostMapping("/{testId}/change-fbtype/{newFbType}")
     public Boolean changeFeedbackType(@PathVariable int testId, @PathVariable String newFbType) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -96,7 +96,7 @@ public class CreateTestRestController {
         return testService.changeFeedbackType(workingTest, newFbType);
     }
 
-    @PostMapping("/new/questions/{testId}/change-title")
+    @PostMapping("/{testId}/change-title")
     public Boolean changeTitle(@PathVariable int testId, @RequestParam String newTitle) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -108,7 +108,7 @@ public class CreateTestRestController {
         return testService.updateTestTitle(test, newTitle);
     }
 
-    @PostMapping("/new/questions/{testId}/set-due")
+    @PostMapping("/{testId}/set-due")
     public Boolean setDuedate(@PathVariable int testId, @RequestParam String date, @RequestParam String time) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -120,7 +120,7 @@ public class CreateTestRestController {
         return testService.setDueDate(test, date, time);
     }
 
-    @GetMapping("/new/questions/{testId}/get-ques-info")
+    @GetMapping("/{testId}/get-ques-info")
     public Object getQuesInfo(@PathVariable int testId, @RequestParam int qId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -132,7 +132,7 @@ public class CreateTestRestController {
         return questionService.getQuesInfo(testId, qId);
     }
 
-    @PostMapping("/new/questions/{testId}/edit-question")
+    @PostMapping("/{testId}/edit-question")
     public Object editQuestion(@PathVariable int testId, @RequestParam Map<String,String> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -179,7 +179,7 @@ public class CreateTestRestController {
         } 
     }
 
-    @PostMapping("/new/questions/{testId}/delete-question/{qId}")
+    @PostMapping("/{testId}/delete-question/{qId}")
     public Boolean deleteQuestion(@PathVariable int qId, @PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());

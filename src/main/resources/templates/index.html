@@ -49,14 +49,14 @@
                 <div class="card-body">
                     <h5 class="card-title">Create a new classroom</h5>
                     <p class="class-card-text">Click below to create a new classroom.</p>
-                    <a href="/classrooms/new" class="btn btn-block btn-primary">Create Classroom</a>
+                    <a href="/classroom/new" class="btn btn-block btn-primary">Create Classroom</a>
                 </div>
             </div>
             <div class="card text-left classroom-card" th:each="classroom: ${user.getOwnedClassrooms()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${classroom.getName()}"></h5>
                     <p class="class-card-text" th:text="${classroom.getDescription()}"></p>
-                    <a th:href="@{'/classrooms/teacher/' + ${classroom.getId()}}" class="btn btn-block btn-primary">Go to classroom</a>
+                    <a th:href="@{'/classroom/teacher/' + ${classroom.getId()}}" class="btn btn-block btn-primary">Go to classroom</a>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
             <div class="card text-left classroom-card">
                 <div class="card-body">
                     <h5 class="card-title">Enter a join code below to join a classroom</h5>
-                    <form id="join-classroom-form" action="/classrooms/join-class" method="POST">
+                    <form id="join-classroom-form" action="/classroom/join" method="POST">
                         <div class="input-group" style="margin-bottom: 1.6rem!important;">
                             <input type="text" class="form-control" placeholder="Join code" id="join-class-input" name="joinCode">
                         </div>
@@ -77,7 +77,7 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${classroom.getName()}"></h5>
                     <p class="class-card-text" th:text="${classroom.getDescription()}"></p>
-                    <a th:href="@{'/classrooms/student/' + ${classroom.getId()}}" class="btn btn-block btn-primary">Go to classroom</a>
+                    <a th:href="@{'/classroom/student/' + ${classroom.getId()}}" class="btn btn-block btn-primary">Go to classroom</a>
                 </div>
             </div>
         </div>

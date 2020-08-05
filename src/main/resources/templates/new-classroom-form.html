@@ -29,6 +29,9 @@
                 <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
                     <a class="nav-link" href="#">Homework</a>
                 </li>
+                <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
+                    <a class="nav-link" href="#">Your Progress</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Social</a>
                 </li>
@@ -41,7 +44,7 @@
     <div class="main-content">
         <div class="small-form-container">
             <h3>Create a new classroom</h3>
-            <form th:action="@{/classrooms/create-classroom}" method="post">
+            <form th:action="@{/classroom/create}" method="post">
                 <div class="form-group">
                     <p class="mb-0">Classroom Name</p>
                     <input class="form-control" id="class-name" type="text" name="className"

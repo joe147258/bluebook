@@ -322,7 +322,7 @@ function pardonStudent(id) {
 function setDueDate(duedate, duetime) {
     $.ajax({
         type: "POST",
-        url: "../../tests/new/questions/" + workingTestId + "/set-due?date=" + duedate + "&time=" + duetime, 
+        url: "../../test/question/" + workingTestId + "/set-due?date=" + duedate + "&time=" + duetime, 
         success: function (data) {
             if (data == true) {
                 $("#saved-due").show();

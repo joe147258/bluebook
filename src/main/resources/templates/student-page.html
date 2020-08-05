@@ -20,7 +20,7 @@
         </div>
         <nav class="navbar navbar-dark bg-primary">
             <ul class="navbar-nav mr-auto align-header">
-                <li class="nav-item first-item selected-nav">
+                <li class="nav-item first-item selected-nav ">
                     <a class="nav-link" href="/">Classrooms</a>
                 </li>
                 <li th:if="${user.getRole().equals('TEACHER')}" class="nav-item">
@@ -28,6 +28,9 @@
                 </li>
                 <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
                     <a class="nav-link" href="#">Homework</a>
+                </li>
+                <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
+                    <a class="nav-link" href="#">Your Progress</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Social</a>

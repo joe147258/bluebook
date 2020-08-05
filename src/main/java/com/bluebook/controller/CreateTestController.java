@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/tests/")
+@RequestMapping("/test/")
 public class CreateTestController {
 
     @Autowired
@@ -53,10 +53,10 @@ public class CreateTestController {
         int testId = testService.createNewTest(classroom, params.get("name"), params.get("type"), user);
 
         if(testId < 0) return "redirect:/server-problem";
-        else return "redirect:/tests/new/questions/" + testId; 
+        else return "redirect:/test/question/" + testId; 
     }
 
-    @GetMapping(value="/new/questions/{testId}")
+    @GetMapping(value="/question/{testId}")
     public String newTestQuestions(Model model, @PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -72,7 +72,7 @@ public class CreateTestController {
         return "test-add-questions"; 
     }
 
-    @GetMapping(value="/publish-test/{testId}")
+    @GetMapping(value="/publish/{testId}")
     public String publishTest(@PathVariable int testId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());
@@ -83,10 +83,10 @@ public class CreateTestController {
 
         testService.publishTest(workingTest);
 
-        return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
+        return "redirect:/classroom/teacher/" + workingTest.getClassroom().getId(); 
     }
 
-    @PostMapping(value="/schedule-test/{testId}")
+    @PostMapping(value="/schedule/{testId}")
     public String scheduleTest(@PathVariable int testId, @RequestParam String scheduledDate,
         @RequestParam String scheduledTime) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -97,13 +97,17 @@ public class CreateTestController {
         if(workingTest.getTestOwner().getId() != user.getId()) return "redirect:/permission-denied";
         
         if(testService.scheduleTest(testId, scheduledDate, scheduledTime))
-            return "redirect:/classrooms/teacher/" + workingTest.getClassroom().getId(); 
+            return "redirect:/classroom/teacher/" + workingTest.getClassroom().getId(); 
         else
-            return "redirect:/tests/new/questions/" + testId + "?error=1";//TODO: IMPLEMENT AN ERROR MESSAGE (be date error) and then implement rescheduling
+            return "redirect:/test/question" + testId + "?error=1";//TODO: IMPLEMENT AN ERROR MESSAGE (be date error) and then implement rescheduling
     }
 
  
+    @GetMapping(value="/edit/{testId}")
+    public String editTest(@PathVariable int testId) {
 
+        return "";
+    } 
     
     
 }

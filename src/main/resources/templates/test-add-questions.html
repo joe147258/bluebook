@@ -25,13 +25,18 @@
         </div>
         <nav class="navbar navbar-dark bg-primary">
             <ul class="navbar-nav mr-auto align-header">
-                <li class="nav-item first-item ">
+                <li class="nav-item first-item selected-nav ">
                     <a class="nav-link" href="/">Classrooms</a>
                 </li>
-                <li th:if="${user.getRole().equals('TEACHER')}" class="nav-item selected-nav">
+                <li th:if="${user.getRole().equals('TEACHER')}" class="nav-item">
                     <a class="nav-link" href="#">Quiz Management</a>
                 </li>
-
+                <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
+                    <a class="nav-link" href="#">Homework</a>
+                </li>
+                <li th:if="${user.getRole().equals('STUDENT')}" class="nav-item">
+                    <a class="nav-link" href="#">Your Progress</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Social</a>
                 </li>
@@ -259,16 +264,16 @@
                     <p>Are you sure you still want to publish the test?</p>
                     <hr>
                     <div class="btn-group btn-block" role="group">
-                        <a class="btn btn-primary" th:href="'/tests/publish-test/' + ${workingTest.getId()}">
+                        <a class="btn btn-primary" th:href="'/test/publish/' + ${workingTest.getId()}">
                             Publish Now
                         </a>
                         <button class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
                             data-target="#schedule-test">
                             Schedule
                         </button>
-                        <button class="btn btn-primary" data-dismiss="modal">
+                        <a th:href="'/classroom/teacher/' + ${workingTest.getClassroom().getId()}" class="btn btn-primary">
                             Leave
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -285,7 +290,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="'/tests/schedule-test/' + ${workingTest.getId()}" method="POST">
+                    <form th:action="'/test/schedule/' + ${workingTest.getId()}" method="POST">
                         <h5>Publication date:</h5>
                         <input class="form-control mb-2" name="scheduledDate" type="date" required />
                         <h5>Publication time:</h5>
@@ -316,7 +321,7 @@
                         <button class="btn btn-primary btn-block mt-2" style="display: block;">
                             Save due date.
                         </button>
-                        <p class="mb-0" id="saved-due" style="display: none; color: green;">Successfully set.</p>
+                        <p class="mb-0 mt-2" id="saved-due" style="display: none; color: green;">Successfully set.</p>
                     </form>
                 </div>
             </div>

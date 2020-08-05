@@ -24,7 +24,7 @@ public class StudentRestController {
     @Autowired
     UserRepository userRepo;
 
-    @GetMapping("/check-class/{joinCode}")
+    @GetMapping("/check/{joinCode}")
     public final HashMap<String, Object> classExists(@PathVariable final String joinCode) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final CustomUser user = userRepo.findById(((CustomUserDetails)principal).getId());

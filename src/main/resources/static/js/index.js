@@ -6,7 +6,7 @@ $(document).ready(function(){
         }
         $.ajax({
             type: "GET",
-            url: "/student/check-class/" + encodeURI($("#join-class-input").val()),
+            url: "/student/check/" + encodeURI($("#join-class-input").val()),
             success: function (data) {
                 switch(data.response){
                     case "SUCCESS":
