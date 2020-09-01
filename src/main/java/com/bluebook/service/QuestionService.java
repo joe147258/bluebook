@@ -94,6 +94,8 @@ public class QuestionService {
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(!(correctAnswer.equals("TRUE") || correctAnswer.equals("FALSE"))) return false;
         
+
+
         if(correctAnswer.contains(";") || questionString.contains(";")) 
             return false;
         
