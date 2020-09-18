@@ -47,134 +47,123 @@
         </nav>
     </header>
     <div class="main-content">
-        <div id="title-container">
-            <h2 th:text="${workingTest.getName()}"></h2>
-        </div>
-        <div id="error-alert1" class="alert alert-warning" style="display: none;">
-            An error occured when scheduling the quiz.
-            Ensure the date and time you selected is in the <b>future</b>.
-            <button type="button" class="close" onclick="hideErrorAlert()">
-                <span>&times;</span>
+        <div class="secondary-container">
+            <div id="title-container">
+                <h2 th:text="${workingTest.getName()}"></h2>
+            </div>
+            <div id="error-alert1" class="alert alert-warning" style="display: none;">
+                An error occured when scheduling the quiz.
+                Ensure the date and time you selected is in the <b>future</b>.
+                <button type="button" class="close" onclick="hideErrorAlert()">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <hr>
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#test-actions">
+                Test Actions
             </button>
-        </div>
-        <p class="mb-0">Feedback Type: <span id="fb-type" th:text="${workingTest.getFeedbackType()}"></span></p>
-
-        <div class="btn-group btn-block" role="group">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#change-title" style="width: 20%;">
-                Change title
-            </button>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#feedback-type" style="width: 20%;">
-                Change feedback type
-            </button>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#set-due-modal" style="width: 20%;">
-                Set due date
-            </button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#publish-test" style="width: 20%;">
-                Publish test
-            </button>
-
-        </div>
-        <hr>
-        <i class="material-icons right-hand-icon" id="hide-ques">keyboard_arrow_up</i>
-        <h4 style="width: 80%;">Add a Question</h4>
-        <div id="semicolon-warning" class="alert alert-warning" style="display: none;">
-            Adding question failed. Please note: no fields can contain a semicolon.
-            <button type="button" class="close" onclick="hideSemicolonWarning()">
-                <span>&times;</span>
-            </button>
-        </div>
-        <div class="form-group" id="question-form-container">
-            <p class="mb-0">Question Type:</p>
-            <select class="custom-select mt-2" id="question-type" required>
-                <option value="MULTI_CHOICE" selected>Multiple Choice</option>
-                <option value="TRUE_FALSE">True / False</option>
-                <option value="INPUT">Input Based Question</option>
-            </select>
-            <!--MULTI-CHOICE-->
-            <form id="mc-question-form">
-                <p class="mb-1">Question:</p>
-                <input class="form-control question-input" type="input" placeholder="Question..."
-                    id="mc-question-string" required>
-                <p class="mb-1">Correct Answer:</p>
-                <input class="form-control question-input" type="input" placeholder="Correct answer"
-                    id="mc-correct-answer" required />
-                <p id="incorrect-title" class="mb-1">Incorrect Answers:</p>
-                <input class="form-control mb-2" type="input" placeholder="Incorrect answer" id="mc-incorrect-answer1"
-                    required />
-                <input class="form-control mb-2 question-input" type="input" placeholder="Incorrect answer"
-                    id="mc-incorrect-answer2" />
-                <input class="form-control question-input" type="input" placeholder="Incorrect answer"
-                    id="mc-incorrect-answer3" />
-                <button class="btn btn-primary btn-block mt-2">Add Question</button>
-            </form>
-            <!--TRUE/FALSE-->
-            <form id="tf-question-form" style="display: none;">
-                <p class="mb-1">Question:</p>
-                <input class="form-control question-input" type="input" placeholder="Question..."
-                    id="tf-question-string" required>
-                <p class="mb-1">Correct Answer:</p>
-                <select class="custom-select mt-2" id="tf-correct-answer" required>
-                    <option value="true" selected>True</option>
-                    <option value="false">False</option>
+            <i class="material-icons right-hand-icon" id="hide-ques">keyboard_arrow_up</i>
+            <h4 style="width: 80%;">Add a Question</h4>
+            <div id="semicolon-warning" class="alert alert-warning" style="display: none;">
+                Adding question failed. Please note: no fields can contain a semicolon.
+                <button type="button" class="close" onclick="hideSemicolonWarning()">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="form-group" id="question-form-container">
+                <p class="mb-0">Question Type:</p>
+                <select class="custom-select mt-2" id="question-type" required>
+                    <option value="MULTI_CHOICE" selected>Multiple Choice</option>
+                    <option value="TRUE_FALSE">True / False</option>
+                    <option value="INPUT">Input Based Question</option>
                 </select>
+                <!--MULTI-CHOICE-->
+                <form id="mc-question-form">
+                    <p class="mb-1">Question:</p>
+                    <input class="form-control question-input" type="input" placeholder="Question..."
+                        id="mc-question-string" required>
+                    <p class="mb-1">Correct Answer:</p>
+                    <input class="form-control question-input" type="input" placeholder="Correct answer"
+                        id="mc-correct-answer" required />
+                    <p id="incorrect-title" class="mb-1">Incorrect Answers:</p>
+                    <input class="form-control mb-2" type="input" placeholder="Incorrect answer"
+                        id="mc-incorrect-answer1" required />
+                    <input class="form-control mb-2 question-input" type="input" placeholder="Incorrect answer"
+                        id="mc-incorrect-answer2" />
+                    <input class="form-control question-input" type="input" placeholder="Incorrect answer"
+                        id="mc-incorrect-answer3" />
+                    <button class="btn btn-primary btn-block mt-2">Add Question</button>
+                </form>
+                <!--TRUE/FALSE-->
+                <form id="tf-question-form" style="display: none;">
+                    <p class="mb-1">Question:</p>
+                    <input class="form-control question-input" type="input" placeholder="Question..."
+                        id="tf-question-string" required>
+                    <p class="mb-1">Correct Answer:</p>
+                    <select class="custom-select mt-2" id="tf-correct-answer" required>
+                        <option value="true" selected>True</option>
+                        <option value="false">False</option>
+                    </select>
 
-                <button class="btn btn-primary btn-block mt-2">Add Question</button>
-            </form>
-            <!--Input-->
-            <form id="input-question-form" style="display: none;">
-                <p class="mb-1">Question:</p>
-                <input class="form-control question-input" type="input" placeholder="Question..."
-                    id="input-question-string" required>
-                <p class="mb-1">Correct Answer:</p>
-                <input class="form-control question-input" type="input" placeholder="Correct Answer..."
-                    id="input-correct-answer" required />
-                <p class="mb-1">Answer Distance:</p>
-                <div class="input-group mb-3">
-                    <input class="form-control question-input" type="number" id="input-distance" min="0" max="5"
-                        value="3" required />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary btn-sm" style="display: inline-block;"
-                            data-toggle="modal" data-target="#distance-info">
-                            More Info
-                        </button>
+                    <button class="btn btn-primary btn-block mt-2">Add Question</button>
+                </form>
+                <!--Input-->
+                <form id="input-question-form" style="display: none;">
+                    <p class="mb-1">Question:</p>
+                    <input class="form-control question-input" type="input" placeholder="Question..."
+                        id="input-question-string" required>
+                    <p class="mb-1">Correct Answer:</p>
+                    <input class="form-control question-input" type="input" placeholder="Correct Answer..."
+                        id="input-correct-answer" required />
+                    <p class="mb-1">Answer Distance:</p>
+                    <div class="input-group mb-3">
+                        <input class="form-control question-input" type="number" id="input-distance" min="0" max="5"
+                            value="3" required />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary btn-sm" style="display: inline-block;"
+                                data-toggle="modal" data-target="#distance-info">
+                                More Info
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <button class="btn btn-primary btn-block mt-2">Add Question</button>
-            </form>
-            <p id="ques-semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.</p>
+                    <button class="btn btn-primary btn-block mt-2">Add Question</button>
+                </form>
+                <p id="ques-semicolon-error" style="display: none; color: red;">This field cannot contain a semicolon.
+                </p>
+            </div>
+
+            <hr>
+
+            <h4>Questions:</h4>
+            <ul class="list-group" id="question-list">
+                <li th:each="question: ${workingTest.getQuestions()}" class="list-group-item">
+                    <div class="right-hand-icon">
+                        <a class="cus-icon" th:onclick="'openEditModal(' + ${question.getId()} + ')'">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a class="cus-icon" th:onclick="'deleteQuestion(' + ${question.getId()} + ')'">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </div>
+                    <table class="table mb-0" style="width: 80%;">
+                        <tbody>
+                            <tr>
+                                <td>Question:</td>
+                                <td th:text="${question.getQuestion()}"></td>
+                            </tr>
+                            <tr>
+                                <td>Correct Answer:</td>
+                                <td th:text="${question.getCorrectAnswer()}"></td>
+                            </tr>
+                            <tr>
+                                <td>Question Type:</td>
+                                <td th:text="${question.getFormattedQuestionType()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
         </div>
-
-        <hr>
-
-        <h4>Questions:</h4>
-        <ul class="list-group" id="question-list">
-            <li th:each="question: ${workingTest.getQuestions()}" class="list-group-item">
-                <div class="right-hand-icon">
-                    <a class="cus-icon" th:onclick="'openEditModal(' + ${question.getId()} + ')'">
-                        <i class="material-icons">edit</i>
-                    </a>
-                    <a class="cus-icon" th:onclick="'deleteQuestion(' + ${question.getId()} + ')'">
-                        <i class="material-icons">delete</i>
-                    </a>
-                </div>
-                <table class="table mb-0" style="width: 80%;">
-                    <tbody>
-                        <tr>
-                            <td>Question:</td>
-                            <td th:text="${question.getQuestion()}"></td>
-                        </tr>
-                        <tr>
-                            <td>Correct Answer:</td>
-                            <td th:text="${question.getCorrectAnswer()}"></td>
-                        </tr>
-                        <tr>
-                            <td>Question Type:</td>
-                            <td th:text="${question.getFormattedQuestionType()}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </li>
-        </ul>
     </div>
     <div id="feedback-type" class="modal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -188,14 +177,17 @@
                 <div class="modal-body modal-lg">
                     <ul class="list-group">
                         <li class="list-group-item"><button type="button" class="btn btn-primary fb-btn"
-                                value="END_FEEDBACK">END_FEEDBACK</button> Student gets feedback immediately after the
+                                value="END_FEEDBACK" data-toggle="modal" data-target="#test-actions"
+                                data-dismiss="modal">END_FEEDBACK</button> Student gets feedback immediately after the
                             test has finished. </li>
                         <li class="list-group-item"><button type="button" class="btn btn-primary fb-btn"
-                                value="MARKED_FEEDBACK">MARKED_FEEDBACK</button> You have to manually mark each test
+                                value="MARKED_FEEDBACK" data-toggle="modal" data-target="#test-actions"
+                                data-dismiss="modal">MARKED_FEEDBACK</button> You have to manually mark each test
                             after
                             the student has finished.</li>
                         <li class="list-group-item"> <button type="button" class="btn btn-primary fb-btn"
-                                value="INSTANT_FEEDBACK">INSTANT_FEEDBACK</button> After each question the student is
+                                value="INSTANT_FEEDBACK" data-toggle="modal" data-target="#test-actions"
+                                data-dismiss="modal">INSTANT_FEEDBACK</button> After each question the student is
                             told if they are correct or not (Quiz).</li>
                     </ul>
                 </div>
@@ -271,7 +263,8 @@
                             data-target="#schedule-test">
                             Schedule
                         </button>
-                        <a th:href="'/classroom/teacher/' + ${workingTest.getClassroom().getId()}" class="btn btn-primary">
+                        <a th:href="'/classroom/teacher/' + ${workingTest.getClassroom().getId()}"
+                            class="btn btn-primary">
                             Leave
                         </a>
                     </div>
@@ -418,8 +411,8 @@
                             id="edit-input-correct-answer" required />
                         <p class="mb-1">Answer Distance:</p>
                         <div class="input-group mb-3">
-                            <input class="form-control question-input" type="number" id="edit-input-distance" min="0" max="5"
-                                value="3" required />
+                            <input class="form-control question-input" type="number" id="edit-input-distance" min="0"
+                                max="5" value="3" required />
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-primary btn-sm" style="display: inline-block;"
                                     data-toggle="modal" data-target="#distance-info">
@@ -441,6 +434,40 @@
         </div>
     </div>
 
+    <div id="test-actions" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body form-group">
+                    <div style="text-align: center;">
+                        <p class="mb-0">Feedback Type: <span id="fb-type"
+                                th:text="${workingTest.getFeedbackType()}"></span></p>
+                        <button class="btn btn-primary m-3" data-toggle="modal" data-target="#change-title"
+                            data-dismiss="modal">
+                            Change title
+                        </button>
+                        <button class="btn btn-primary m-3" data-toggle="modal" data-target="#feedback-type"
+                            data-dismiss="modal">
+                            Change feedback type
+                        </button>
+                        <button class="btn btn-primary m-3" data-toggle="modal" data-target="#set-due-modal"
+                            data-dismiss="modal">
+                            Set due date
+                        </button>
+                        <button class="btn btn-primary m-3" data-toggle="modal" data-target="#publish-test"
+                            data-dismiss="modal">
+                            Publish test
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>

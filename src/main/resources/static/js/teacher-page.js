@@ -1,5 +1,7 @@
+//!! TCDO: enableSettingsButton(false); after deleting a test x
 var workingTestId = -1; //TODO: think of another way
 $(document).ready(function () {
+    enableSettingsButton(false);
     $("#hide-test-confirm").click(function(){
         hideTest(workingTestId);
     })
@@ -263,6 +265,7 @@ function selectTest(id) {
             $("#td-duedate").html(data.duedate);
             $("#td-completed").html(data.completedUsers);
             $("#td-feedback").html(data.fbType);
+            enableSettingsButton(true);
         },
         error: function () {
             alert("An error has occured :-(");
@@ -365,4 +368,22 @@ function showError(code) {
 }
 function hideErrorAlert() {
     $("#error-alert1").hide();
+}
+/**
+ * 
+ * @param {
+ * Whether you want to disable or enable the button
+ * true = enable
+ * false = disabled
+ * } bool 
+ */
+function enableSettingsButton(bool) {
+    
+    if(typeof(bool) != "boolean") return false;
+    if(!bool) {
+        $("#settingsToggler").attr('disabled', 'disabled');
+    } else {
+        $("#settingsToggler").removeAttr('disabled');
+    }
+    
 }

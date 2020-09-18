@@ -128,3 +128,7 @@ footer {
 .cus-icon:hover {
   cursor: pointer;
 }
+.secondary-container {
+  margin: auto;
+  width: 60%;
+}

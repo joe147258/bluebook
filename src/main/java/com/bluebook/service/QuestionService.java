@@ -93,13 +93,8 @@ public class QuestionService {
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(!(correctAnswer.equals("TRUE") || correctAnswer.equals("FALSE"))) return false;
+        if(correctAnswer.contains(";") || questionString.contains(";"))  return false;
         
-
-
-        if(correctAnswer.contains(";") || questionString.contains(";")) 
-            return false;
-        
-
         int id = 0;
         while(quesRepo.existsById(id)) id++;
         TrueFalseQuestion question = new TrueFalseQuestion(id, workingTest, questionString, correctAnswer);
@@ -225,16 +220,12 @@ public class QuestionService {
             if(incorrectAnswers[1] != null && incorrectAnswers[1].length() > 0) {
                 if(incorrectAnswers[1].contains(";")) return false;
                 workingQuestion.addAnswer(incorrectAnswers[1]);
-            }
-                
-    
+            } 
             if(incorrectAnswers[2] != null && incorrectAnswers[2].length() > 0) {
                 if(incorrectAnswers[2].contains(";")) return false;
                 workingQuestion.addAnswer(incorrectAnswers[2]);
             }
-
             quesRepo.save(workingQuestion);
-
             return true;
     }
     /**
@@ -255,8 +246,7 @@ public class QuestionService {
         if(questionString == null || questionString.length() == 0) return false;
         if(correctAnswer == null || correctAnswer.length() == 0) return false;
         if(!correctAnswer.equals("true") || !correctAnswer.equals("false")) return false;
-        if(correctAnswer.contains(";") || questionString.contains(";")) 
-            return false;
+        if(correctAnswer.contains(";") || questionString.contains(";")) return false;
 
         workingQuestion.setQuestion(questionString);
         workingQuestion.setCorrectAnswer(correctAnswer);
